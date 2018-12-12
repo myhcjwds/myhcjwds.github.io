@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-11T07:31:08.864Z</updated>
+  <updated>2018-12-12T10:03:53.101Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>springboot-redis.md</title>
+    <link href="http://yoursite.com/2018/12/12/springboot-redis/"/>
+    <id>http://yoursite.com/2018/12/12/springboot-redis/</id>
+    <published>2018-12-12T08:26:46.000Z</published>
+    <updated>2018-12-12T10:03:53.101Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一-Springboot整合Redis-单机版-注解式开发"><a href="#一-Springboot整合Redis-单机版-注解式开发" class="headerlink" title="一. Springboot整合Redis(单机版 注解式开发)"></a>一. Springboot整合Redis(单机版 注解式开发)</h2><p><strong>1.引入redis起步依赖</strong></p><pre><code>&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-redis&lt;/artifactId&gt;&lt;/dependency&gt;</code></pre><p><strong>2.在虚拟机中开启redis服务</strong></p><pre><code>启动server: ./redis-server redis.conf(启动客户端测试: ./redis-cli)</code></pre><p><strong>3.在applicaction.properties中配置redis 主机和端口号(这里为我的centos中的主机名以及redis端口号，可自行配置</strong></p><pre><code>spring.redis.host=192.168.66.66spring.redis.port=6379</code></pre><p><strong>4.在启动类中加入注解@EnableCaching开启缓存</strong></p><pre><code>@EnableCaching@SpringBootApplication</code></pre><p><strong>5.在service实现类中利用@Cacheable设置缓存</strong></p><pre><code>/** * value : 缓存的名字 ,  * key ： 缓存map中的key * @param id* @return*/    @Cacheable(value = { &quot;sampleCache&quot; },key=&quot;#id&quot;)    public String getBook(int id) {        System.out.println(&quot;Method executed..&quot;);        if (id == 1) {                return &quot;Book 1&quot;;        } else {        return &quot;Book 2&quot;;        }    }</code></pre><h2 id="二-Springboot整合Redis-集群版-注解式开发"><a href="#二-Springboot整合Redis-集群版-注解式开发" class="headerlink" title="二. Springboot整合Redis(集群版 注解式开发)"></a>二. Springboot整合Redis(集群版 注解式开发)</h2><p><strong>1.在applicaction.properties中配置redis 集群</strong></p><pre><code>redis.cache.clusterNodes=192.168.66.66:7001,192.168.66.66:7002,192.168.66.66:7003,192.168.66.66:7004</code></pre><p><strong>2.自定义config对配置的集群节点进行解析</strong></p><pre><code>@Configuration //AaplicationContext.xmlpublic class RedisClusterConfig {    //注入集群节点信息    @Value(&quot;${redis.cache.clusterNodes}&quot;)     private String clusterNodes;    @Bean    public JedisCluster getJedisCluster() {    // 截取集群节点    String[] cluster = clusterNodes.split(&quot;,&quot;);    // 创建set集合    Set&lt;HostAndPort&gt; nodes = new HashSet&lt;HostAndPort&gt;();    // 循环数组把集群节点添加到set集合中    for (String node : cluster) {        String[] host = node.split(&quot;:&quot;);        //添加集群节点        nodes.add(new HostAndPort(host[0], Integer.parseInt(host[1])));    }    //创建集群节点对象    JedisCluster jc = new JedisCluster(nodes);    return jc;}</code></pre><p><strong>3.在service实现类注入REDIS集群对象并实现缓存</strong></p><pre><code>@Autowiredprivate JedisCluster jedisCluster;@Overridepublic Map&lt;String, Object&gt; redisMap() {    jedisCluster.set(&quot;user&quot;, &quot;张三丰&quot;);    String value = jedisCluster.get(&quot;user&quot;);    Map&lt;String, Object&gt; maps = newHashMap&lt;String,Object&gt;();    maps.put(&quot;redis&quot;, value);    return maps;}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;一-Springboot整合Redis-单机版-注解式开发&quot;&gt;&lt;a href=&quot;#一-Springboot整合Redis-单机版-注解式开发&quot; class=&quot;headerlink&quot; title=&quot;一. Springboot整合Redis(单机版 注解式开发)&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="springboot" scheme="http://yoursite.com/categories/springboot/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/categories/springboot/redis/"/>
+    
+    
+      <category term="springboot-redis" scheme="http://yoursite.com/tags/springboot-redis/"/>
+    
+  </entry>
   
   <entry>
     <title>live</title>
