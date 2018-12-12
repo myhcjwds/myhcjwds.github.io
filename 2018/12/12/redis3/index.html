@@ -88,10 +88,12 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="redis,">
 
 
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="Blog of MYH" type="application/atom+xml">
@@ -101,17 +103,18 @@
 
 
 
-<meta name="description" content="Nothing is impssible if you put your heart into it!">
+<meta name="description" content="持久化Redis的高性能是由于其将所有数据都存储在了内存中为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，这一过程就是持久化。Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。 RDB持久化RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久">
+<meta name="keywords" content="redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog of MYH">
-<meta property="og:url" content="http://yoursite.com/2018/12/11/1/index.html">
+<meta property="og:title" content="redis高级篇">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/redis3/index.html">
 <meta property="og:site_name" content="Blog of MYH">
-<meta property="og:description" content="Nothing is impssible if you put your heart into it!">
+<meta property="og:description" content="持久化Redis的高性能是由于其将所有数据都存储在了内存中为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，这一过程就是持久化。Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。 RDB持久化RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-11T05:44:46.650Z">
+<meta property="og:updated_time" content="2018-12-12T11:47:28.304Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog of MYH">
-<meta name="twitter:description" content="Nothing is impssible if you put your heart into it!">
+<meta name="twitter:title" content="redis高级篇">
+<meta name="twitter:description" content="持久化Redis的高性能是由于其将所有数据都存储在了内存中为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，这一过程就是持久化。Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。 RDB持久化RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久">
 
 
 
@@ -141,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/11/1/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/redis3/">
 
 
 
 
 
-  <title> | Blog of MYH</title>
+  <title>redis高级篇 | Blog of MYH</title>
   
 
 
@@ -316,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/11/1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/redis3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="YuHang Ma">
@@ -333,11 +336,15 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">redis高级篇</h1>
         
 
         <div class="post-meta">
 		
+  <i class="fa fa-thumb-tack"></i>
+  <font color="7D26CD">置顶</font>
+  <span class="post-meta-divider">|</span>
+
           <span class="post-time">
             
               <span class="post-meta-item-icon">
@@ -346,8 +353,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-11T13:44:46+08:00">
-                2018-12-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:15:42+08:00">
+                2018-12-12
               </time>
             
 
@@ -357,6 +364,72 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">非关系型数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/缓存数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">缓存数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/缓存数据库/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/缓存数据库/redis/持久化/" itemprop="url" rel="index">
+                    <span itemprop="name">持久化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -365,8 +438,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/11/1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/11/1/" itemprop="commentCount"></span>
+                <a href="/2018/12/12/redis3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/12/redis3/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -374,7 +447,7 @@
 
           
           
-             <span id="/2018/12/11/1/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2018/12/12/redis3/" class="leancloud_visitors" data-flag-title="redis高级篇">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -400,7 +473,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0字
+                  1.5k字
                 </span>
               
 
@@ -416,7 +489,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1分钟
+                  5分钟
                 </span>
               
             </div>
@@ -437,7 +510,26 @@
       
 
       
-        
+        <h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis的高性能是由于其将所有数据都存储在了内存中<br>为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，<br>这一过程就是持久化。<br>Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。</p>
+<h3 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h3><p>RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久化到硬盘。<br>RDB是Redis默认采用的持久化方式，在redis.conf配置文件中默认有此下配置：</p>
+<p>save 900 1<br>save 300 10<br>save 60 10000</p>
+<p>save 开头的一行就是持久化配置，可以配置多个条件（每行配置一个条件），每个条件之间是“或”的关系，“save 900 1”表示15分钟（900秒钟）内至少1个键被更改则进行快照，“save 300 10”表示5分钟（300秒）内至少10个键被更改则进行快照。</p>
+<p>在redis.conf中：<br>配置dir指定rdb快照文件的位置<br>配置dbfilenam指定rdb快照文件的名称</p>
+<p>Redis启动后会读取RDB快照文件，将数据从硬盘载入到内存。根据数据量大小与结构和服务器性能不同，这个时间也不同。通常将记录一千万个字符串类型键、大小为1GB的快照文件载入到内存中需要花费20～30秒钟。</p>
+<p>问题总结：<br>通过RDB方式实现持久化，一旦Redis异常退出，就会丢失最后一次快照以后更改的所有数据。这就需要开发者根据具体的应用场合，通过组合设置自动快照条件的方式来将可能发生的数据损失控制在能够接受的范围。如果数据很重要以至于无法承受任何损失，则可以考虑使用AOF方式进行持久化。</p>
+<h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>默认情况下Redis没有开启AOF（append only file）方式的持久化，可以通过appendonly参数开启：<br>appendonly yes<br>开启AOF持久化后每执行一条会更改Redis中的数据的命令，Redis就会将该命令写入硬<br>盘中的AOF文件。AOF文件的保存位置和RDB文件的位置相同，都是通过dir参数设置的，默认的文件名是appendonly.aof，可以通过appendfilename参数修改：appendfilename appendonly.aof</p>
+<h2 id="主从复制（了解）"><a href="#主从复制（了解）" class="headerlink" title="主从复制（了解）"></a>主从复制（了解）</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>持久化保证了即使redis服务重启也会丢失数据，因为redis服务重启后会将硬盘上持久化的数据恢复到内存中，但是当redis服务器的硬盘损坏了可能会导致数据丢失，如果通过redis的主从复制机制就可以避免这种单点故障，如下图：</p>
+<p>说明：<br>主redis中的数据有两个副本（replication）即从redis1和从redis2，即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。<br>主redis中的数据和从redis上的数据保持实时同步，当主redis写入数据时通过主从复制机制会复制到两个从redis服务上。<br>只有一个主redis，可以有多个从redis。<br>主从复制不会阻塞master，在同步数据时，master 可以继续处理client 请求<br>一个redis可以即是主又是从，如下图：</p>
+<h3 id="主从配置"><a href="#主从配置" class="headerlink" title="主从配置"></a>主从配置</h3><h4 id="主redis配置"><a href="#主redis配置" class="headerlink" title="主redis配置"></a>主redis配置</h4><p>无需特殊配置。</p>
+<h4 id="从redis配置"><a href="#从redis配置" class="headerlink" title="从redis配置"></a>从redis配置</h4><p>修改从redis服务器上的redis.conf文件，添加slaveof 主redisip  主redis端口</p>
+<p>上边的配置说明当前该从redis服务器所对应的主redis是192.168.101.3，端口是6379</p>
+<h3 id="主从复制过程"><a href="#主从复制过程" class="headerlink" title="主从复制过程"></a>主从复制过程</h3><h4 id="完整复制"><a href="#完整复制" class="headerlink" title="完整复制"></a>完整复制</h4><p>在redis2.8版本之前主从复制过程如下图：</p>
+<p>复制过程说明：</p>
+<p>1、slave 服务启动，slave 会建立和master 的连接，发送sync 命令。<br>2、master启动一个后台进程将数据库快照保存到RDB文件中<br>注意：此时如果生成RDB文件过程中存在写数据操作会导致RDB文件和当前主redis数据不一致，所以此时master 主进程会开始收集写命令并缓存起来。<br>3、master 就发送RDB文件给slave<br>4、slave 将文件保存到磁盘上，然后加载到内存恢复<br>5、master把缓存的命令转发给slave<br>注意：后续master 收到的写命令都会通过开始建立的连接发送给slave。<br>当master 和slave 的连接断开时slave 可以自动重新建立连接。如果master 同时收到多个slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有slave。</p>
+<p>完整复制的问题：</p>
+<p>在redis2.8之前从redis每次同步都会从主redis中复制全部的数据，如果从redis是新创建的从主redis中复制全部的数据这是没有问题的，但是，如果当从redis停止运行，再启动时可能只有少部分数据和主redis不同步，此时启动redis仍然会从主redis复制全部数据，这样的性能肯定没有只复制那一小部分不同步的数据高。</p>
+<h4 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h4><p>部分复制说明：<br>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master的runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步），主机验证 runid 和 offset 是否有效， runid 相当于主机身份验证码，用来验证从机上一次连接的主机，如果runid验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据offset同步部分数据。</p>
+
       
     </div>
     
@@ -499,6 +591,12 @@
 </div>
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+          
+        </div>
+      
 
       
       
@@ -508,8 +606,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/11/first/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2018/12/12/redis4/" rel="next" title="redis完善(spring整合)篇">
+                <i class="fa fa-chevron-left"></i> redis完善(spring整合)篇
               </a>
             
           </div>
@@ -517,10 +615,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/11/2/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -575,8 +669,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -593,7 +696,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -604,7 +707,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -615,7 +718,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -707,6 +810,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#持久化"><span class="nav-number">1.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB持久化"><span class="nav-number">1.1.</span> <span class="nav-text">RDB持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF持久化"><span class="nav-number">1.2.</span> <span class="nav-text">AOF持久化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制（了解）"><span class="nav-number">2.</span> <span class="nav-text">主从复制（了解）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是主从复制"><span class="nav-number">2.1.</span> <span class="nav-text">什么是主从复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从配置"><span class="nav-number">2.2.</span> <span class="nav-text">主从配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主redis配置"><span class="nav-number">2.2.1.</span> <span class="nav-text">主redis配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从redis配置"><span class="nav-number">2.2.2.</span> <span class="nav-text">从redis配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制过程"><span class="nav-number">2.3.</span> <span class="nav-text">主从复制过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#完整复制"><span class="nav-number">2.3.1.</span> <span class="nav-text">完整复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部分复制"><span class="nav-number">2.3.2.</span> <span class="nav-text">部分复制</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

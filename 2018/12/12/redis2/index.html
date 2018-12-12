@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog of MYH" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="数据类型–stringredis string介绍redis中没有使用C语言的字符串表示，而是自定义一个数据结构叫SDS（simple dynamic string）即简单动态字符串。打开下载的redis源码包，找到src下的sds.h文件查看sds源码： struct sdshdr { //字符串长度 unsigned int len; //buf数组中未使用的字节数量 unsigned int">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis进阶篇">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/redis2/index.html">
+<meta property="og:site_name" content="Blog of MYH">
+<meta property="og:description" content="数据类型–stringredis string介绍redis中没有使用C语言的字符串表示，而是自定义一个数据结构叫SDS（simple dynamic string）即简单动态字符串。打开下载的redis源码包，找到src下的sds.h文件查看sds源码： struct sdshdr { //字符串长度 unsigned int len; //buf数组中未使用的字节数量 unsigned int">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-12T11:39:28.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis进阶篇">
+<meta name="twitter:description" content="数据类型–stringredis string介绍redis中没有使用C语言的字符串表示，而是自定义一个数据结构叫SDS（simple dynamic string）即简单动态字符串。打开下载的redis源码包，找到src下的sds.h文件查看sds源码： struct sdshdr { //字符串长度 unsigned int len; //buf数组中未使用的字节数量 unsigned int">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"bounceRightIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/redis2/">
+
+
+
+
+
+  <title>redis进阶篇 | Blog of MYH</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/myhcjwds" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog of MYH</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/redis2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YuHang Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myhcjwds.gif#头像">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog of MYH">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">redis进阶篇</h1>
+        
+
+        <div class="post-meta">
+		
+  <i class="fa fa-thumb-tack"></i>
+  <font color="7D26CD">置顶</font>
+  <span class="post-meta-divider">|</span>
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:15:42+08:00">
+                2018-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">非关系型数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/缓存数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">缓存数据库</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/非关系型数据库/缓存数据库/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/12/redis2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/12/redis2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/12/redis2/" class="leancloud_visitors" data-flag-title="redis进阶篇">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5.4k字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  24分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="数据类型–string"><a href="#数据类型–string" class="headerlink" title="数据类型–string"></a>数据类型–string</h2><h3 id="redis-string介绍"><a href="#redis-string介绍" class="headerlink" title="redis string介绍"></a>redis string介绍</h3><p>redis中没有使用C语言的字符串表示，而是自定义一个数据结构叫SDS（simple dynamic string）即简单动态字符串。<br>打开下载的redis源码包，找到src下的sds.h文件查看sds源码：</p>
+<pre><code>struct sdshdr {
+//字符串长度
+unsigned int len;
+//buf数组中未使用的字节数量
+unsigned int free;
+//用于保存字符串
+char buf[];
+};
+</code></pre><p>c语言对字符串的存储是使用字符数组，遇到’\0’字符则认为字符串结束，redis的字符串可以存储任何类型的数据，因为任何类型数据都可以表示成二进制，sds结构中的char buf[]就是存储了二进制数据。<br>redis的字符串是二进制安全的，什么是二进制安全？简单理解就是存入什么数据取出的还是什么数据。redis中的sds不像c语言处理字符串那样遇到’\0’字符则认证字符串结束，它不会对存储进去的二进制数据进行处理，存入什么数据取出还是什么数据。</p>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><h4 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h4><p>SET key value:</p>
+<pre><code>127.0.0.1:6379&gt; set test 123
+OK
+</code></pre><h4 id="取值："><a href="#取值：" class="headerlink" title="取值："></a>取值：</h4><p>GET key:</p>
+<pre><code>127.0.0.1:6379&gt; get test
+&quot;123“
+当键不存在时返回空结果。
+</code></pre><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>Del key:</p>
+<pre><code>127.0.0.1:6379&gt; del test
+(integer) 1
+</code></pre><h4 id="数值增减"><a href="#数值增减" class="headerlink" title="数值增减"></a>数值增减</h4><p>递增数字 INCR key:</p>
+<p>当存储的字符串是整数时，Redis提供了一个实用的命令INCR，其作用是让当前键值递增，并返回递增后的值。</p>
+<pre><code>127.0.0.1:6379&gt; incr num
+(integer) 1
+127.0.0.1:6379&gt; incr num
+(integer) 2
+127.0.0.1:6379&gt; incr num
+(integer) 3 
+</code></pre><p>增加指定的整数 INCRBY key increment:</p>
+<pre><code>127.0.0.1:6379&gt; incrby num 2
+(integer) 5
+127.0.0.1:6379&gt; incrby num 2
+(integer) 7
+127.0.0.1:6379&gt; incrby num 2
+(integer) 9 
+</code></pre><p>递减数值:</p>
+<pre><code>DECR key
+</code></pre><h4 id="其它命令"><a href="#其它命令" class="headerlink" title="其它命令"></a>其它命令</h4><p>减少指定的整数 :<br>DECRBY key decrement</p>
+<pre><code>127.0.0.1:6379&gt; decr num
+(integer) 6
+127.0.0.1:6379&gt; decr num
+(integer) 5
+127.0.0.1:6379&gt; decrby num 3
+(integer) 2
+127.0.0.1:6379&gt; decrby num 3
+(integer) -1 
+</code></pre><p>向尾部追加值 :<br>APPEND key value<br>APPEND的作用是向键值的末尾追加value。如果键不存在则将该键的值设置为value，即相当于 SET key value。返回值是追加后字符串的总长度。 </p>
+<pre><code>127.0.0.1:6379&gt; set str hello
+OK
+127.0.0.1:6379&gt; append str &quot; world!&quot;
+(integer) 12
+127.0.0.1:6379&gt; get str 
+&quot;hello world!&quot;
+</code></pre><p>获取字符串长度 :<br>STRLEN key<br>STRLEN命令返回键值的长度，如果键不存在则返回0。 </p>
+<pre><code>127.0.0.1:6379&gt; strlen str 
+(integer) 0
+127.0.0.1:6379&gt; set str hello
+OK
+127.0.0.1:6379&gt; strlen str 
+(integer) 5
+</code></pre><p>同时设置/获取多个键值 :<br>MSET key value [key value …]<br>MGET key [key …]</p>
+<pre><code>127.0.0.1:6379&gt; mset k1 v1 k2 v2 k3 v3
+OK
+127.0.0.1:6379&gt; get k1
+&quot;v1&quot;
+127.0.0.1:6379&gt; mget k1 k3
+1) &quot;v1&quot;
+2) &quot;v3&quot;
+</code></pre><h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><h4 id="自增主键"><a href="#自增主键" class="headerlink" title="自增主键"></a>自增主键</h4><p>商品编号、订单号采用string的递增数字特性生成。</p>
+<p>定义商品编号key：items:id</p>
+<pre><code>192.168.101.3:7003&gt; INCR items:id
+(integer) 2
+192.168.101.3:7003&gt; INCR items:id
+(integer) 3
+</code></pre><h2 id="数据类型–hash"><a href="#数据类型–hash" class="headerlink" title="数据类型–hash"></a>数据类型–hash</h2><h3 id="使用string的问题"><a href="#使用string的问题" class="headerlink" title="使用string的问题"></a>使用string的问题</h3><p>假设有User对象以JSON序列化的形式存储到Redis中，User对象有id，username、password、age、name等属性，存储的过程如下：</p>
+<p>保存、更新： </p>
+<p>User对象  json(string)  redis </p>
+<p>如果在业务上只是更新age属性，其他的属性并不做更新我应该怎么做呢？ 如果仍然采用上边的方法在传输、处理时会造成资源浪费，下边讲的hash可以很好的解决这个问题。</p>
+<h3 id="redis-hash介绍"><a href="#redis-hash介绍" class="headerlink" title="redis hash介绍"></a>redis hash介绍</h3><p>hash叫散列类型，它提供了字段和字段值的映射。字段值只能是字符串类型，不支持散列类型、集合类型等其它类型。如下：</p>
+<h3 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h3><h4 id="赋值-1"><a href="#赋值-1" class="headerlink" title="赋值"></a>赋值</h4><p>HSET key field value    一次只能设置一个字段值</p>
+<pre><code>127.0.0.1:6379&gt; hset user username zhangsan 
+(integer) 1
+</code></pre><p>HMSET key field value [field value …]        一次可以设置多个字段值</p>
+<pre><code>127.0.0.1:6379&gt; hmset user age 20 username lisi 
+OK
+</code></pre><h4 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h4><p>HGET key field            一次只能获取一个字段值</p>
+<pre><code>127.0.0.1:6379&gt; hget user username
+&quot;zhangsan“
+</code></pre><p>HMGET key field [field …]                一次可以获取多个字段值</p>
+<pre><code>127.0.0.1:6379&gt; hmget user age username
+1) &quot;20&quot;
+2) &quot;lisi&quot;
+</code></pre><p>HGETALL key</p>
+<pre><code>127.0.0.1:6379&gt; hgetall user
+1) &quot;age&quot;
+2) &quot;20&quot;
+3) &quot;username&quot;
+4) &quot;lisi&quot;
+</code></pre><p>HSET命令不区分插入和更新操作，当执行插入操作时HSET命令返回1，当执行更新操作时返回0.</p>
+<h4 id="删除字段"><a href="#删除字段" class="headerlink" title="删除字段"></a>删除字段</h4><p>可以删除一个或多个字段，返回值是被删除的字段个数<br>HDEL key field [field …]</p>
+<pre><code>127.0.0.1:6379&gt; hdel user age
+(integer) 1
+127.0.0.1:6379&gt; hdel user age name
+(integer) 0
+127.0.0.1:6379&gt; hdel user age username
+(integer) 1 
+</code></pre><h4 id="增加数字"><a href="#增加数字" class="headerlink" title="增加数字"></a>增加数字</h4><pre><code>HINCRBY key field increment
+127.0.0.1:6379&gt; hincrby user age 2    将用户的年龄加2
+(integer) 22
+127.0.0.1:6379&gt; hget user age        获取用户的年龄
+&quot;22“
+</code></pre><h4 id="其它命令-1"><a href="#其它命令-1" class="headerlink" title="其它命令"></a>其它命令</h4><p>判断字段是否存在<br>HEXISTS key field</p>
+<pre><code>127.0.0.1:6379&gt; hexists user age        查看user中是否有age字段
+(integer) 1
+127.0.0.1:6379&gt; hexists user name    查看user中是否有name字段
+(integer) 0
+</code></pre><p>HSETNX key field value</p>
+<p>当字段不存在时赋值，类似HSET，区别在于如果字段已经存在，该命令不执行任何操作。</p>
+<pre><code>127.0.0.1:6379&gt; hsetnx user age 30    
+如果user中没有age字段则设置age值为30，否则不做任何操作
+(integer) 0
+</code></pre><p>只获取字段名或字段值 </p>
+<p>HKEYS key</p>
+<p>HVALS key</p>
+<pre><code>127.0.0.1:6379&gt; hmset user age 20 name lisi 
+OK
+127.0.0.1:6379&gt; hkeys user
+1) &quot;age&quot;
+2) &quot;name&quot;
+127.0.0.1:6379&gt; hvals user
+1) &quot;20&quot;
+2) &quot;lisi&quot;
+</code></pre><p>获取字段数量<br>HLEN key</p>
+<pre><code>127.0.0.1:6379&gt; hlen user
+(integer) 2
+</code></pre><h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3><h4 id="商品信息"><a href="#商品信息" class="headerlink" title="商品信息"></a>商品信息</h4><p>商品id、商品名称、商品描述、商品库存、商品好评</p>
+<p>定义商品信息的key：<br>商品1001的信息在 redis中的key为：items:1001</p>
+<p>存储商品信息:</p>
+<pre><code>192.168.101.3:7003&gt; HMSET items:1001 id 3 name apple price 999.9
+OK
+</code></pre><p>获取商品信息:</p>
+<pre><code>192.168.101.3:7003&gt; HGET items:1001 id
+&quot;3&quot;
+.168.101.3:7003&gt; HGETALL items:1001
+1) &quot;id&quot;
+2) &quot;3&quot;
+3) &quot;name&quot;
+4) &quot;apple&quot;
+5) &quot;price&quot;
+6) &quot;999.9&quot;
+</code></pre><h2 id="数据类型–list"><a href="#数据类型–list" class="headerlink" title="数据类型–list"></a>数据类型–list</h2><h3 id="ArrayList与LinkedList的区别"><a href="#ArrayList与LinkedList的区别" class="headerlink" title="ArrayList与LinkedList的区别"></a>ArrayList与LinkedList的区别</h3><p>ArrayList使用数组方式存储数据，所以根据索引查询数据速度快，而新增或者删除元素时需要设计到位移操作，所以比较慢。<br>LinkedList使用双向链接方式存储数据，每个元素都记录前后元素的指针，所以插入、删除数据时只是更改前后元素的指针指向即可，速度非常快，然后通过下标查询元素时需要从头开始索引，所以比较慢，但是如果查询前几个元素或后几个元素速度比较快。</p>
+<h3 id="redis-list介绍"><a href="#redis-list介绍" class="headerlink" title="redis list介绍"></a>redis list介绍</h3><p>列表类型（list）可以存储一个有序的字符串列表，常用的操作是向列表两端添加元素，或者获得列表的某一个片段。<br>列表类型内部是使用双向链表（double linked list）实现的，所以向列表两端添加元素的时间复杂度为0(1)，获取越接近两端的元素速度就越快。这意味着即使是一个有几千万个元素的列表，获取头部或尾部的10条记录也是极快的。</p>
+<h3 id="命令-2"><a href="#命令-2" class="headerlink" title="命令"></a>命令</h3><h4 id="向列表两端增加元素。"><a href="#向列表两端增加元素。" class="headerlink" title="向列表两端增加元素。"></a>向列表两端增加元素。</h4><p>LPUSH key value [value …]</p>
+<p>RPUSH key value [value …]</p>
+<p>向列表左边增加元素 </p>
+<pre><code>127.0.0.1:6379&gt; lpush list:1 1 2 3
+(integer) 3
+</code></pre><p>向列表右边增加元素 </p>
+<pre><code>127.0.0.1:6379&gt; rpush list:1 4 5 6
+(integer) 3
+</code></pre><h4 id="查看列表"><a href="#查看列表" class="headerlink" title="查看列表"></a>查看列表</h4><pre><code>LRANGE key start stop
+</code></pre><p>LRANGE命令是列表类型最常用的命令之一，获取列表中的某一片段，将返回start、stop之间的所有元素（包含两端的元素），索引从0开始。索引可以是负数，如：“-1”代表最后边的一个元素。 </p>
+<pre><code>127.0.0.1:6379&gt; lrange list:1 0 2
+1) &quot;2&quot;
+2) &quot;1&quot;
+3) &quot;4&quot;
+</code></pre><h4 id="从列表两端弹出元素"><a href="#从列表两端弹出元素" class="headerlink" title="从列表两端弹出元素"></a>从列表两端弹出元素</h4><p>LPOP key</p>
+<p>RPOP key</p>
+<p>LPOP命令从列表左边弹出一个元素，会分两步完成，第一步是将列表左边的元素从列表中移除，第二步是返回被移除的元素值。 </p>
+<pre><code>127.0.0.1:6379&gt; lpop list:1
+&quot;3“
+127.0.0.1:6379&gt; rpop list:1
+&quot;6“
+</code></pre><h4 id="获取列表中元素的个数"><a href="#获取列表中元素的个数" class="headerlink" title="获取列表中元素的个数"></a>获取列表中元素的个数</h4><p>LLEN key</p>
+<pre><code>127.0.0.1:6379&gt; llen list:1
+(integer) 2
+</code></pre><p>####其它命令<br>删除列表中指定的值 :</p>
+<p>LREM key count value</p>
+<p>LREM命令会删除列表中前count个值为value的元素，返回实际删除的元素个数。根据count值的不同，</p>
+<p>该命令的执行方式会有所不同： </p>
+<p>当count&gt;0时， LREM会从列表左边开始删除。 </p>
+<p>当count&lt;0时， LREM会从列表后边开始删除。 </p>
+<p>当count=0时， LREM删除所有值为value的元素。 </p>
+<p>获得/设置指定索引的元素值 :</p>
+<p>LINDEX key index</p>
+<p>LSET key index value</p>
+<pre><code>127.0.0.1:6379&gt; lindex l:list 2
+&quot;1&quot;
+127.0.0.1:6379&gt; lset l:list 2 2
+OK
+127.0.0.1:6379&gt; lrange l:list 0 -1
+1) &quot;6&quot;
+2) &quot;5&quot;
+3) &quot;2&quot;
+4) &quot;2&quot;
+</code></pre><p>只保留列表指定片段，指定范围和LRANGE一致 :</p>
+<p>LTRIM key start stop</p>
+<pre><code>127.0.0.1:6379&gt; lrange l:list 0 -1
+1) &quot;6&quot;
+2) &quot;5&quot;
+3) &quot;0&quot;
+4) &quot;2&quot;
+127.0.0.1:6379&gt; ltrim l:list 0 2
+OK
+127.0.0.1:6379&gt; lrange l:list 0 -1
+1) &quot;6&quot;
+2) &quot;5&quot;
+3) &quot;0&quot;
+</code></pre><p>向列表中插入元素 :</p>
+<p>LINSERT key BEFORE|AFTER pivot value<br>该命令首先会在列表中从左到右查找值为pivot的元素，<br>然后根据第二个参数是BEFORE还是AFTER来决定将value插入到该元素的前面还是后面。 </p>
+<pre><code>127.0.0.1:6379&gt; lrange list 0 -1
+1) &quot;3&quot;
+2) &quot;2&quot;
+3) &quot;1&quot;
+127.0.0.1:6379&gt; linsert list after 3 4
+(integer) 4
+127.0.0.1:6379&gt; lrange list 0 -1
+1) &quot;3&quot;
+2) &quot;4&quot;
+3) &quot;2&quot;
+4) &quot;1&quot;
+</code></pre><p>将元素从一个列表转移到另一个列表中 :</p>
+<p>RPOPLPUSH source destination</p>
+<pre><code>127.0.0.1:6379&gt; rpoplpush list newlist 
+&quot;1&quot;
+127.0.0.1:6379&gt; lrange newlist 0 -1
+1) &quot;1&quot;
+127.0.0.1:6379&gt; lrange list 0 -1
+1) &quot;3&quot;
+2) &quot;4&quot;
+3) &quot;2&quot; 
+</code></pre><h3 id="应用-2"><a href="#应用-2" class="headerlink" title="应用"></a>应用</h3><h4 id="商品评论列表"><a href="#商品评论列表" class="headerlink" title="商品评论列表"></a>商品评论列表</h4><p>思路：</p>
+<p>在redis中创建商品评论列表</p>
+<p>用户发布商品评论，将评论信息转成json存储到list中。</p>
+<p>用户在页面查询评论列表，从redis中取出json数据展示到页面。</p>
+<p>定义商品评论列表key：</p>
+<p>商品编号为1001的商品评论key：items: comment:1001</p>
+<pre><code>192.168.101.3:7001&gt; LPUSH items:comment:1001 &apos;{&quot;id&quot;:1,&quot;name&quot;:&quot;商品不错，很好！！&quot;,&quot;date&quot;:1430295077289}&apos;
+</code></pre><h2 id="数据类型–set"><a href="#数据类型–set" class="headerlink" title="数据类型–set"></a>数据类型–set</h2><h3 id="redis-set介绍"><a href="#redis-set介绍" class="headerlink" title="redis set介绍"></a>redis set介绍</h3><p>在集合中的每个元素都是不同的，且没有顺序。</p>
+<p>集合类型和列表类型的对比：</p>
+<p>集合类型的常用操作是向集合中加入或删除元素、判断某个元素是否存在等，由于集合类型的Redis内部是使用值为空的散列表实现，所有这些操作的时间复杂度都为0(1)。 </p>
+<p>Redis还提供了多个集合之间的交集、并集、差集的运算。</p>
+<p>###命令</p>
+<h4 id="增加-删除元素"><a href="#增加-删除元素" class="headerlink" title="增加/删除元素"></a>增加/删除元素</h4><p>SADD key member [member …]</p>
+<p>SREM key member [member …]</p>
+<pre><code>127.0.0.1:6379&gt; sadd set a b c
+(integer) 3
+127.0.0.1:6379&gt; sadd set a
+(integer) 0
+127.0.0.1:6379&gt; srem set c d
+(integer) 1
+</code></pre><h4 id="获得集合中的所有元素"><a href="#获得集合中的所有元素" class="headerlink" title="获得集合中的所有元素"></a>获得集合中的所有元素</h4><p>SMEMBERS key</p>
+<pre><code>127.0.0.1:6379&gt; smembers set
+1) &quot;b&quot;
+2) &quot;a”
+</code></pre><p>判断元素是否在集合中，无论集合中有多少元素都可以极速的返回结果。 </p>
+<p>SISMEMBER key member</p>
+<pre><code>127.0.0.1:6379&gt; sismember set a
+(integer) 1
+127.0.0.1:6379&gt; sismember set h
+(integer) 0
+</code></pre><h3 id="其它命令-2"><a href="#其它命令-2" class="headerlink" title="其它命令"></a>其它命令</h3><h4 id="集合的差集运算-A-B"><a href="#集合的差集运算-A-B" class="headerlink" title="集合的差集运算 A-B"></a>集合的差集运算 A-B</h4><p>属于A并且不属于B的元素构成的集合。 </p>
+<p>SDIFF key [key …]</p>
+<pre><code>127.0.0.1:6379&gt; sadd setA 1 2 3
+(integer) 3
+127.0.0.1:6379&gt; sadd setB 2 3 4
+(integer) 3
+127.0.0.1:6379&gt; sdiff setA setB 
+1) &quot;1&quot;
+127.0.0.1:6379&gt; sdiff setB setA 
+1) &quot;4&quot;
+</code></pre><h4 id="集合的交集运算-A-∩-B"><a href="#集合的交集运算-A-∩-B" class="headerlink" title="集合的交集运算 A ∩ B"></a>集合的交集运算 A ∩ B</h4><p>属于A且属于B的元素构成的集合。 </p>
+<p>SINTER key [key …]</p>
+<pre><code>127.0.0.1:6379&gt; sinter setA setB 
+1) &quot;2&quot;
+2) &quot;3&quot;
+</code></pre><h4 id="集合的并集运算-A-∪-B"><a href="#集合的并集运算-A-∪-B" class="headerlink" title="集合的并集运算 A ∪ B"></a>集合的并集运算 A ∪ B</h4><p>属于A或者属于B的元素构成的集合</p>
+<p>SUNION key [key …]</p>
+<pre><code>127.0.0.1:6379&gt; sunion setA setB
+1) &quot;1&quot;
+2) &quot;2&quot;
+3) &quot;3&quot;
+4) &quot;4&quot;
+</code></pre><h4 id="其它命令-3"><a href="#其它命令-3" class="headerlink" title="其它命令"></a>其它命令</h4><p>获得集合中元素的个数 </p>
+<p>SCARD key</p>
+<pre><code>127.0.0.1:6379&gt; smembers setA 
+1) &quot;1&quot;
+2) &quot;2&quot;
+3) &quot;3&quot;
+127.0.0.1:6379&gt; scard setA 
+(integer) 3
+</code></pre><p>从集合中弹出一个元素 </p>
+<p>SPOP key</p>
+<pre><code>127.0.0.1:6379&gt; spop setA 
+&quot;1“
+</code></pre><p>注意：由于集合是无序的，所有SPOP命令会从集合中随机选择一个元素弹出 </p>
+<h2 id="数据类型–sorted-set"><a href="#数据类型–sorted-set" class="headerlink" title="数据类型–sorted set"></a>数据类型–sorted set</h2><h3 id="redis-sorted-set介绍"><a href="#redis-sorted-set介绍" class="headerlink" title="redis sorted set介绍"></a>redis sorted set介绍</h3><p>在集合类型的基础上有序集合类型为集合中的每个元素都关联一个分数，这使得我们不仅可以完成插入、删除和判断元素是否存在在集合中，还能够获得分数最高或最低的前N个元素、获取指定分数范围内的元素等与分数有关的操作。 </p>
+<p>在某些方面有序集合和列表类型有些相似。 </p>
+<p>1、二者都是有序的。 </p>
+<p>2、二者都可以获得某一范围的元素。 </p>
+<p>但是，二者有着很大区别： </p>
+<p>1、列表类型是通过链表实现的，获取靠近两端的数据速度极快，而当元素增多后，<br>访问中间数据的速度会变慢。 </p>
+<p>2、有序集合类型使用散列表实现，所有即使读取位于中间部分的数据也很快。 </p>
+<p>3、列表中不能简单的调整某个元素的位置，但是有序集合可以（通过更改分数实现<br>）<br>4、有序集合要比列表类型更耗内存。 </p>
+<p>###命令</p>
+<p>####增加元素<br>向有序集合中加入一个元素和该元素的分数，如果该元素已经存在则会用新的分数替换原有的分数。返回值是新加入到集合中的元素个数，不包含之前已经存在的元素。 </p>
+<p>ZADD key score member [score member …]</p>
+<pre><code>127.0.0.1:6379&gt; zadd scoreboard 80 zhangsan 89 lisi 94 wangwu 
+(integer) 3
+127.0.0.1:6379&gt; zadd scoreboard 97 lisi 
+(integer) 0
+</code></pre><p>获取元素的分数 </p>
+<p>ZSCORE key member</p>
+<pre><code>127.0.0.1:6379&gt; zscore scoreboard lisi 
+&quot;97&quot;
+</code></pre><h4 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h4><p>ZREM key member [member …]</p>
+<p>移除有序集key中的一个或多个成员，不存在的成员将被忽略。</p>
+<p>当key存在但不是有序集类型时，返回一个错误。</p>
+<pre><code>127.0.0.1:6379&gt; zrem scoreboard lisi
+(integer) 1
+</code></pre><h4 id="获得排名在某个范围的元素列表"><a href="#获得排名在某个范围的元素列表" class="headerlink" title="获得排名在某个范围的元素列表"></a>获得排名在某个范围的元素列表</h4><p>获得排名在某个范围的元素列表 </p>
+<p>ZRANGE key start stop [WITHSCORES]<br>照元素分数从小到大的顺序返回索引从start到stop之间的所有元素（包含两端的元素）</p>
+<pre><code>127.0.0.1:6379&gt; zrange scoreboard 0 2
+1) &quot;zhangsan&quot;
+2) &quot;wangwu&quot;
+3) &quot;lisi“
+</code></pre><p>ZREVRANGE key start stop [WITHSCORES]<br>照元素分数从大到小的顺序返回索引从start到stop之间的所有元素（包含两端的元素）</p>
+<pre><code>127.0.0.1:6379&gt; zrevrange scoreboard 0 2
+1) &quot; lisi &quot;
+2) &quot;wangwu&quot;
+3) &quot; zhangsan “
+</code></pre><p>如果需要获得元素的分数的可以在命令尾部加上WITHSCORES参数 </p>
+<pre><code>127.0.0.1:6379&gt; zrange scoreboard 0 1 WITHSCORES
+1) &quot;zhangsan&quot;
+2) &quot;80&quot;
+3) &quot;wangwu&quot;
+4) &quot;94&quot;
+</code></pre><h4 id="其它命令-4"><a href="#其它命令-4" class="headerlink" title="其它命令"></a>其它命令</h4><p>获得指定分数范围的元素 </p>
+<p>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</p>
+<pre><code>127.0.0.1:6379&gt; ZRANGEBYSCORE scoreboard 90 97 WITHSCORES
+1) &quot;wangwu&quot;
+2) &quot;94&quot;
+3) &quot;lisi&quot;
+4) &quot;97&quot;
+127.0.0.1:6379&gt; ZRANGEBYSCORE scoreboard 70 100 limit 1 2
+1) &quot;wangwu&quot;
+2) &quot;lisi&quot;
+</code></pre><p>增加某个元素的分数，返回值是更改后的分数</p>
+<p>ZINCRBY  key increment member</p>
+<p>给lisi加4分 </p>
+<pre><code>127.0.0.1:6379&gt; ZINCRBY scoreboard  4 lisi 
+&quot;101“
+</code></pre><p>获得集合中元素的数量 </p>
+<p>ZCARD key</p>
+<pre><code>127.0.0.1:6379&gt; ZCARD scoreboard
+(integer) 3
+</code></pre><p>获得指定分数范围内的元素个数 </p>
+<p>ZCOUNT key min max</p>
+<pre><code>127.0.0.1:6379&gt; ZCOUNT scoreboard 80 90
+(integer) 1
+</code></pre><p>按照排名范围删除元素 </p>
+<p>ZREMRANGEBYRANK key start stop</p>
+<pre><code>127.0.0.1:6379&gt; ZREMRANGEBYRANK scoreboard 0 1
+(integer) 2 
+127.0.0.1:6379&gt; ZRANGE scoreboard 0 -1
+1) &quot;lisi&quot;
+</code></pre><p>ZREMRANGEBYSCORE key min max</p>
+<p>按照分数范围删除元素 </p>
+<pre><code>127.0.0.1:6379&gt; zadd scoreboard 84 zhangsan    
+(integer) 1
+127.0.0.1:6379&gt; ZREMRANGEBYSCORE scoreboard 80 100
+(integer) 1
+</code></pre><p>获取元素的排名 </p>
+<p>ZRANK key member</p>
+<p>ZREVRANK key member</p>
+<p>从小到大 </p>
+<pre><code>127.0.0.1:6379&gt; ZRANK scoreboard lisi 
+(integer) 0
+</code></pre><p>从大到小 </p>
+<pre><code>127.0.0.1:6379&gt; ZREVRANK scoreboard zhangsan 
+(integer) 1
+</code></pre><h3 id="应用-3"><a href="#应用-3" class="headerlink" title="应用"></a>应用</h3><h4 id="商品销售排行榜"><a href="#商品销售排行榜" class="headerlink" title="商品销售排行榜"></a>商品销售排行榜</h4><p>根据商品销售量对商品进行排行显示，定义sorted set集合，商品销售量为元素的分数。</p>
+<p>定义商品销售排行榜key：items:sellsort</p>
+<p>写入商品销售量：</p>
+<p>商品编号1001的销量是9，商品编号1002的销量是10</p>
+<pre><code>192.168.101.3:7007&gt; ZADD items:sellsort 9 1001 10 1002
+</code></pre><p>商品编号1001的销量加1</p>
+<pre><code>192.168.101.3:7001&gt; ZINCRBY items:sellsort 1 1001
+</code></pre><p>商品销量前10名：</p>
+<pre><code>192.168.101.3:7001&gt; ZRANGE items:sellsort 0 9 withscores
+</code></pre><h2 id="keys命令"><a href="#keys命令" class="headerlink" title="keys命令"></a>keys命令</h2><p>###设置key的生存时间<br>Redis在实际使用过程中更多的用作缓存，然而缓存的数据一般都是需要设置生存时间的，即：到期后数据销毁。 </p>
+<p>EXPIRE key seconds            设置key的生存时间（单位：秒）key在多少秒后会自动删除</p>
+<p>TTL key                     查看key生于的生存时间</p>
+<p>PERSIST key                清除生存时间 </p>
+<p>PEXPIRE key milliseconds    生存时间设置单位为：毫秒 </p>
+<p>例子：</p>
+<pre><code>192.168.101.3:7002&gt; set test 1        设置test的值为1
+OK
+192.168.101.3:7002&gt; get test            获取test的值
+&quot;1&quot;
+192.168.101.3:7002&gt; EXPIRE test 5    设置test的生存时间为5秒
+(integer) 1
+192.168.101.3:7002&gt; TTL test            查看test的生于生成时间还有1秒删除
+(integer) 1
+192.168.101.3:7002&gt; TTL test
+(integer) -2
+192.168.101.3:7002&gt; get test            获取test的值，已经删除
+(nil)
+</code></pre><h3 id="其它命令（自学）"><a href="#其它命令（自学）" class="headerlink" title="其它命令（自学）"></a>其它命令（自学）</h3><p>keys 返回满足给定pattern 的所有key</p>
+<pre><code>redis 127.0.0.1:6379&gt; keys mylist*
+1) &quot;mylist&quot;
+2) &quot;mylist5&quot;
+3) &quot;mylist6&quot;
+4) &quot;mylist7&quot;
+5) &quot;mylist8&quot;
+</code></pre><p>exists 确认一个key 是否存在</p>
+<pre><code>redis 127.0.0.1:6379&gt; exists HongWan
+(integer) 0
+redis 127.0.0.1:6379&gt; exists age
+(integer) 1
+redis 127.0.0.1:6379&gt;
+</code></pre><p>从结果来数据库中不存在HongWan 这个key，但是age 这个key 是存在的</p>
+<p>del删除一个key</p>
+<pre><code>redis 127.0.0.1:6379&gt; del age
+(integer) 1
+redis 127.0.0.1:6379&gt; exists age
+(integer) 0
+redis 127.0.0.1:6379&gt;
+</code></pre><p>从结果来数据库中不存在HongWan 这个key，但是age 这个key 是存在的</p>
+<p>rename 重命名key</p>
+<pre><code>redis 127.0.0.1:6379[1]&gt; keys *
+1) &quot;age&quot;
+redis 127.0.0.1:6379[1]&gt; rename age age_new
+OK
+redis 127.0.0.1:6379[1]&gt; keys *
+1) &quot;age_new&quot;
+redis 127.0.0.1:6379[1]&gt;
+age 成功的被我们改名为age_new 了
+</code></pre><p>type返回值的类型</p>
+<pre><code>redis 127.0.0.1:6379&gt; type addr
+string
+redis 127.0.0.1:6379&gt; type myzset2
+zset
+redis 127.0.0.1:6379&gt; type mylist
+list
+redis 127.0.0.1:6379&gt;
+</code></pre><p>##服务器命令</p>
+<p>ping测试连接是否存活</p>
+<pre><code>redis 127.0.0.1:6379&gt; ping
+PONG
+</code></pre><p>//执行下面命令之前，我们停止redis 服务器</p>
+<pre><code>redis 127.0.0.1:6379&gt; ping
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+</code></pre><p>//执行下面命令之前，我们启动redis 服务器</p>
+<pre><code>not connected&gt; ping
+PONG
+redis 127.0.0.1:6379&gt;
+第一个ping 时，说明此连接正常
+第二个ping 之前，我们将redis 服务器停止，那么ping 是失败的
+第三个ping 之前，我们将redis 服务器启动，那么ping 是成功的
+</code></pre><p>echo<br>在命令行打印一些内容</p>
+<pre><code>redis 127.0.0.1:6379&gt; echo HongWan
+&quot;HongWan&quot;
+redis 127.0.0.1:6379&gt;
+select
+</code></pre><p>选择数据库。Redis 数据库编号从0~15，我们可以选择任意一个数据库来进行数据的存取。</p>
+<pre><code>redis 127.0.0.1:6379&gt; select 1
+OK
+redis 127.0.0.1:6379[1]&gt; select 16
+(error) ERR invalid DB index
+redis 127.0.0.1:6379[16]&gt;
+当选择16 时，报错，说明没有编号为16 的这个数据库
+</code></pre><p>quit<br>退出连接。</p>
+<pre><code>redis 127.0.0.1:6379&gt; quit
+</code></pre><p>dbsize<br>返回当前数据库中key 的数目。</p>
+<pre><code>redis 127.0.0.1:6379&gt; dbsize
+(integer) 18
+redis 127.0.0.1:6379&gt;
+结果说明此库中有18 个key
+</code></pre><p>info<br>获取服务器的信息和统计。</p>
+<pre><code>redis 127.0.0.1:6379&gt; info
+redis_version:2.2.12
+redis_git_sha1:00000000
+redis_git_dirty:0
+arch_bits:32
+multiplexing_api:epoll
+process_id:28480
+uptime_in_seconds:2515
+uptime_in_days:0
+</code></pre><p>flushdb<br>删除当前选择数据库中的所有key。</p>
+<pre><code>redis 127.0.0.1:6379&gt; dbsize
+(integer) 18
+redis 127.0.0.1:6379&gt; flushdb
+OK
+redis 127.0.0.1:6379&gt; dbsize
+(integer) 0
+redis 127.0.0.1:6379&gt;
+在本例中我们将0 号数据库中的key 都清除了。
+</code></pre><p>flushall<br>删除所有数据库中的所有key。</p>
+<pre><code>redis 127.0.0.1:6379[1]&gt; dbsize
+(integer) 1
+redis 127.0.0.1:6379[1]&gt; select 0
+OK
+redis 127.0.0.1:6379&gt; flushall
+OK
+redis 127.0.0.1:6379&gt; select 1
+OK
+redis 127.0.0.1:6379[1]&gt; dbsize
+(integer) 0
+redis 127.0.0.1:6379[1]&gt;
+在本例中我们先查看了一个1 号数据库中有一个key，然后我切换到0 号库执行flushall 命令，结果1 号库中的key 也被清除了，说是此命令工作正常。
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢您！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt="YuHang Ma 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.png" alt="YuHang Ma 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	<div>
+	
+	<div>
+      
+        
+      
+</div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/12/springboot-redis/" rel="next" title="springboot-redis.md">
+                <i class="fa fa-chevron-left"></i> springboot-redis.md
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/12/redis1/" rel="prev" title="redis基础篇">
+                redis基础篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/myhcjwds.gif#头像" alt="YuHang Ma">
+            
+              <p class="site-author-name" itemprop="name">YuHang Ma</p>
+              <p class="site-description motion-element" itemprop="description">Nothing is impssible if you put your heart into it!</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/myhcjwds" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1172105815@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐浏览
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/myhcjwds/" title="博主GitHub" target="_blank">博主GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://tool.oschina.net/codeformat/json" title="代码格式化" target="_blank">代码格式化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://translate.google.cn/" title="google翻译" target="_blank">google翻译</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ip138.com/ips1388.asp" title="ip查询" target="_blank">ip查询</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://61.163.231.194:8080/Lab2.0/" title="软件实验系统" target="_blank">软件实验系统</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://222.139.215.217/jwweb/" title="南工教务系统" target="_blank">南工教务系统</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://nyist.fanya.chaoxing.com/portal" title="网络教学平台" target="_blank">网络教学平台</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zealot.top/" title="Hexo-next配置" target="_blank">Hexo-next配置</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leancloud.cn/" title="leancloud" target="_blank">leancloud</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型–string"><span class="nav-number">1.</span> <span class="nav-text">数据类型–string</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-string介绍"><span class="nav-number">1.1.</span> <span class="nav-text">redis string介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令"><span class="nav-number">1.2.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#赋值"><span class="nav-number">1.2.1.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取值："><span class="nav-number">1.2.2.</span> <span class="nav-text">取值：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除"><span class="nav-number">1.2.3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值增减"><span class="nav-number">1.2.4.</span> <span class="nav-text">数值增减</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它命令"><span class="nav-number">1.2.5.</span> <span class="nav-text">其它命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">1.3.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自增主键"><span class="nav-number">1.3.1.</span> <span class="nav-text">自增主键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型–hash"><span class="nav-number">2.</span> <span class="nav-text">数据类型–hash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用string的问题"><span class="nav-number">2.1.</span> <span class="nav-text">使用string的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-hash介绍"><span class="nav-number">2.2.</span> <span class="nav-text">redis hash介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令-1"><span class="nav-number">2.3.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#赋值-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取值"><span class="nav-number">2.3.2.</span> <span class="nav-text">取值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除字段"><span class="nav-number">2.3.3.</span> <span class="nav-text">删除字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加数字"><span class="nav-number">2.3.4.</span> <span class="nav-text">增加数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它命令-1"><span class="nav-number">2.3.5.</span> <span class="nav-text">其它命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用-1"><span class="nav-number">2.4.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#商品信息"><span class="nav-number">2.4.1.</span> <span class="nav-text">商品信息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型–list"><span class="nav-number">3.</span> <span class="nav-text">数据类型–list</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList与LinkedList的区别"><span class="nav-number">3.1.</span> <span class="nav-text">ArrayList与LinkedList的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-list介绍"><span class="nav-number">3.2.</span> <span class="nav-text">redis list介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令-2"><span class="nav-number">3.3.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#向列表两端增加元素。"><span class="nav-number">3.3.1.</span> <span class="nav-text">向列表两端增加元素。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看列表"><span class="nav-number">3.3.2.</span> <span class="nav-text">查看列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从列表两端弹出元素"><span class="nav-number">3.3.3.</span> <span class="nav-text">从列表两端弹出元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取列表中元素的个数"><span class="nav-number">3.3.4.</span> <span class="nav-text">获取列表中元素的个数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用-2"><span class="nav-number">3.4.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#商品评论列表"><span class="nav-number">3.4.1.</span> <span class="nav-text">商品评论列表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型–set"><span class="nav-number">4.</span> <span class="nav-text">数据类型–set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-set介绍"><span class="nav-number">4.1.</span> <span class="nav-text">redis set介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增加-删除元素"><span class="nav-number">4.1.1.</span> <span class="nav-text">增加/删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获得集合中的所有元素"><span class="nav-number">4.1.2.</span> <span class="nav-text">获得集合中的所有元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它命令-2"><span class="nav-number">4.2.</span> <span class="nav-text">其它命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#集合的差集运算-A-B"><span class="nav-number">4.2.1.</span> <span class="nav-text">集合的差集运算 A-B</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合的交集运算-A-∩-B"><span class="nav-number">4.2.2.</span> <span class="nav-text">集合的交集运算 A ∩ B</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合的并集运算-A-∪-B"><span class="nav-number">4.2.3.</span> <span class="nav-text">集合的并集运算 A ∪ B</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它命令-3"><span class="nav-number">4.2.4.</span> <span class="nav-text">其它命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型–sorted-set"><span class="nav-number">5.</span> <span class="nav-text">数据类型–sorted set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-sorted-set介绍"><span class="nav-number">5.1.</span> <span class="nav-text">redis sorted set介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除元素"><span class="nav-number">5.1.1.</span> <span class="nav-text">删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获得排名在某个范围的元素列表"><span class="nav-number">5.1.2.</span> <span class="nav-text">获得排名在某个范围的元素列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它命令-4"><span class="nav-number">5.1.3.</span> <span class="nav-text">其它命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用-3"><span class="nav-number">5.2.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#商品销售排行榜"><span class="nav-number">5.2.1.</span> <span class="nav-text">商品销售排行榜</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keys命令"><span class="nav-number">6.</span> <span class="nav-text">keys命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#其它命令（自学）"><span class="nav-number">6.1.</span> <span class="nav-text">其它命令（自学）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YuHang Ma</span>
+
+  
+</div>
+
+<!-- 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+ -->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'qqNh2nX2qaFE20ytBd0I4PVp-gzGzoHsz',
+        appKey: 'Yg6OFTrCG5ncPfHcvTuiQgMX',
+        placeholder: 'Come on,baby!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("qqNh2nX2qaFE20ytBd0I4PVp-gzGzoHsz", "Yg6OFTrCG5ncPfHcvTuiQgMX");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+<script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>

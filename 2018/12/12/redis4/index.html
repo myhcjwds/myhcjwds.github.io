@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="redis,">
 
 
 
@@ -101,17 +101,18 @@
 
 
 
-<meta name="description" content="Nothing is impssible if you put your heart into it!">
+<meta name="description" content="jedisjedis介绍Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。Jedis同样也是托管在">
+<meta name="keywords" content="redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog of MYH">
-<meta property="og:url" content="http://yoursite.com/2018/12/11/4/index.html">
+<meta property="og:title" content="redis完善(spring整合)篇">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/redis4/index.html">
 <meta property="og:site_name" content="Blog of MYH">
-<meta property="og:description" content="Nothing is impssible if you put your heart into it!">
+<meta property="og:description" content="jedisjedis介绍Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。Jedis同样也是托管在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-11T05:45:13.623Z">
+<meta property="og:updated_time" content="2018-12-12T11:58:20.212Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog of MYH">
-<meta name="twitter:description" content="Nothing is impssible if you put your heart into it!">
+<meta name="twitter:title" content="redis完善(spring整合)篇">
+<meta name="twitter:description" content="jedisjedis介绍Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。Jedis同样也是托管在">
 
 
 
@@ -141,13 +142,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/11/4/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/redis4/">
 
 
 
 
 
-  <title> | Blog of MYH</title>
+  <title>redis完善(spring整合)篇 | Blog of MYH</title>
   
 
 
@@ -316,7 +317,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/11/4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/redis4/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="YuHang Ma">
@@ -333,11 +334,15 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">redis完善(spring整合)篇</h1>
         
 
         <div class="post-meta">
 		
+  <i class="fa fa-thumb-tack"></i>
+  <font color="7D26CD">置顶</font>
+  <span class="post-meta-divider">|</span>
+
           <span class="post-time">
             
               <span class="post-meta-item-icon">
@@ -346,8 +351,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-11T13:45:13+08:00">
-                2018-12-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:15:42+08:00">
+                2018-12-12
               </time>
             
 
@@ -357,6 +362,39 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spring/" itemprop="url" rel="index">
+                    <span itemprop="name">spring</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/spring/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -365,8 +403,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/11/4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/11/4/" itemprop="commentCount"></span>
+                <a href="/2018/12/12/redis4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/12/redis4/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -374,7 +412,7 @@
 
           
           
-             <span id="/2018/12/11/4/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2018/12/12/redis4/" class="leancloud_visitors" data-flag-title="redis完善(spring整合)篇">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -400,7 +438,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0字
+                  1.1k字
                 </span>
               
 
@@ -416,7 +454,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1分钟
+                  5分钟
                 </span>
               
             </div>
@@ -437,7 +475,133 @@
       
 
       
-        
+        <h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="jedis介绍"><a href="#jedis介绍" class="headerlink" title="jedis介绍"></a>jedis介绍</h3><p>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br>在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br>Jedis同样也是托管在github上，地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a> </p>
+<h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><h4 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h4><p>pom坐标：</p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+        &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+        &lt;version&gt;2.7.0&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre><h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><p>通过创建单实例jedis对象连接redis服务，如下代码：</p>
+<pre><code>// 单实例连接redis
+@Test
+public void testJedisSingle() {
+
+Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);
+jedis.set(&quot;name&quot;, &quot;bar&quot;);
+String name = jedis.get(&quot;name&quot;);
+System.out.println(name);
+jedis.close();
+
+}
+</code></pre><h4 id="连接超时解决"><a href="#连接超时解决" class="headerlink" title="连接超时解决"></a>连接超时解决</h4><p>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。</p>
+<p>关闭防火墙命令：</p>
+<pre><code>sevice iptables stop
+</code></pre><p>如果是修改防火墙规则，可以修改：</p>
+<pre><code>/etc/sysconfig/iptables文件
+</code></pre><h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p>
+<pre><code>@Test
+public void pool() {
+    JedisPoolConfig config = new JedisPoolConfig();
+    //最大连接数
+    config.setMaxTotal(30);
+    //最大连接空闲数
+    config.setMaxIdle(2);
+
+    JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);
+    Jedis jedis = null;
+
+    try  {
+        jedis = pool.getResource();
+
+        jedis.set(&quot;name&quot;, &quot;lisi&quot;);
+        String name = jedis.get(&quot;name&quot;);
+        System.out.println(name);
+    }catch(Exception ex){
+        ex.printStackTrace();
+    }finally{
+        if(jedis != null){
+            //关闭连接
+            jedis.close();
+        }
+    }
+
+}
+</code></pre><h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><p>配置spring配置文件applicationContext.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;
+    连接池配置
+    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;
+    &lt;!-- 最大连接数 --&gt;
+    &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;
+    &lt;!-- 最大空闲连接数 --&gt;
+    &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;
+    &lt;!-- 每次释放连接的最大数目 --&gt;
+    &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;
+    &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;
+    &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;
+    &lt;!-- 连接最小空闲时间 --&gt;
+    &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;
+    &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;
+    &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;
+    &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;
+    &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;
+    &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;
+    &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;
+    &lt;!-- 在空闲时检查有效性, 默认false --&gt;
+    &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;
+    &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;
+    &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;!-- redis单机 通过连接池 --&gt;
+&lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;
+    &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;
+    &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;
+    &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;
+&lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre><p>测试代码：</p>
+<pre><code>private ApplicationContext applicationContext;
+
+@Before
+public void init() {
+    applicationContext = new ClassPathXmlApplicationContext(
+            &quot;classpath:applicationContext.xml&quot;);
+}
+
+@Test
+public void testJedisPool() {
+JedisPool pool = (JedisPool) applicationContext.getBean(&quot;jedisPool&quot;);
+        try  {
+        Jedis jedis = pool.getResource();
+
+        jedis.set(&quot;name&quot;, &quot;lisi&quot;);
+        String name = jedis.get(&quot;name&quot;);
+        System.out.println(name);
+    }catch(Exception ex){
+        ex.printStackTrace();
+    }finally{
+        if(jedis != null){
+            //关闭连接
+            jedis.close();
+        }
+    }
+}
+</code></pre>
       
     </div>
     
@@ -499,6 +663,12 @@
 </div>
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+          
+        </div>
+      
 
       
       
@@ -508,8 +678,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/11/3/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2018/12/12/redis1/" rel="next" title="redis基础篇">
+                <i class="fa fa-chevron-left"></i> redis基础篇
               </a>
             
           </div>
@@ -518,8 +688,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/11/future/" rel="prev" title="我为明天准备了什么">
-                我为明天准备了什么 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/12/redis3/" rel="prev" title="redis高级篇">
+                redis高级篇 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -575,8 +745,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -593,7 +772,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -604,7 +783,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -615,7 +794,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -707,6 +886,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jedis"><span class="nav-number">1.</span> <span class="nav-text">jedis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jedis介绍"><span class="nav-number">1.1.</span> <span class="nav-text">jedis介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过jedis连接redis单机"><span class="nav-number">1.2.</span> <span class="nav-text">通过jedis连接redis单机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jar包"><span class="nav-number">1.2.1.</span> <span class="nav-text">jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单实例连接"><span class="nav-number">1.2.2.</span> <span class="nav-text">单实例连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接超时解决"><span class="nav-number">1.2.3.</span> <span class="nav-text">连接超时解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用连接池连接"><span class="nav-number">1.2.4.</span> <span class="nav-text">使用连接池连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jedis与spring整合"><span class="nav-number">1.2.5.</span> <span class="nav-text">jedis与spring整合</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

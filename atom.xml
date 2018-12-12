@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-12T10:03:53.101Z</updated>
+  <updated>2018-12-12T11:47:28.304Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,128 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>redis高级篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis3/"/>
+    <id>http://yoursite.com/2018/12/12/redis3/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-12T11:47:28.304Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis的高性能是由于其将所有数据都存储在了内存中<br>为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，<br>这一过程就是持久化。<br>Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。</p><h3 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h3><p>RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久化到硬盘。<br>RDB是Redis默认采用的持久化方式，在redis.conf配置文件中默认有此下配置：</p><p>save 900 1<br>save 300 10<br>save 60 10000</p><p>save 开头的一行就是持久化配置，可以配置多个条件（每行配置一个条件），每个条件之间是“或”的关系，“save 900 1”表示15分钟（900秒钟）内至少1个键被更改则进行快照，“save 300 10”表示5分钟（300秒）内至少10个键被更改则进行快照。</p><p>在redis.conf中：<br>配置dir指定rdb快照文件的位置<br>配置dbfilenam指定rdb快照文件的名称</p><p>Redis启动后会读取RDB快照文件，将数据从硬盘载入到内存。根据数据量大小与结构和服务器性能不同，这个时间也不同。通常将记录一千万个字符串类型键、大小为1GB的快照文件载入到内存中需要花费20～30秒钟。</p><p>问题总结：<br>通过RDB方式实现持久化，一旦Redis异常退出，就会丢失最后一次快照以后更改的所有数据。这就需要开发者根据具体的应用场合，通过组合设置自动快照条件的方式来将可能发生的数据损失控制在能够接受的范围。如果数据很重要以至于无法承受任何损失，则可以考虑使用AOF方式进行持久化。</p><h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>默认情况下Redis没有开启AOF（append only file）方式的持久化，可以通过appendonly参数开启：<br>appendonly yes<br>开启AOF持久化后每执行一条会更改Redis中的数据的命令，Redis就会将该命令写入硬<br>盘中的AOF文件。AOF文件的保存位置和RDB文件的位置相同，都是通过dir参数设置的，默认的文件名是appendonly.aof，可以通过appendfilename参数修改：appendfilename appendonly.aof</p><h2 id="主从复制（了解）"><a href="#主从复制（了解）" class="headerlink" title="主从复制（了解）"></a>主从复制（了解）</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>持久化保证了即使redis服务重启也会丢失数据，因为redis服务重启后会将硬盘上持久化的数据恢复到内存中，但是当redis服务器的硬盘损坏了可能会导致数据丢失，如果通过redis的主从复制机制就可以避免这种单点故障，如下图：</p><p>说明：<br>主redis中的数据有两个副本（replication）即从redis1和从redis2，即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。<br>主redis中的数据和从redis上的数据保持实时同步，当主redis写入数据时通过主从复制机制会复制到两个从redis服务上。<br>只有一个主redis，可以有多个从redis。<br>主从复制不会阻塞master，在同步数据时，master 可以继续处理client 请求<br>一个redis可以即是主又是从，如下图：</p><h3 id="主从配置"><a href="#主从配置" class="headerlink" title="主从配置"></a>主从配置</h3><h4 id="主redis配置"><a href="#主redis配置" class="headerlink" title="主redis配置"></a>主redis配置</h4><p>无需特殊配置。</p><h4 id="从redis配置"><a href="#从redis配置" class="headerlink" title="从redis配置"></a>从redis配置</h4><p>修改从redis服务器上的redis.conf文件，添加slaveof 主redisip  主redis端口</p><p>上边的配置说明当前该从redis服务器所对应的主redis是192.168.101.3，端口是6379</p><h3 id="主从复制过程"><a href="#主从复制过程" class="headerlink" title="主从复制过程"></a>主从复制过程</h3><h4 id="完整复制"><a href="#完整复制" class="headerlink" title="完整复制"></a>完整复制</h4><p>在redis2.8版本之前主从复制过程如下图：</p><p>复制过程说明：</p><p>1、slave 服务启动，slave 会建立和master 的连接，发送sync 命令。<br>2、master启动一个后台进程将数据库快照保存到RDB文件中<br>注意：此时如果生成RDB文件过程中存在写数据操作会导致RDB文件和当前主redis数据不一致，所以此时master 主进程会开始收集写命令并缓存起来。<br>3、master 就发送RDB文件给slave<br>4、slave 将文件保存到磁盘上，然后加载到内存恢复<br>5、master把缓存的命令转发给slave<br>注意：后续master 收到的写命令都会通过开始建立的连接发送给slave。<br>当master 和slave 的连接断开时slave 可以自动重新建立连接。如果master 同时收到多个slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有slave。</p><p>完整复制的问题：</p><p>在redis2.8之前从redis每次同步都会从主redis中复制全部的数据，如果从redis是新创建的从主redis中复制全部的数据这是没有问题的，但是，如果当从redis停止运行，再启动时可能只有少部分数据和主redis不同步，此时启动redis仍然会从主redis复制全部数据，这样的性能肯定没有只复制那一小部分不同步的数据高。</p><h4 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h4><p>部分复制说明：<br>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master的runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步），主机验证 runid 和 offset 是否有效， runid 相当于主机身份验证码，用来验证从机上一次连接的主机，如果runid验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据offset同步部分数据。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h2&gt;&lt;p&gt;Redis的高性能是由于其将所有数据都存储在了内存中&lt;br&gt;为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬
+      
+    
+    </summary>
+    
+      <category term="数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="非关系型数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="缓存数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/redis/"/>
+    
+      <category term="持久化" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/redis/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
+    
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis完善(spring整合)篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis4/"/>
+    <id>http://yoursite.com/2018/12/12/redis4/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-12T11:58:20.212Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="jedis介绍"><a href="#jedis介绍" class="headerlink" title="jedis介绍"></a>jedis介绍</h3><p>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br>在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br>Jedis同样也是托管在github上，地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a> </p><h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><h4 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h4><p>pom坐标：</p><pre><code>&lt;dependency&gt;        &lt;groupId&gt;redis.clients&lt;/groupId&gt;        &lt;artifactId&gt;jedis&lt;/artifactId&gt;        &lt;version&gt;2.7.0&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><p>通过创建单实例jedis对象连接redis服务，如下代码：</p><pre><code>// 单实例连接redis@Testpublic void testJedisSingle() {Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);jedis.set(&quot;name&quot;, &quot;bar&quot;);String name = jedis.get(&quot;name&quot;);System.out.println(name);jedis.close();}</code></pre><h4 id="连接超时解决"><a href="#连接超时解决" class="headerlink" title="连接超时解决"></a>连接超时解决</h4><p>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。</p><p>关闭防火墙命令：</p><pre><code>sevice iptables stop</code></pre><p>如果是修改防火墙规则，可以修改：</p><pre><code>/etc/sysconfig/iptables文件</code></pre><h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p><pre><code>@Testpublic void pool() {    JedisPoolConfig config = new JedisPoolConfig();    //最大连接数    config.setMaxTotal(30);    //最大连接空闲数    config.setMaxIdle(2);    JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);    Jedis jedis = null;    try  {        jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre><h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><p>配置spring配置文件applicationContext.xml</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd     http://www.springframework.org/schema/context     http://www.springframework.org/schema/context/spring-context-3.2.xsd     http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     http://www.springframework.org/schema/tx     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;    连接池配置    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;    &lt;!-- 最大连接数 --&gt;    &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;    &lt;!-- 最大空闲连接数 --&gt;    &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;    &lt;!-- 每次释放连接的最大数目 --&gt;    &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;    &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;    &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;    &lt;!-- 连接最小空闲时间 --&gt;    &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;    &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;    &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;    &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;    &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;    &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;    &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;    &lt;!-- 在空闲时检查有效性, 默认false --&gt;    &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;    &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;    &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;&lt;/bean&gt;&lt;!-- redis单机 通过连接池 --&gt;&lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;    &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;    &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;    &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;&lt;/bean&gt;&lt;/beans&gt;</code></pre><p>测试代码：</p><pre><code>private ApplicationContext applicationContext;@Beforepublic void init() {    applicationContext = new ClassPathXmlApplicationContext(            &quot;classpath:applicationContext.xml&quot;);}@Testpublic void testJedisPool() {JedisPool pool = (JedisPool) applicationContext.getBean(&quot;jedisPool&quot;);        try  {        Jedis jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;jedis&quot;&gt;&lt;a href=&quot;#jedis&quot; class=&quot;headerlink&quot; title=&quot;jedis&quot;&gt;&lt;/a&gt;jedis&lt;/h2&gt;&lt;h3 id=&quot;jedis介绍&quot;&gt;&lt;a href=&quot;#jedis介绍&quot; class=&quot;headerlink&quot; title=
+      
+    
+    </summary>
+    
+      <category term="spring" scheme="http://yoursite.com/categories/spring/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/categories/spring/redis/"/>
+    
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis基础篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis1/"/>
+    <id>http://yoursite.com/2018/12/12/redis1/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-12T10:54:08.955Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="redis介绍"><a href="#redis介绍" class="headerlink" title="redis介绍"></a>redis介绍</h1><h2 id="1-什么是NoSQL"><a href="#1-什么是NoSQL" class="headerlink" title="1.什么是NoSQL?"></a>1.什么是NoSQL?</h2><p>NoSQL，泛指非关系型的数据库，NoSQL即Not-Only SQL，它可以作为关系型数据库的良好补充。随着互联网web2.0网站的兴起，非关系型的数据库现在成了一个极其热门的新领域，非关系数据库产品的发展非常迅速。而传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，例如： </p><p>1、High performance - 对数据库高并发读写的需求<br>web2.0网站要根据用户个性化信息来实时生成动态页面和提供动态信息，所以基本上无法使用动态页面静态化技术，因此数据库并发负载非常高，往往要达到每秒上万次读写请求。关系数据库应付上万次SQL查询还勉强顶得住，但是应付上万次SQL写数据请求，硬盘IO就已经无法承受了。其实对于普通的BBS网站，往往也存在对高并发写请求的需求，例如网站的实时统计在线用户状态，记录热门帖子的点击次数，投票计数等，因此这是一个相当普遍的需求。</p><p>2、Huge Storage - 对海量数据的高效率存储和访问的需求<br>类似Facebook，twitter，Friendfeed这样的SNS网站，每天用户产生海量的用户动态，以Friendfeed为例，一个月就达到了2.5亿条用户动态，对于关系数据库来说，在一张2.5亿条记录的表里面进行SQL查询，效率是极其低下乃至不可忍受的。再例如大型web网站的用户登录系统，例如腾讯，盛大，动辄数以亿计的帐号，关系数据库也很难应付。 </p><p>3、High Scalability &amp;&amp; High Availability- 对数据库的高可扩展性和高可用性的需求<br>在基于web的架构当中，数据库是最难进行横向扩展的，当一个应用系统的用户量和访问量与日俱增的时候，你的数据库却没有办法像web server和app server那样简单的通过添加更多的硬件和服务节点来扩展性能和负载能力。对于很多需要提供24小时不间断服务的网站来说，对数据库系统进行升级和扩展是非常痛苦的事情，往往需要停机维护和数据迁移，为什么数据库不能通过不断的添加服务器节点来实现扩展呢？ </p><pre><code>NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</code></pre><p>一些主流的NOSQL产品：</p><p>NoSQL数据库的四大分类如下：</p><h3 id="键值-Key-Value-存储数据库"><a href="#键值-Key-Value-存储数据库" class="headerlink" title="键值(Key-Value)存储数据库:"></a>键值(Key-Value)存储数据库:</h3><p>相关产品： Tokyo Cabinet/Tyrant、Redis、Voldemort、Berkeley DB<br>典型应用： 内容缓存，主要用于处理大量数据的高访问负载。<br>数据模型： 一系列键值对<br>优势： 快速查询<br>劣势： 存储的数据缺少结构化</p><h3 id="列存储数据库："><a href="#列存储数据库：" class="headerlink" title="列存储数据库："></a>列存储数据库：</h3><p>相关产品：Cassandra, HBase, Riak<br>典型应用：分布式的文件系统<br>数据模型：以列簇式存储，将同一列数据存在一起<br>优势：查找速度快，可扩展性强，更容易进行分布式扩展<br>劣势：功能相对局限</p><h3 id="文档型数据库："><a href="#文档型数据库：" class="headerlink" title="文档型数据库："></a>文档型数据库：</h3><p>相关产品：CouchDB、MongoDB<br>典型应用：Web应用（与Key-Value类似，Value是结构化的）<br>数据模型： 一系列键值对<br> 优势：数据结构要求不严格<br> 劣势： 查询性能不高，而且缺乏统一的查询语法</p><h3 id="图形-Graph-数据库："><a href="#图形-Graph-数据库：" class="headerlink" title="图形(Graph)数据库："></a>图形(Graph)数据库：</h3><p>相关数据库：Neo4J、InfoGrid、Infinite Graph<br>典型应用：社交网络<br>数据模型：图结构<br>优势：利用图结构相关算法。<br>劣势：需要对整个图做计算才能得出结果，不容易做分布式的集群方案。</p><h2 id="2-redis历史发展"><a href="#2-redis历史发展" class="headerlink" title="2.redis历史发展"></a>2.redis历史发展</h2><p>2008年，意大利的一家创业公司Merzia推出了一款基于MySQL的网站实时统计系统LLOOGG，然而没过多久该公司的创始人 Salvatore Sanfilippo便 对MySQL的性能感到失望，于是他决定亲自为LLOOGG量身定做一个数据库，并于2009年开发完成，这个数据库就是Redis。 不过Salvatore Sanfilippo并不满足只将Redis用于LLOOGG这一款产品，而是希望更多的人使用它，于是在同一年Salvatore Sanfilippo将Redis开源发布，并开始和Redis的另一名主要的代码贡献者Pieter Noordhuis一起继续着Redis的开发，直到今天。<br>Salvatore Sanfilippo自己也没有想到，短短的几年时间，Redis就拥有了庞大的用户群体。Hacker News在2012年发布了一份数据库的使用情况调查，结果显示有近12%的公司在使用Redis。国内如新浪微博、街旁网、知乎网，国外如GitHub、Stack Overflow、Flickr等都是Redis的用户。<br>    VMware公司从2010年开始赞助Redis的开发， Salvatore Sanfilippo和Pieter Noordhuis也分别在3月和5月加入VMware，全职开发Redis。</p><h2 id="3-什么是redis"><a href="#3-什么是redis" class="headerlink" title="3.什么是redis"></a>3.什么是redis</h2><p>Redis是用C语言开发的一个开源的高性能键值对（key-value）数据库。</p><p>它通过提供多种键值数据类型来适应不同场景下的存储需求，目前为止Redis支持的键值数据类型如<br>下：</p><p>字符串类型<br>散列类型<br>列表类型<br>集合类型<br>有序集合类型。<br>3.4redis的应用场景<br>缓存（数据查询、短连接、新闻内容、商品内容等等）。（最多使用）<br>分布式集群架构中的session分离。<br>聊天室的在线好友列表。<br>任务队列。（秒杀、抢购、12306等等）<br>应用排行榜。<br>网站访问统计。<br>数据过期处理（可以精确到毫秒）</p><h2 id="4-测试环境"><a href="#4-测试环境" class="headerlink" title="4.测试环境"></a>4.测试环境</h2><pre><code>redis需要安装在linux服务器上运行测试，本教程使用 linux虚拟机及ssh客户端进行功能测试。</code></pre><h3 id="4-1-虚拟机"><a href="#4-1-虚拟机" class="headerlink" title="4.1 虚拟机"></a>4.1 虚拟机</h3><pre><code>创建Centos6.4虚拟机作为linux服务器。虚拟机ip：192.168.93.88</code></pre><h3 id="4-2-ssh客户端"><a href="#4-2-ssh客户端" class="headerlink" title="4.2 ssh客户端"></a>4.2 ssh客户端</h3><pre><code>在开发环境(windows)安装ssh客户端，本教程使用SecureCRT作为ssh客户端连接虚拟机。</code></pre><h2 id="5-安装运行redis"><a href="#5-安装运行redis" class="headerlink" title="5.安装运行redis"></a>5.安装运行redis</h2><h3 id="5-1redis安装环境"><a href="#5-1redis安装环境" class="headerlink" title="5.1redis安装环境"></a>5.1redis安装环境</h3><pre><code>redis是C语言开发，建议在linux上运行，本教程使用Centos6.4作为安装环境。安装redis需要先将官网下载的源码进行编译，编译依赖gcc环境，如果没有gcc环境，需要安装gcc：yum install gcc-c++</code></pre><h3 id="5-2redis安装"><a href="#5-2redis安装" class="headerlink" title="5.2redis安装"></a>5.2redis安装</h3><pre><code>版本说明本教程使用redis3.0版本。3.0版本主要增加了redis集群功能。源码下载从官网下载 http://download.redis.io/releases/redis-3.0.0.tar.gz将redis-3.0.0.tar.gz拷贝到/usr/local下解压源码       tar -zxvf redis-3.0.0.tar.gz 进入解压后的目录进行编译cd /usr/local/redis-3.0.0make安装到指定目录,如 /usr/local/rediscd /usr/local/redis-3.0.0 make PREFIX=/usr/local/redis installredis.confredis.conf是redis的配置文件，redis.conf在redis源码目录。注意修改port作为redis进程的端口,port默认6379。拷贝配置文件到安装目录下    进入源码目录，里面有一份配置文件 redis.conf，然后将其拷贝到安装路径下 cd /usr/local/redismkdir confcp /usr/local/redis-3.0.0/redis.conf  /usr/local/redis/bin安装目录bin下的文件列表redis3.0新增的redis-sentinel是redis集群管理工具可实现高可用。</code></pre><h3 id="5-3-redis启动"><a href="#5-3-redis启动" class="headerlink" title="5.3 redis启动"></a>5.3 redis启动</h3><p>5.3.1前端模式启动</p><pre><code>直接运行bin/redis-server将以前端模式启动，前端模式启动的缺点是ssh命令窗口关闭则redis-server程序结束，不推荐使用此方法。</code></pre><p>5.3.2后端模式启动</p><pre><code>修改redis.conf配置文件， daemonize yes 以后端模式启动。执行如下命令启动redis：cd /usr/local/redis./bin/redis-server ./redis.confredis默认使用6379端口。也可更改redis.conf文件，修改端口号：</code></pre><p>5.3.3启动多个redis进程</p><pre><code>方法1：启动时指定端口可在一台服务器启动多个redis进程。cd /usr/local/redis/bin./redis-server ./redis.conf --port 6380方法2(推荐此方法)：创建多个redis目录，以端口号命名，比如：创建6379、6380两个目录，redis的安装文件bin和conf拷贝至这两个目录。修改6379目录下的redis.conf设置端口号为6379修改6380目录下的redis.conf设置端口号为6380启动6379和6380目录下的redis-server程序：cd 6379./redis-server . /redis.confcd 6380./redis-server . /redis.conf查询当前redis的进程：ps aux | grep redis</code></pre><h3 id="5-4redis停止"><a href="#5-4redis停止" class="headerlink" title="5.4redis停止"></a>5.4redis停止</h3><pre><code>强行终止Redis进程可能会导致redis持久化数据丢失。正确停止Redis的方式应该是向Redis发送SHUTDOWN命令，方法为：cd /usr/local/redis./bin/redis-cli shutdown</code></pre><h3 id="5-5redis客户端"><a href="#5-5redis客户端" class="headerlink" title="5.5redis客户端"></a>5.5redis客户端</h3><pre><code>在redis的安装目录中有redis的客户端，即redis-cli（Redis Command Line Interface），它是Redis自带的基于命令行的Redis客户端。</code></pre><p>5.5.1连接redis服务端</p><pre><code>执行bin/redis-cli连接redis服务端：从上图得知redis-cli默认连接本机的redis，本机的redis没有启动则报上图中的错误。指定连接redis服务的ip和端口：</code></pre><p>5.5.2向redis服务端发送命令    </p><pre><code>redis-cli连上redis服务后，可以在命令行发送命令。ping    Redis提供了PING命令来测试客户端与Redis的连接是否正常，如果连接正常会收到回复PONGset/get    使用set和get可以向redis设置数据、获取数据。del    删除指定key的内容。    例如：del nameKeys *    查看当前库中所有的key值</code></pre><h3 id="5-6redis多数据库"><a href="#5-6redis多数据库" class="headerlink" title="5.6redis多数据库"></a>5.6redis多数据库</h3><p>5.6.1redis实例</p><pre><code>一个redis进程就是一个redis实例，一台服务器可以同时有多个redis实例，不同的redis实例提供不同的服务端口对外提供服务，每个redis实例之间互相影响。每个redis实例都包括自己的数据库，数据库中可以存储自己的数据。 </code></pre><p>5.6.2多数据库测试</p><pre><code>一个Redis实例可以包括多个数据库，客户端可以指定连接某个redis实例的哪个数据库，就好比一个mysql中创建多个数据库，客户端连接时指定连接哪个数据库。一个redis实例最多可提供16个数据库，下标从0到15，客户端默认连接第0号数据库，也可以通过select选择连接哪个数据库，如下连接1号库： 在1号库中查询上节设置的数据，结果查询不到：重新选择第0号数据库，查询数据：如果选择一个不存在数据库则会报错：注意：redis不支持修改数据库的名称，只能通过select 0、select 1...选择数据库。</code></pre><p>5.6.3注意问题</p><pre><code>在0号数据库存储数据，在1号数据库执行清空数据命令却把0号数据库的数据给清空了：建议：不同的应用系统要使用不同的redis实例而不是使用同一个redis实例下的不同数据库。</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;redis介绍&quot;&gt;&lt;a href=&quot;#redis介绍&quot; class=&quot;headerlink&quot; title=&quot;redis介绍&quot;&gt;&lt;/a&gt;redis介绍&lt;/h1&gt;&lt;h2 id=&quot;1-什么是NoSQL&quot;&gt;&lt;a href=&quot;#1-什么是NoSQL&quot; class=&quot;head
+      
+    
+    </summary>
+    
+      <category term="数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="非关系型数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="缓存数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/redis/"/>
+    
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis进阶篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis2/"/>
+    <id>http://yoursite.com/2018/12/12/redis2/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-12T11:39:28.738Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="数据类型–string"><a href="#数据类型–string" class="headerlink" title="数据类型–string"></a>数据类型–string</h2><h3 id="redis-string介绍"><a href="#redis-string介绍" class="headerlink" title="redis string介绍"></a>redis string介绍</h3><p>redis中没有使用C语言的字符串表示，而是自定义一个数据结构叫SDS（simple dynamic string）即简单动态字符串。<br>打开下载的redis源码包，找到src下的sds.h文件查看sds源码：</p><pre><code>struct sdshdr {//字符串长度unsigned int len;//buf数组中未使用的字节数量unsigned int free;//用于保存字符串char buf[];};</code></pre><p>c语言对字符串的存储是使用字符数组，遇到’\0’字符则认为字符串结束，redis的字符串可以存储任何类型的数据，因为任何类型数据都可以表示成二进制，sds结构中的char buf[]就是存储了二进制数据。<br>redis的字符串是二进制安全的，什么是二进制安全？简单理解就是存入什么数据取出的还是什么数据。redis中的sds不像c语言处理字符串那样遇到’\0’字符则认证字符串结束，它不会对存储进去的二进制数据进行处理，存入什么数据取出还是什么数据。</p><h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><h4 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h4><p>SET key value:</p><pre><code>127.0.0.1:6379&gt; set test 123OK</code></pre><h4 id="取值："><a href="#取值：" class="headerlink" title="取值："></a>取值：</h4><p>GET key:</p><pre><code>127.0.0.1:6379&gt; get test&quot;123“当键不存在时返回空结果。</code></pre><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>Del key:</p><pre><code>127.0.0.1:6379&gt; del test(integer) 1</code></pre><h4 id="数值增减"><a href="#数值增减" class="headerlink" title="数值增减"></a>数值增减</h4><p>递增数字 INCR key:</p><p>当存储的字符串是整数时，Redis提供了一个实用的命令INCR，其作用是让当前键值递增，并返回递增后的值。</p><pre><code>127.0.0.1:6379&gt; incr num(integer) 1127.0.0.1:6379&gt; incr num(integer) 2127.0.0.1:6379&gt; incr num(integer) 3 </code></pre><p>增加指定的整数 INCRBY key increment:</p><pre><code>127.0.0.1:6379&gt; incrby num 2(integer) 5127.0.0.1:6379&gt; incrby num 2(integer) 7127.0.0.1:6379&gt; incrby num 2(integer) 9 </code></pre><p>递减数值:</p><pre><code>DECR key</code></pre><h4 id="其它命令"><a href="#其它命令" class="headerlink" title="其它命令"></a>其它命令</h4><p>减少指定的整数 :<br>DECRBY key decrement</p><pre><code>127.0.0.1:6379&gt; decr num(integer) 6127.0.0.1:6379&gt; decr num(integer) 5127.0.0.1:6379&gt; decrby num 3(integer) 2127.0.0.1:6379&gt; decrby num 3(integer) -1 </code></pre><p>向尾部追加值 :<br>APPEND key value<br>APPEND的作用是向键值的末尾追加value。如果键不存在则将该键的值设置为value，即相当于 SET key value。返回值是追加后字符串的总长度。 </p><pre><code>127.0.0.1:6379&gt; set str helloOK127.0.0.1:6379&gt; append str &quot; world!&quot;(integer) 12127.0.0.1:6379&gt; get str &quot;hello world!&quot;</code></pre><p>获取字符串长度 :<br>STRLEN key<br>STRLEN命令返回键值的长度，如果键不存在则返回0。 </p><pre><code>127.0.0.1:6379&gt; strlen str (integer) 0127.0.0.1:6379&gt; set str helloOK127.0.0.1:6379&gt; strlen str (integer) 5</code></pre><p>同时设置/获取多个键值 :<br>MSET key value [key value …]<br>MGET key [key …]</p><pre><code>127.0.0.1:6379&gt; mset k1 v1 k2 v2 k3 v3OK127.0.0.1:6379&gt; get k1&quot;v1&quot;127.0.0.1:6379&gt; mget k1 k31) &quot;v1&quot;2) &quot;v3&quot;</code></pre><h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><h4 id="自增主键"><a href="#自增主键" class="headerlink" title="自增主键"></a>自增主键</h4><p>商品编号、订单号采用string的递增数字特性生成。</p><p>定义商品编号key：items:id</p><pre><code>192.168.101.3:7003&gt; INCR items:id(integer) 2192.168.101.3:7003&gt; INCR items:id(integer) 3</code></pre><h2 id="数据类型–hash"><a href="#数据类型–hash" class="headerlink" title="数据类型–hash"></a>数据类型–hash</h2><h3 id="使用string的问题"><a href="#使用string的问题" class="headerlink" title="使用string的问题"></a>使用string的问题</h3><p>假设有User对象以JSON序列化的形式存储到Redis中，User对象有id，username、password、age、name等属性，存储的过程如下：</p><p>保存、更新： </p><p>User对象  json(string)  redis </p><p>如果在业务上只是更新age属性，其他的属性并不做更新我应该怎么做呢？ 如果仍然采用上边的方法在传输、处理时会造成资源浪费，下边讲的hash可以很好的解决这个问题。</p><h3 id="redis-hash介绍"><a href="#redis-hash介绍" class="headerlink" title="redis hash介绍"></a>redis hash介绍</h3><p>hash叫散列类型，它提供了字段和字段值的映射。字段值只能是字符串类型，不支持散列类型、集合类型等其它类型。如下：</p><h3 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h3><h4 id="赋值-1"><a href="#赋值-1" class="headerlink" title="赋值"></a>赋值</h4><p>HSET key field value    一次只能设置一个字段值</p><pre><code>127.0.0.1:6379&gt; hset user username zhangsan (integer) 1</code></pre><p>HMSET key field value [field value …]        一次可以设置多个字段值</p><pre><code>127.0.0.1:6379&gt; hmset user age 20 username lisi OK</code></pre><h4 id="取值"><a href="#取值" class="headerlink" title="取值"></a>取值</h4><p>HGET key field            一次只能获取一个字段值</p><pre><code>127.0.0.1:6379&gt; hget user username&quot;zhangsan“</code></pre><p>HMGET key field [field …]                一次可以获取多个字段值</p><pre><code>127.0.0.1:6379&gt; hmget user age username1) &quot;20&quot;2) &quot;lisi&quot;</code></pre><p>HGETALL key</p><pre><code>127.0.0.1:6379&gt; hgetall user1) &quot;age&quot;2) &quot;20&quot;3) &quot;username&quot;4) &quot;lisi&quot;</code></pre><p>HSET命令不区分插入和更新操作，当执行插入操作时HSET命令返回1，当执行更新操作时返回0.</p><h4 id="删除字段"><a href="#删除字段" class="headerlink" title="删除字段"></a>删除字段</h4><p>可以删除一个或多个字段，返回值是被删除的字段个数<br>HDEL key field [field …]</p><pre><code>127.0.0.1:6379&gt; hdel user age(integer) 1127.0.0.1:6379&gt; hdel user age name(integer) 0127.0.0.1:6379&gt; hdel user age username(integer) 1 </code></pre><h4 id="增加数字"><a href="#增加数字" class="headerlink" title="增加数字"></a>增加数字</h4><pre><code>HINCRBY key field increment127.0.0.1:6379&gt; hincrby user age 2    将用户的年龄加2(integer) 22127.0.0.1:6379&gt; hget user age        获取用户的年龄&quot;22“</code></pre><h4 id="其它命令-1"><a href="#其它命令-1" class="headerlink" title="其它命令"></a>其它命令</h4><p>判断字段是否存在<br>HEXISTS key field</p><pre><code>127.0.0.1:6379&gt; hexists user age        查看user中是否有age字段(integer) 1127.0.0.1:6379&gt; hexists user name    查看user中是否有name字段(integer) 0</code></pre><p>HSETNX key field value</p><p>当字段不存在时赋值，类似HSET，区别在于如果字段已经存在，该命令不执行任何操作。</p><pre><code>127.0.0.1:6379&gt; hsetnx user age 30    如果user中没有age字段则设置age值为30，否则不做任何操作(integer) 0</code></pre><p>只获取字段名或字段值 </p><p>HKEYS key</p><p>HVALS key</p><pre><code>127.0.0.1:6379&gt; hmset user age 20 name lisi OK127.0.0.1:6379&gt; hkeys user1) &quot;age&quot;2) &quot;name&quot;127.0.0.1:6379&gt; hvals user1) &quot;20&quot;2) &quot;lisi&quot;</code></pre><p>获取字段数量<br>HLEN key</p><pre><code>127.0.0.1:6379&gt; hlen user(integer) 2</code></pre><h3 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h3><h4 id="商品信息"><a href="#商品信息" class="headerlink" title="商品信息"></a>商品信息</h4><p>商品id、商品名称、商品描述、商品库存、商品好评</p><p>定义商品信息的key：<br>商品1001的信息在 redis中的key为：items:1001</p><p>存储商品信息:</p><pre><code>192.168.101.3:7003&gt; HMSET items:1001 id 3 name apple price 999.9OK</code></pre><p>获取商品信息:</p><pre><code>192.168.101.3:7003&gt; HGET items:1001 id&quot;3&quot;.168.101.3:7003&gt; HGETALL items:10011) &quot;id&quot;2) &quot;3&quot;3) &quot;name&quot;4) &quot;apple&quot;5) &quot;price&quot;6) &quot;999.9&quot;</code></pre><h2 id="数据类型–list"><a href="#数据类型–list" class="headerlink" title="数据类型–list"></a>数据类型–list</h2><h3 id="ArrayList与LinkedList的区别"><a href="#ArrayList与LinkedList的区别" class="headerlink" title="ArrayList与LinkedList的区别"></a>ArrayList与LinkedList的区别</h3><p>ArrayList使用数组方式存储数据，所以根据索引查询数据速度快，而新增或者删除元素时需要设计到位移操作，所以比较慢。<br>LinkedList使用双向链接方式存储数据，每个元素都记录前后元素的指针，所以插入、删除数据时只是更改前后元素的指针指向即可，速度非常快，然后通过下标查询元素时需要从头开始索引，所以比较慢，但是如果查询前几个元素或后几个元素速度比较快。</p><h3 id="redis-list介绍"><a href="#redis-list介绍" class="headerlink" title="redis list介绍"></a>redis list介绍</h3><p>列表类型（list）可以存储一个有序的字符串列表，常用的操作是向列表两端添加元素，或者获得列表的某一个片段。<br>列表类型内部是使用双向链表（double linked list）实现的，所以向列表两端添加元素的时间复杂度为0(1)，获取越接近两端的元素速度就越快。这意味着即使是一个有几千万个元素的列表，获取头部或尾部的10条记录也是极快的。</p><h3 id="命令-2"><a href="#命令-2" class="headerlink" title="命令"></a>命令</h3><h4 id="向列表两端增加元素。"><a href="#向列表两端增加元素。" class="headerlink" title="向列表两端增加元素。"></a>向列表两端增加元素。</h4><p>LPUSH key value [value …]</p><p>RPUSH key value [value …]</p><p>向列表左边增加元素 </p><pre><code>127.0.0.1:6379&gt; lpush list:1 1 2 3(integer) 3</code></pre><p>向列表右边增加元素 </p><pre><code>127.0.0.1:6379&gt; rpush list:1 4 5 6(integer) 3</code></pre><h4 id="查看列表"><a href="#查看列表" class="headerlink" title="查看列表"></a>查看列表</h4><pre><code>LRANGE key start stop</code></pre><p>LRANGE命令是列表类型最常用的命令之一，获取列表中的某一片段，将返回start、stop之间的所有元素（包含两端的元素），索引从0开始。索引可以是负数，如：“-1”代表最后边的一个元素。 </p><pre><code>127.0.0.1:6379&gt; lrange list:1 0 21) &quot;2&quot;2) &quot;1&quot;3) &quot;4&quot;</code></pre><h4 id="从列表两端弹出元素"><a href="#从列表两端弹出元素" class="headerlink" title="从列表两端弹出元素"></a>从列表两端弹出元素</h4><p>LPOP key</p><p>RPOP key</p><p>LPOP命令从列表左边弹出一个元素，会分两步完成，第一步是将列表左边的元素从列表中移除，第二步是返回被移除的元素值。 </p><pre><code>127.0.0.1:6379&gt; lpop list:1&quot;3“127.0.0.1:6379&gt; rpop list:1&quot;6“</code></pre><h4 id="获取列表中元素的个数"><a href="#获取列表中元素的个数" class="headerlink" title="获取列表中元素的个数"></a>获取列表中元素的个数</h4><p>LLEN key</p><pre><code>127.0.0.1:6379&gt; llen list:1(integer) 2</code></pre><p>####其它命令<br>删除列表中指定的值 :</p><p>LREM key count value</p><p>LREM命令会删除列表中前count个值为value的元素，返回实际删除的元素个数。根据count值的不同，</p><p>该命令的执行方式会有所不同： </p><p>当count&gt;0时， LREM会从列表左边开始删除。 </p><p>当count&lt;0时， LREM会从列表后边开始删除。 </p><p>当count=0时， LREM删除所有值为value的元素。 </p><p>获得/设置指定索引的元素值 :</p><p>LINDEX key index</p><p>LSET key index value</p><pre><code>127.0.0.1:6379&gt; lindex l:list 2&quot;1&quot;127.0.0.1:6379&gt; lset l:list 2 2OK127.0.0.1:6379&gt; lrange l:list 0 -11) &quot;6&quot;2) &quot;5&quot;3) &quot;2&quot;4) &quot;2&quot;</code></pre><p>只保留列表指定片段，指定范围和LRANGE一致 :</p><p>LTRIM key start stop</p><pre><code>127.0.0.1:6379&gt; lrange l:list 0 -11) &quot;6&quot;2) &quot;5&quot;3) &quot;0&quot;4) &quot;2&quot;127.0.0.1:6379&gt; ltrim l:list 0 2OK127.0.0.1:6379&gt; lrange l:list 0 -11) &quot;6&quot;2) &quot;5&quot;3) &quot;0&quot;</code></pre><p>向列表中插入元素 :</p><p>LINSERT key BEFORE|AFTER pivot value<br>该命令首先会在列表中从左到右查找值为pivot的元素，<br>然后根据第二个参数是BEFORE还是AFTER来决定将value插入到该元素的前面还是后面。 </p><pre><code>127.0.0.1:6379&gt; lrange list 0 -11) &quot;3&quot;2) &quot;2&quot;3) &quot;1&quot;127.0.0.1:6379&gt; linsert list after 3 4(integer) 4127.0.0.1:6379&gt; lrange list 0 -11) &quot;3&quot;2) &quot;4&quot;3) &quot;2&quot;4) &quot;1&quot;</code></pre><p>将元素从一个列表转移到另一个列表中 :</p><p>RPOPLPUSH source destination</p><pre><code>127.0.0.1:6379&gt; rpoplpush list newlist &quot;1&quot;127.0.0.1:6379&gt; lrange newlist 0 -11) &quot;1&quot;127.0.0.1:6379&gt; lrange list 0 -11) &quot;3&quot;2) &quot;4&quot;3) &quot;2&quot; </code></pre><h3 id="应用-2"><a href="#应用-2" class="headerlink" title="应用"></a>应用</h3><h4 id="商品评论列表"><a href="#商品评论列表" class="headerlink" title="商品评论列表"></a>商品评论列表</h4><p>思路：</p><p>在redis中创建商品评论列表</p><p>用户发布商品评论，将评论信息转成json存储到list中。</p><p>用户在页面查询评论列表，从redis中取出json数据展示到页面。</p><p>定义商品评论列表key：</p><p>商品编号为1001的商品评论key：items: comment:1001</p><pre><code>192.168.101.3:7001&gt; LPUSH items:comment:1001 &apos;{&quot;id&quot;:1,&quot;name&quot;:&quot;商品不错，很好！！&quot;,&quot;date&quot;:1430295077289}&apos;</code></pre><h2 id="数据类型–set"><a href="#数据类型–set" class="headerlink" title="数据类型–set"></a>数据类型–set</h2><h3 id="redis-set介绍"><a href="#redis-set介绍" class="headerlink" title="redis set介绍"></a>redis set介绍</h3><p>在集合中的每个元素都是不同的，且没有顺序。</p><p>集合类型和列表类型的对比：</p><p>集合类型的常用操作是向集合中加入或删除元素、判断某个元素是否存在等，由于集合类型的Redis内部是使用值为空的散列表实现，所有这些操作的时间复杂度都为0(1)。 </p><p>Redis还提供了多个集合之间的交集、并集、差集的运算。</p><p>###命令</p><h4 id="增加-删除元素"><a href="#增加-删除元素" class="headerlink" title="增加/删除元素"></a>增加/删除元素</h4><p>SADD key member [member …]</p><p>SREM key member [member …]</p><pre><code>127.0.0.1:6379&gt; sadd set a b c(integer) 3127.0.0.1:6379&gt; sadd set a(integer) 0127.0.0.1:6379&gt; srem set c d(integer) 1</code></pre><h4 id="获得集合中的所有元素"><a href="#获得集合中的所有元素" class="headerlink" title="获得集合中的所有元素"></a>获得集合中的所有元素</h4><p>SMEMBERS key</p><pre><code>127.0.0.1:6379&gt; smembers set1) &quot;b&quot;2) &quot;a”</code></pre><p>判断元素是否在集合中，无论集合中有多少元素都可以极速的返回结果。 </p><p>SISMEMBER key member</p><pre><code>127.0.0.1:6379&gt; sismember set a(integer) 1127.0.0.1:6379&gt; sismember set h(integer) 0</code></pre><h3 id="其它命令-2"><a href="#其它命令-2" class="headerlink" title="其它命令"></a>其它命令</h3><h4 id="集合的差集运算-A-B"><a href="#集合的差集运算-A-B" class="headerlink" title="集合的差集运算 A-B"></a>集合的差集运算 A-B</h4><p>属于A并且不属于B的元素构成的集合。 </p><p>SDIFF key [key …]</p><pre><code>127.0.0.1:6379&gt; sadd setA 1 2 3(integer) 3127.0.0.1:6379&gt; sadd setB 2 3 4(integer) 3127.0.0.1:6379&gt; sdiff setA setB 1) &quot;1&quot;127.0.0.1:6379&gt; sdiff setB setA 1) &quot;4&quot;</code></pre><h4 id="集合的交集运算-A-∩-B"><a href="#集合的交集运算-A-∩-B" class="headerlink" title="集合的交集运算 A ∩ B"></a>集合的交集运算 A ∩ B</h4><p>属于A且属于B的元素构成的集合。 </p><p>SINTER key [key …]</p><pre><code>127.0.0.1:6379&gt; sinter setA setB 1) &quot;2&quot;2) &quot;3&quot;</code></pre><h4 id="集合的并集运算-A-∪-B"><a href="#集合的并集运算-A-∪-B" class="headerlink" title="集合的并集运算 A ∪ B"></a>集合的并集运算 A ∪ B</h4><p>属于A或者属于B的元素构成的集合</p><p>SUNION key [key …]</p><pre><code>127.0.0.1:6379&gt; sunion setA setB1) &quot;1&quot;2) &quot;2&quot;3) &quot;3&quot;4) &quot;4&quot;</code></pre><h4 id="其它命令-3"><a href="#其它命令-3" class="headerlink" title="其它命令"></a>其它命令</h4><p>获得集合中元素的个数 </p><p>SCARD key</p><pre><code>127.0.0.1:6379&gt; smembers setA 1) &quot;1&quot;2) &quot;2&quot;3) &quot;3&quot;127.0.0.1:6379&gt; scard setA (integer) 3</code></pre><p>从集合中弹出一个元素 </p><p>SPOP key</p><pre><code>127.0.0.1:6379&gt; spop setA &quot;1“</code></pre><p>注意：由于集合是无序的，所有SPOP命令会从集合中随机选择一个元素弹出 </p><h2 id="数据类型–sorted-set"><a href="#数据类型–sorted-set" class="headerlink" title="数据类型–sorted set"></a>数据类型–sorted set</h2><h3 id="redis-sorted-set介绍"><a href="#redis-sorted-set介绍" class="headerlink" title="redis sorted set介绍"></a>redis sorted set介绍</h3><p>在集合类型的基础上有序集合类型为集合中的每个元素都关联一个分数，这使得我们不仅可以完成插入、删除和判断元素是否存在在集合中，还能够获得分数最高或最低的前N个元素、获取指定分数范围内的元素等与分数有关的操作。 </p><p>在某些方面有序集合和列表类型有些相似。 </p><p>1、二者都是有序的。 </p><p>2、二者都可以获得某一范围的元素。 </p><p>但是，二者有着很大区别： </p><p>1、列表类型是通过链表实现的，获取靠近两端的数据速度极快，而当元素增多后，<br>访问中间数据的速度会变慢。 </p><p>2、有序集合类型使用散列表实现，所有即使读取位于中间部分的数据也很快。 </p><p>3、列表中不能简单的调整某个元素的位置，但是有序集合可以（通过更改分数实现<br>）<br>4、有序集合要比列表类型更耗内存。 </p><p>###命令</p><p>####增加元素<br>向有序集合中加入一个元素和该元素的分数，如果该元素已经存在则会用新的分数替换原有的分数。返回值是新加入到集合中的元素个数，不包含之前已经存在的元素。 </p><p>ZADD key score member [score member …]</p><pre><code>127.0.0.1:6379&gt; zadd scoreboard 80 zhangsan 89 lisi 94 wangwu (integer) 3127.0.0.1:6379&gt; zadd scoreboard 97 lisi (integer) 0</code></pre><p>获取元素的分数 </p><p>ZSCORE key member</p><pre><code>127.0.0.1:6379&gt; zscore scoreboard lisi &quot;97&quot;</code></pre><h4 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h4><p>ZREM key member [member …]</p><p>移除有序集key中的一个或多个成员，不存在的成员将被忽略。</p><p>当key存在但不是有序集类型时，返回一个错误。</p><pre><code>127.0.0.1:6379&gt; zrem scoreboard lisi(integer) 1</code></pre><h4 id="获得排名在某个范围的元素列表"><a href="#获得排名在某个范围的元素列表" class="headerlink" title="获得排名在某个范围的元素列表"></a>获得排名在某个范围的元素列表</h4><p>获得排名在某个范围的元素列表 </p><p>ZRANGE key start stop [WITHSCORES]<br>照元素分数从小到大的顺序返回索引从start到stop之间的所有元素（包含两端的元素）</p><pre><code>127.0.0.1:6379&gt; zrange scoreboard 0 21) &quot;zhangsan&quot;2) &quot;wangwu&quot;3) &quot;lisi“</code></pre><p>ZREVRANGE key start stop [WITHSCORES]<br>照元素分数从大到小的顺序返回索引从start到stop之间的所有元素（包含两端的元素）</p><pre><code>127.0.0.1:6379&gt; zrevrange scoreboard 0 21) &quot; lisi &quot;2) &quot;wangwu&quot;3) &quot; zhangsan “</code></pre><p>如果需要获得元素的分数的可以在命令尾部加上WITHSCORES参数 </p><pre><code>127.0.0.1:6379&gt; zrange scoreboard 0 1 WITHSCORES1) &quot;zhangsan&quot;2) &quot;80&quot;3) &quot;wangwu&quot;4) &quot;94&quot;</code></pre><h4 id="其它命令-4"><a href="#其它命令-4" class="headerlink" title="其它命令"></a>其它命令</h4><p>获得指定分数范围的元素 </p><p>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</p><pre><code>127.0.0.1:6379&gt; ZRANGEBYSCORE scoreboard 90 97 WITHSCORES1) &quot;wangwu&quot;2) &quot;94&quot;3) &quot;lisi&quot;4) &quot;97&quot;127.0.0.1:6379&gt; ZRANGEBYSCORE scoreboard 70 100 limit 1 21) &quot;wangwu&quot;2) &quot;lisi&quot;</code></pre><p>增加某个元素的分数，返回值是更改后的分数</p><p>ZINCRBY  key increment member</p><p>给lisi加4分 </p><pre><code>127.0.0.1:6379&gt; ZINCRBY scoreboard  4 lisi &quot;101“</code></pre><p>获得集合中元素的数量 </p><p>ZCARD key</p><pre><code>127.0.0.1:6379&gt; ZCARD scoreboard(integer) 3</code></pre><p>获得指定分数范围内的元素个数 </p><p>ZCOUNT key min max</p><pre><code>127.0.0.1:6379&gt; ZCOUNT scoreboard 80 90(integer) 1</code></pre><p>按照排名范围删除元素 </p><p>ZREMRANGEBYRANK key start stop</p><pre><code>127.0.0.1:6379&gt; ZREMRANGEBYRANK scoreboard 0 1(integer) 2 127.0.0.1:6379&gt; ZRANGE scoreboard 0 -11) &quot;lisi&quot;</code></pre><p>ZREMRANGEBYSCORE key min max</p><p>按照分数范围删除元素 </p><pre><code>127.0.0.1:6379&gt; zadd scoreboard 84 zhangsan    (integer) 1127.0.0.1:6379&gt; ZREMRANGEBYSCORE scoreboard 80 100(integer) 1</code></pre><p>获取元素的排名 </p><p>ZRANK key member</p><p>ZREVRANK key member</p><p>从小到大 </p><pre><code>127.0.0.1:6379&gt; ZRANK scoreboard lisi (integer) 0</code></pre><p>从大到小 </p><pre><code>127.0.0.1:6379&gt; ZREVRANK scoreboard zhangsan (integer) 1</code></pre><h3 id="应用-3"><a href="#应用-3" class="headerlink" title="应用"></a>应用</h3><h4 id="商品销售排行榜"><a href="#商品销售排行榜" class="headerlink" title="商品销售排行榜"></a>商品销售排行榜</h4><p>根据商品销售量对商品进行排行显示，定义sorted set集合，商品销售量为元素的分数。</p><p>定义商品销售排行榜key：items:sellsort</p><p>写入商品销售量：</p><p>商品编号1001的销量是9，商品编号1002的销量是10</p><pre><code>192.168.101.3:7007&gt; ZADD items:sellsort 9 1001 10 1002</code></pre><p>商品编号1001的销量加1</p><pre><code>192.168.101.3:7001&gt; ZINCRBY items:sellsort 1 1001</code></pre><p>商品销量前10名：</p><pre><code>192.168.101.3:7001&gt; ZRANGE items:sellsort 0 9 withscores</code></pre><h2 id="keys命令"><a href="#keys命令" class="headerlink" title="keys命令"></a>keys命令</h2><p>###设置key的生存时间<br>Redis在实际使用过程中更多的用作缓存，然而缓存的数据一般都是需要设置生存时间的，即：到期后数据销毁。 </p><p>EXPIRE key seconds            设置key的生存时间（单位：秒）key在多少秒后会自动删除</p><p>TTL key                     查看key生于的生存时间</p><p>PERSIST key                清除生存时间 </p><p>PEXPIRE key milliseconds    生存时间设置单位为：毫秒 </p><p>例子：</p><pre><code>192.168.101.3:7002&gt; set test 1        设置test的值为1OK192.168.101.3:7002&gt; get test            获取test的值&quot;1&quot;192.168.101.3:7002&gt; EXPIRE test 5    设置test的生存时间为5秒(integer) 1192.168.101.3:7002&gt; TTL test            查看test的生于生成时间还有1秒删除(integer) 1192.168.101.3:7002&gt; TTL test(integer) -2192.168.101.3:7002&gt; get test            获取test的值，已经删除(nil)</code></pre><h3 id="其它命令（自学）"><a href="#其它命令（自学）" class="headerlink" title="其它命令（自学）"></a>其它命令（自学）</h3><p>keys 返回满足给定pattern 的所有key</p><pre><code>redis 127.0.0.1:6379&gt; keys mylist*1) &quot;mylist&quot;2) &quot;mylist5&quot;3) &quot;mylist6&quot;4) &quot;mylist7&quot;5) &quot;mylist8&quot;</code></pre><p>exists 确认一个key 是否存在</p><pre><code>redis 127.0.0.1:6379&gt; exists HongWan(integer) 0redis 127.0.0.1:6379&gt; exists age(integer) 1redis 127.0.0.1:6379&gt;</code></pre><p>从结果来数据库中不存在HongWan 这个key，但是age 这个key 是存在的</p><p>del删除一个key</p><pre><code>redis 127.0.0.1:6379&gt; del age(integer) 1redis 127.0.0.1:6379&gt; exists age(integer) 0redis 127.0.0.1:6379&gt;</code></pre><p>从结果来数据库中不存在HongWan 这个key，但是age 这个key 是存在的</p><p>rename 重命名key</p><pre><code>redis 127.0.0.1:6379[1]&gt; keys *1) &quot;age&quot;redis 127.0.0.1:6379[1]&gt; rename age age_newOKredis 127.0.0.1:6379[1]&gt; keys *1) &quot;age_new&quot;redis 127.0.0.1:6379[1]&gt;age 成功的被我们改名为age_new 了</code></pre><p>type返回值的类型</p><pre><code>redis 127.0.0.1:6379&gt; type addrstringredis 127.0.0.1:6379&gt; type myzset2zsetredis 127.0.0.1:6379&gt; type mylistlistredis 127.0.0.1:6379&gt;</code></pre><p>##服务器命令</p><p>ping测试连接是否存活</p><pre><code>redis 127.0.0.1:6379&gt; pingPONG</code></pre><p>//执行下面命令之前，我们停止redis 服务器</p><pre><code>redis 127.0.0.1:6379&gt; pingCould not connect to Redis at 127.0.0.1:6379: Connection refused</code></pre><p>//执行下面命令之前，我们启动redis 服务器</p><pre><code>not connected&gt; pingPONGredis 127.0.0.1:6379&gt;第一个ping 时，说明此连接正常第二个ping 之前，我们将redis 服务器停止，那么ping 是失败的第三个ping 之前，我们将redis 服务器启动，那么ping 是成功的</code></pre><p>echo<br>在命令行打印一些内容</p><pre><code>redis 127.0.0.1:6379&gt; echo HongWan&quot;HongWan&quot;redis 127.0.0.1:6379&gt;select</code></pre><p>选择数据库。Redis 数据库编号从0~15，我们可以选择任意一个数据库来进行数据的存取。</p><pre><code>redis 127.0.0.1:6379&gt; select 1OKredis 127.0.0.1:6379[1]&gt; select 16(error) ERR invalid DB indexredis 127.0.0.1:6379[16]&gt;当选择16 时，报错，说明没有编号为16 的这个数据库</code></pre><p>quit<br>退出连接。</p><pre><code>redis 127.0.0.1:6379&gt; quit</code></pre><p>dbsize<br>返回当前数据库中key 的数目。</p><pre><code>redis 127.0.0.1:6379&gt; dbsize(integer) 18redis 127.0.0.1:6379&gt;结果说明此库中有18 个key</code></pre><p>info<br>获取服务器的信息和统计。</p><pre><code>redis 127.0.0.1:6379&gt; inforedis_version:2.2.12redis_git_sha1:00000000redis_git_dirty:0arch_bits:32multiplexing_api:epollprocess_id:28480uptime_in_seconds:2515uptime_in_days:0</code></pre><p>flushdb<br>删除当前选择数据库中的所有key。</p><pre><code>redis 127.0.0.1:6379&gt; dbsize(integer) 18redis 127.0.0.1:6379&gt; flushdbOKredis 127.0.0.1:6379&gt; dbsize(integer) 0redis 127.0.0.1:6379&gt;在本例中我们将0 号数据库中的key 都清除了。</code></pre><p>flushall<br>删除所有数据库中的所有key。</p><pre><code>redis 127.0.0.1:6379[1]&gt; dbsize(integer) 1redis 127.0.0.1:6379[1]&gt; select 0OKredis 127.0.0.1:6379&gt; flushallOKredis 127.0.0.1:6379&gt; select 1OKredis 127.0.0.1:6379[1]&gt; dbsize(integer) 0redis 127.0.0.1:6379[1]&gt;在本例中我们先查看了一个1 号数据库中有一个key，然后我切换到0 号库执行flushall 命令，结果1 号库中的key 也被清除了，说是此命令工作正常。</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;数据类型–string&quot;&gt;&lt;a href=&quot;#数据类型–string&quot; class=&quot;headerlink&quot; title=&quot;数据类型–string&quot;&gt;&lt;/a&gt;数据类型–string&lt;/h2&gt;&lt;h3 id=&quot;redis-string介绍&quot;&gt;&lt;a href=&quot;#red
+      
+    
+    </summary>
+    
+      <category term="数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="非关系型数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="缓存数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/redis/"/>
+    
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+  </entry>
   
   <entry>
     <title>springboot-redis.md</title>
@@ -40,171 +162,6 @@
     
     
       <category term="springboot-redis" scheme="http://yoursite.com/tags/springboot-redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>live</title>
-    <link href="http://yoursite.com/2018/12/11/live/"/>
-    <id>http://yoursite.com/2018/12/11/live/</id>
-    <published>2018-12-11T07:28:11.000Z</published>
-    <updated>2018-12-11T07:31:08.864Z</updated>
-    
-    <content type="html"><![CDATA[<pre><code>##《活着》复述                ######---余华作品</code></pre><p>“我”看到一个老头儿在看一头老牛耕地，明明只有一头牛在耕地，他却吆喝着好几头牛的名字，例如:家珍，富贵，狗蛋，队长。作者感到特别的好奇和惊讶，便和这个老头谈论了起来：<br>老头子说自己叫富贵，年轻的时候是一个混账，仗着自己家有钱是个财主，在自己女人家珍(老婆名字)怀孕的时候去城里吃喝嫖赌，把家当全部都输给了龙二(一个从外地过来的赌博很厉害的一个人)。他爹把家产全部当换成铜钱，让福贵自己挑进城去还了赌债。从那之后，叫龙二的人就成了这片土地和房子的主人。富贵的爹死后，富贵的老丈人把老婆家珍接回到城里去养胎，福贵死皮赖脸的租了龙二五亩地(原本自己的家产)，开始种地养家。家珍半年后带着儿子有庆(刚生下来的孩子)回到了家里。富贵的娘又生病了，于是福贵就到城里请医生给他娘看病，机缘巧合和县太爷的仆人打起架来了，无奈之下被抓过去当了苦丁，打过多次仗，九死一生，认识了好多人也见证了好多人的生死，最后被人民解放军围困俘虏后回家。才知道自己离家两个月后，老娘就去世了，富贵痛不欲生。再后来女儿凤霞在一次生病后又变成哑巴了，富贵心如刀绞。之后土地改革开始，福贵一家分到了五亩田地，城里的大财主龙二被枪毙，富贵叹息，幻想如果自己是地主现在被杀的应该就是自己了。<br>富贵为了送小儿子有庆去城里念书，福贵忍不住把大姑娘凤霞送给了别人当作丫鬟。凤霞经常忍不住偷跑回来然后再回去。有庆也特别懂，每天放学就去割草然后喂羊羔，一九五八年人民公社成立，公社成立了，家里分的土地和畜生都成了公社的。家里的铁锅什么的铁具都被砸了炼钢铁，老婆由于长期辛苦劳作得了软骨病，充量只能挣四工分。公社散伙后，福贵重新买了一只羊羔。小儿子有庆高兴的不行，为了养羊天天来回奔波，之后有庆被体育老师看上了，福贵却说跑步没用，就此作罢。再后来饥荒到了，福贵为了缓解饥饿用有庆的羊换了四十斤粮食。老婆凤霞由于一块地瓜和王四发生了争执，把富贵心疼的不行。后来家珍忍受不了后到娘家家带回一小袋米，一家人才吃的上一次粥。老婆家珍的病一次病的很重，眼看就熬不过去，最终却还是挺了下来。儿子有庆却因求助产后出血的县长夫人，鲜血过多死了。福贵心痛的要去杀人，竟然发现县长却是一块被当年打仗认识的战友春生。家珍感觉到后让福贵背着她去看望坟地里的儿子，失声痛哭。<br>福贵背着家珍给家珍准备了棺材，家珍最后却又活了下来。接下来文化大革命开始了，到了谈婚论嫁年龄的凤霞遇到了好男人偏头二喜，二喜人很好，帮着福贵重新装修了家里的房子，后来又风风光光地把凤霞娶到了城里做老婆。谁知文化大革命越来越厉害了，县长春生也在受到批判后自杀。女儿凤霞生完儿子苦根后大出血 死了，不到三个月，老婆家珍也死了，富贵生无可恋。<br>后来二喜带着遗留下来的儿子’苦根’搬运货物以此辛苦度日，富贵也住到了城里，三个人相依为命。再后来，女婿二喜又被水泥板压死了。接下来便开始了爷孙俩的日子，富贵带着外孙回到了乡下的家里，在苦根七岁的时候，由于没吃过豆子贪吃 吃了太多的煮豆子撑死了。最后，福贵买了一头差点被屠宰的老牛，和自己一起度日，人生不易，彼此珍惜，我们都要好好地活着！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;pre&gt;&lt;code&gt;##《活着》复述
-                ######---余华作品
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;“我”看到一个老头儿在看一头老牛耕地，明明只有一头牛在耕地，他却吆喝着好几头牛的名字，例如:家珍，富贵，狗蛋，队长。作者感到特别的好奇和惊讶，便和这
-      
-    
-    </summary>
-    
-    
-      <category term="school" scheme="http://yoursite.com/tags/school/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我为明天准备了什么</title>
-    <link href="http://yoursite.com/2018/12/11/future/"/>
-    <id>http://yoursite.com/2018/12/11/future/</id>
-    <published>2018-12-11T06:50:18.263Z</published>
-    <updated>2018-12-11T09:09:52.577Z</updated>
-    
-    <content type="html"><![CDATA[<pre><code>## 我为明天准备了什么</code></pre><p>   在我的个人认知里，生活只有三天：昨天,今天,明天。昨天会变成今天，今天会变成明天，明天也会变成昨天…   在这个世界最无情的东西恐怕就是时间了，它没有七情六欲，没有悲欢离合，它存在的意义仿佛就是一往无前地往前走。作为一个即将离校的学生，我时常我会幻想我明天会在哪里，我明天在做什么，我为明天准备了什么？！</p><p>  我是一个比较躁的人，我讨厌这样的自己，这种性格往往使我在学习以及做一件事情遇到挫折时很难去稳住自己的心态去对待，但我又不得不承认这种性格有成就了自己，作为一个躁的人我每天根本闲不下来，很少呆在宿舍，因为我在宿舍我会有一种恐慌感，感觉全世界的人都在努力，而自己却在宿舍无所事事，所以我的这种性格又使我注定不会堕落。</p><p>  可是不会堕落并不代表就会成功，努力又不定会有回报。我经常问自己自己每天做的事情有什么意义，对未来有什么意义，答案是我真的不知道，但是如果我停下脚步那就等于死亡。<br>在工作方向这一块我已经决定在人生初期做一个程序员，因为我不知道除了敲代码自己还会做什么，所以学好专业知识是目前以及人生初期对于自己来说一个没有办法的办法，我尝试去热爱这个行业，但日积月累我发现我注定不会在这个行业做太久，源于不喜欢。在健康方面，我自己是一个比较注重健康的人，因为我是一个特别感性又有点极端的人，总是幻想假如突然哪一天自己得了什么什么病，不论对自己的人生以及家人还有爱我的人来说都是 一件特别痛苦的事情，所以我经常抽出时间到健身房健身，其他的就交给老天决定了。在生活这一块，我也是一个特别喜欢享受的人，我喜欢去尝试做一些自己很向往的事情，比如:弹钢琴，玩游戏，看文学作品等等，如果我喜欢一件事情，我愿意花足够的时间去学习去投入，如果我不喜欢一件事情，又没有什么意义的话我不会去做。<br>说了这么多，我到底为明天准备了什么？</p><p>我也不知道，如果真要说的话，那就只能是:”努力”，”健康” 以及有待提高的 “心态” 和“综合素养”吧！~</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;pre&gt;&lt;code&gt;## 我为明天准备了什么
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   在我的个人认知里，生活只有三天：昨天,今天,明天。昨天会变成今天，今天会变成明天，明天也会变成昨天…   在这个世界最无情的东西恐怕就是时间了，它没有七情六欲，没有悲欢离合，它存在的意义仿佛就是
-      
-    
-    </summary>
-    
-    
-      <category term="school" scheme="http://yoursite.com/tags/school/"/>
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/12/11/4/"/>
-    <id>http://yoursite.com/2018/12/11/4/</id>
-    <published>2018-12-11T05:45:13.618Z</published>
-    <updated>2018-12-11T05:45:13.623Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/12/11/3/"/>
-    <id>http://yoursite.com/2018/12/11/3/</id>
-    <published>2018-12-11T05:45:05.180Z</published>
-    <updated>2018-12-11T05:45:05.180Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/12/11/2/"/>
-    <id>http://yoursite.com/2018/12/11/2/</id>
-    <published>2018-12-11T05:44:57.094Z</published>
-    <updated>2018-12-11T05:44:57.094Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/12/11/1/"/>
-    <id>http://yoursite.com/2018/12/11/1/</id>
-    <published>2018-12-11T05:44:46.649Z</published>
-    <updated>2018-12-11T05:44:46.650Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/12/11/first/"/>
-    <id>http://yoursite.com/2018/12/11/first/</id>
-    <published>2018-12-11T05:10:29.887Z</published>
-    <updated>2018-12-11T05:16:18.694Z</updated>
-    
-    <content type="html"><![CDATA[<p>title: <br>date: 1544505029887<br>copyright: true<br>categories:<br>/* 分类，支持多级，比如：</p><ul><li>technology</li><li>computer</li><li>computer-aided-art<br>*/</li></ul><p>tags:<br>/* 标签<br>** 多个可以这样写</p><ul><li>标签1</li><li>标签2</li><li>标签3<br>*/</li></ul><p>description:<br>/<em> 文章的描述，在每篇文章标题下方显示</em>/</p><p>comments:<br>/<em> 是否开启评论<br><strong> 默认值是 true</strong> 要关闭写 false</em>/</p><p>photos:<br>/* Gallery support，用来支持画廊 / 相册，用法如下：</p><ul><li>photo_url_1</li><li>photo_url_2</li><li>photo_url_3<br>*/</li></ul><p>link:<br>/<em> 文章的外部链接</em>/</p><p>top: true<br>/<em> 文章置顶<br>** true就是开启，flase就是关闭置顶。</em>/</p><p>password: 20<br>/<em> 文章密码，参考本文”1.20.文章加密访问”<br>** 需配置好，否则请勿添加！</em>/</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;title: &lt;br&gt;date: 1544505029887&lt;br&gt;copyright: true&lt;br&gt;categories:&lt;br&gt;/* 分类，支持多级，比如：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;technology&lt;/li&gt;
-&lt;li&gt;computer&lt;/li&gt;
-&lt;li&gt;com
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>hello,myh</title>
-    <link href="http://yoursite.com/2018/12/11/hello-myh/"/>
-    <id>http://yoursite.com/2018/12/11/hello-myh/</id>
-    <published>2018-12-11T03:13:23.000Z</published>
-    <updated>2018-12-11T04:38:37.472Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2018/12/11/hello-world/"/>
-    <id>http://yoursite.com/2018/12/11/hello-world/</id>
-    <published>2018-12-11T02:39:27.065Z</published>
-    <updated>2018-12-11T02:39:27.065Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
     
   </entry>
   
