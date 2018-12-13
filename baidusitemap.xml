@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2018/12/12/springboot-redis/</loc>
+    <lastmod>2018-12-13T07:46:43.675Z</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis4/</loc>
-    <lastmod>2018-12-12T11:58:20.212Z</lastmod>
+    <lastmod>2018-12-13T07:45:55.500Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis3/</loc>
-    <lastmod>2018-12-12T11:47:28.304Z</lastmod>
+    <lastmod>2018-12-13T07:45:05.677Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis2/</loc>
-    <lastmod>2018-12-12T11:39:28.738Z</lastmod>
+    <lastmod>2018-12-13T07:44:10.718Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis1/</loc>
-    <lastmod>2018-12-12T10:54:08.955Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2018/12/12/springboot-redis/</loc>
-    <lastmod>2018-12-12T10:03:53.101Z</lastmod>
+    <lastmod>2018-12-13T07:43:32.693Z</lastmod>
   </url>
 </urlset>
