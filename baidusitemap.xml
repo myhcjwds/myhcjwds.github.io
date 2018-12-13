@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2018/12/13/oracle-framework/</loc>
+    <lastmod>2018-12-13T08:27:42.217Z</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2018/12/12/springboot-redis/</loc>
     <lastmod>2018-12-13T07:46:43.675Z</lastmod>
   </url>  <url>
