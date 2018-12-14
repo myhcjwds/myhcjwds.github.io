@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="oracle,oracle sql,oracle 单行函数,">
+  <meta name="keywords" content="oracle,oracle sql,oracle 函数,">
 
 
 
@@ -101,18 +101,21 @@
 
 
 
-<meta name="description" content="大小写转换(lower,upper,initcap)select lower(&amp;apos;Hello World&amp;apos;) 转小写，         upper(&amp;apos;hello world&amp;apos;) 转大写,         initcap(&amp;apos;hello world&amp;apos;) 首字母大写 from dual；  查询结果:  转小写           转大写">
-<meta name="keywords" content="oracle,oracle sql,oracle 单行函数">
+<meta name="description" content="函数的分类: 单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数 单行函数:大小写控制函数select lower(‘Hello World’) 转小写, upper(‘Hello World’) 转大写 from dual;–initcap: 首字母大写select initcap(‘hello world’) 首字符大写 from dual;   字符控制函数– conca">
+<meta name="keywords" content="oracle,oracle sql,oracle 函数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="oracle单行函数（转||总结）">
+<meta property="og:title" content="oracle函数">
 <meta property="og:url" content="http://yoursite.com/2018/12/13/oracle-function/index.html">
 <meta property="og:site_name" content="Blog of MYH">
-<meta property="og:description" content="大小写转换(lower,upper,initcap)select lower(&amp;apos;Hello World&amp;apos;) 转小写，         upper(&amp;apos;hello world&amp;apos;) 转大写,         initcap(&amp;apos;hello world&amp;apos;) 首字母大写 from dual；  查询结果:  转小写           转大写">
+<meta property="og:description" content="函数的分类: 单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数 单行函数:大小写控制函数select lower(‘Hello World’) 转小写, upper(‘Hello World’) 转大写 from dual;–initcap: 首字母大写select initcap(‘hello world’) 首字符大写 from dual;   字符控制函数– conca">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-14T09:06:25.378Z">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201110/10/0_131826375131Cn.gif">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201110/10/0_13182638853OpP.gif">
+<meta property="og:updated_time" content="2018-12-14T10:07:00.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="oracle单行函数（转||总结）">
-<meta name="twitter:description" content="大小写转换(lower,upper,initcap)select lower(&amp;apos;Hello World&amp;apos;) 转小写，         upper(&amp;apos;hello world&amp;apos;) 转大写,         initcap(&amp;apos;hello world&amp;apos;) 首字母大写 from dual；  查询结果:  转小写           转大写">
+<meta name="twitter:title" content="oracle函数">
+<meta name="twitter:description" content="函数的分类: 单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数 单行函数:大小写控制函数select lower(‘Hello World’) 转小写, upper(‘Hello World’) 转大写 from dual;–initcap: 首字母大写select initcap(‘hello world’) 首字符大写 from dual;   字符控制函数– conca">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201110/10/0_131826375131Cn.gif">
 
 
 
@@ -148,7 +151,7 @@
 
 
 
-  <title>oracle单行函数（转||总结） | Blog of MYH</title>
+  <title>oracle函数 | Blog of MYH</title>
   
 
 
@@ -334,7 +337,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">oracle单行函数（转||总结）</h1>
+          <h1 class="post-title" itemprop="name headline">oracle函数</h1>
         
 
         <div class="post-meta">
@@ -401,7 +404,7 @@
 
           
           
-             <span id="/2018/12/13/oracle-function/" class="leancloud_visitors" data-flag-title="oracle单行函数（转||总结）">
+             <span id="/2018/12/13/oracle-function/" class="leancloud_visitors" data-flag-title="oracle函数">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -427,7 +430,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  936字
+                  2k字
                 </span>
               
 
@@ -443,7 +446,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4分钟
+                  8分钟
                 </span>
               
             </div>
@@ -464,218 +467,33 @@
       
 
       
-        <h3 id="大小写转换-lower-upper-initcap"><a href="#大小写转换-lower-upper-initcap" class="headerlink" title="大小写转换(lower,upper,initcap)"></a>大小写转换(lower,upper,initcap)</h3><pre><code>select lower(&apos;Hello World&apos;) 转小写，
-        upper(&apos;hello world&apos;) 转大写,
-        initcap(&apos;hello world&apos;) 首字母大写
-from dual；
+        <h3 id="函数的分类"><a href="#函数的分类" class="headerlink" title="函数的分类:"></a>函数的分类:</h3><p><img src="http://img.my.csdn.net/uploads/201110/10/0_131826375131Cn.gif" alt="danfunction"></p>
+<h3 id="单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数"><a href="#单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数" class="headerlink" title="单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数"></a>单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数</h3><p><img src="http://img.my.csdn.net/uploads/201110/10/0_13182638853OpP.gif" alt="danfunction"></p>
+<h3 id="单行函数"><a href="#单行函数" class="headerlink" title="单行函数:"></a>单行函数:</h3><h4 id="大小写控制函数"><a href="#大小写控制函数" class="headerlink" title="大小写控制函数"></a>大小写控制函数</h4><p>select lower(‘Hello World’) 转小写, upper(‘Hello World’) 转大写 from dual;<br>–initcap: 首字母大写<br>select initcap(‘hello world’) 首字符大写 from dual;  </p>
+<h4 id="字符控制函数"><a href="#字符控制函数" class="headerlink" title="字符控制函数"></a>字符控制函数</h4><p>– concat: 字符连接函数, 等同于  ||<br>select concat(‘Hello’,’ World’) from dual;<br>–substr:求母串中的某个子串<br>select substr(‘Hello World’,3) from dual;<br>select substr(‘Hello World’,3,4) from dual;<br>–length和lengthb: 字符数和字节数<br>select length(‘China’) 字符数, lengthb(‘China’) 字节数  from dual;<br>–instr:在母串中，查找子串的位置<br>select instr(‘Hello World’,’ll’) from dual;<br>–lpad,rpad: 左右填充,将abcd用<em>填充到10位<br>select lpad(‘abcd’,10,’</em>‘) 左填充, rpad(‘abcd’,10,’<em>‘) 右填充 from dual;<br>–trim: 去掉字符串前后指定的字符<br>select trim(‘H’ from ‘Hello WorldH’) from dual;<br>–replace:字符串替换函数<br>select replace(‘Hello Wordl’,’l’,’</em>‘) from dual;  </p>
+<h4 id="数字函数"><a href="#数字函数" class="headerlink" title="数字函数"></a>数字函数</h4><p>select round(45.926,2) 四舍五入, trunc(45.926,2)  截断 ,mod(1600,300) 求于 from dual;<br>–ROUND函数<br>select round(45.923,0) 整数位, round(45.923,-1) 十位,round(45.923,-2) 百位 from dual;  </p>
+<h4 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h4><p>–显示当前日期<br>select sysdate from dual;<br>–显示时间部分<br>select to_char(sysdate,’yyyy-mm-dd hh24:mi:ss’) from dual;<br>–显示昨天，今天和明天，加减数字仍未日期<br>select sysdate-1 昨天, sysdate 今天, sysdate+1 明天 from dual;<br>–两个日期相减，结果为相差的天数，查询员工信息，显示员工工龄。两个日期不能相加<br>select empno,ename, sysdate-hiredate 天 from emp;<br>–查询员工信息，显示员工工龄,分别按照天，星期，月显示<br>select empno,ename,sysdate-hiredate 天,(sysdate-hiredate)/7 星期, (sysdate-hiredate)/30 月 from emp;<br>–months_between:两个日期相差的月数<br>select (sysdate-hiredate)/30 方式一, months_between(sysdate,hiredate) 方式二 from emp;<br>–add_months:在指定日期上加上若干个月<br>select add_months(sysdate,1)  下个月, add_months(sysdate,123) “123个月后” from dual<br>–last_day: 某个日期当月的最后一天<br>select last_day(sysdate) from dual;<br>–next_day:下周六<br>select next_day(sysdate,’星期五’) from dual;<br>–对日期进行四舍五入<br>select round(sysdate,’MONTH’)  月,round(sysdate,’YEAR’) from dual;<br>–对日期进行截断<br>select trunc(sysdate,’MONTH’)  月,trunc(sysdate,’YEAR’) from dual;<br>–日期格式<br>select * from emp where hiredate=to_date(‘1982-01-23’,’yyyy-mm-dd’);<br>– 查询当前日期：显示:  2011-09-17 15:12:15今天是星期六<br>select to_char(sysdate,’yyyy-mm-dd hh24:mi:ss”今天是”day’) from dual;<br>–查询员工信息，显示员工的编号，姓名，月薪,要求有货币代码(L)，千位符(,)，小数点(.),<br>select empno,ename,to_char(sal,’L9,999.99’) from emp;<br>–大小写控制函数<br>select lower(‘Hello World’) 转小写, upper(‘Hello World’) 转大写 from dual;<br>–initcap: 首字母大写<br>select initcap(‘hello world’) 首字符大写 from dual;  </p>
+<h4 id="通用函数"><a href="#通用函数" class="headerlink" title="通用函数"></a>通用函数</h4><p>–nvl(exp1,exp2):当exp1为空时，返回exp2<br>–nvl2(exp1,exp2,exp3):当exp1为空时，返回exp3；否则返回exp2<br>select ename,sal*12+nvl2(comm,comm,0) 年收入 from emp;<br>–NULLIF (expr1, expr2),如果expr1=expr2,返回null;否则,返回expr1<br>select nullif(‘abc’,’abc’) from dual;<br>select nullif(‘abc’,’abcaa’) from dual;<br>–COALESCE :找到参数列表中，第一个不为空的值<br>select ename,comm,sal,COALESCE(comm,sal) from emp;<br>–给员工涨工资,根据职位涨，总裁涨1000，经理涨600 其他人员涨400<br>select ename,job,sal 涨前工资,<br>case job when ‘PRESIDENT’ then sal+1000  when ‘MANAGER’   then sal+600  else sal+400<br> end 涨后工资<br>from emp;  </p>
+<p>select ename,job,sal 涨前工资, decode(job,’PRESIDENT’,sal+1000,’MANAGER’,sal+600,sal+400) 涨后工资  </p>
+<h4 id="转换函数-Conversion-Functions"><a href="#转换函数-Conversion-Functions" class="headerlink" title="转换函数(Conversion Functions)"></a>转换函数(Conversion Functions)</h4><p>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。</p>
+<p>1、TO_CHAR() 本函数又可以分三小类，分别是<br> 转换字符-&gt;字符TO_CHAR(c)：将nchar,nvarchar2,clob,nclob类型转换为char类型；<br>例如：SELECT TO_CHAR(‘AABBCC’) FROM DUAL;</p>
+<p>转换时间-&gt;字符TO_CHAR(d[,fmt])：将指定的时间(data,timestamp,timestamp with time zone)按照指定格式转换为varchar2类型；<br>例如：SELECT TO_CHAR(sysdate,’yyyy-mm-dd hh24:mi:ss’) FROM DUAL;</p>
+<p>转换数值-&gt;字符TO_CHAR(n[,fmt])：将指定数值n按照指定格式fmt转换为varchar2类型并返回；<br>例如：SELECT TO_CHAR(-100, ‘L99G999D99MI’) FROM DUAL;</p>
+<p>2、TO_DATE(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2转换为日期类型，如果fmt参数不为空，则按照fmt中指定格式进行转换。注意这里的fmt参数。如果ftm为’J’则表示按照公元制(Julian day)转换，c则必须为大于0并小于5373484的正整数。<br>例如：<br>SELECT TO_DATE(2454336, ‘J’) FROM DUAL;<br>SELECT TO_DATE(‘2007-8-23 23:25:00’, ‘yyyy-mm-dd hh24:mi:ss’) FROM DUAL;</p>
+<p>为什么公元制的话，c的值必须不大于5373484呢？因为Oracle的DATE类型的取值范围是公元前4712年1月1日至公元9999年12月31日。看看下面这个语句：<br>SELECT TO_CHAR(TO_DATE(‘9999-12-31’,’yyyy-mm-dd’),’j’) FROM DUAL;</p>
+<p>3、TO_NUMBER(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2型字串按照fmt中指定格式转换为数值类型并返回。<br>例如：SELECT TO_NUMBER(‘-100.00’, ‘9G999D99’) FROM DUAL; </p>
+<h3 id="其它辅助函数-Miscellaneous-Single-Row-Functions"><a href="#其它辅助函数-Miscellaneous-Single-Row-Functions" class="headerlink" title="其它辅助函数(Miscellaneous Single-Row Functions)"></a>其它辅助函数(Miscellaneous Single-Row Functions)</h3><p>1、DECODE(exp,s1,r1,s2,r2..s,r[,def]) 可以把它理解成一个增强型的if else，只不过它并不通过多行语句，而是在一个函数内实现if else的功能。<br>exp做为初始参数。s做为对比值，相同则返回r，如果s有多个，则持续遍历所有s，直到某个条件为真为止，否则返回默认值def(如果指定了的话)，如果没有默认值，并且前面的对比也都没有为真，则返回空。<br>毫无疑问，decode是个非常重要的函数，在实现行转列等功能时都会用到，需要牢记和熟练使用。</p>
+<p>例如：select decode(‘a2’,’a1’,’true1’,’a2’,’true2’,’default’) from dual;</p>
+<p>2、GREATEST(n1,n2,…n) 返回序列中的最大值<br>例如：SELECT GREATEST(15,5,75,8) “Greatest” FROM DUAL;</p>
+<p>3、LEAST(n1,n2….n) 返回序列中的最小值<br>例如：SELECT LEAST(15,5,75,8) LEAST FROM DUAL;</p>
+<p>4、NULLIF(c1,c2)<br>Nullif也是个很有意思的函数。逻辑等价于：CASE WHEN c1 = c2 THEN NULL ELSE c1 END<br>例如：SELECT NULLIF(‘a’,’b’),NULLIF(‘a’,’a’) FROM DUAL;</p>
+<p>5、NVL(c1,c2) 逻辑等价于IF c1 is null THEN c2 ELSE c1 END。c1,c2可以是任何类型。如果两者类型不同，则oracle会自动将c2转换为c1的类型。<br>例如：SELECT NVL(null, ‘12’) FROM DUAL;</p>
+<p>6、NVL2(c1,c2,c3) 大家可能都用到nvl，但你用过nvl2吗？如果c1非空则返回c2,如果c1为空则返回c3<br>例如：select nvl2(‘a’, ‘b’, ‘c’) isNull,nvl2(null, ‘b’, ‘c’) isNotNull from dual;</p>
+<p>7、SYS_CONNECT_BY_PATH(col,c) 该函数只能应用于树状查询。返回通过c1连接的从根到节点的路径。该函数必须与connect by 子句共同使用。</p>
+<h3 id="多行函数"><a href="#多行函数" class="headerlink" title="多行函数"></a>多行函数</h3><p>和单行函数相比，oracle提供了丰富的基于组的，多行的函数。这些函数能在select或select的having子句中使用，当用于select子串时常常都和GROUP BY一起使用。多行函数分为接收多个输入，返回一个输出</p>
+<p>–求员工的工资总和<br>select sum(sal) from emp;<br>–求个数<br>select count(<em>) from emp;<br>–求平均工资<br>select sum(sal)/count(</em>) 方式一, avg(sal) 方式二 from emp;<br>–关于空值：组函数会自动滤空<br>select count(*), count(comm) from emp;<br>–max和min：求最高工资和最低工资<br>select max(sal) 最高工资,min(sal) 最低工资 from emp;<br>–分组数据：求各个部门的平均工资<br>select deptno,avg(sal) from emp group by deptno;<br>–group by作用于多列： 按部门，不同的工种，统计平均工资<br>–group by作用于多列：先按照第一列分组；如果相同，再按照第二列分组<br>select deptno,job,avg(sal) from emp group by deptno,job;<br>–：求部门的平均工资大于2000的部门<br>select deptno,avg(sal) from emp group by deptno having avg(sal)&gt;2000;<br>–group by的增强<br>select deptno,job,sum(sal) from emp group by rollup(deptno,job);<br>–不同的deptno空两行/取消设置<br>break on deptno skip 2/break on null  </p>
+<p>转载：<a href="https://blog.csdn.net/lailai186/article/" target="_blank" rel="noopener">https://blog.csdn.net/lailai186/article/</a></p>
 
-查询结果:
-
-转小写           转大写          首字母大写
----------- -------------------  ---------
-hello world        HELLO WORLD     Hello World
-</code></pre><h3 id="子串-substr"><a href="#子串-substr" class="headerlink" title="子串(substr)"></a>子串(substr)</h3><pre><code>--select substr(a,b,c) 从a字符串中，从第b位开始取，取到第c位
-
-select substr(&apos;Hello World&apos;,3,4) 子串 
-from dual;
-
-查询结果:
-
-子串
------
-llo
-</code></pre><h3 id="字符-字节-数-length-lengthb"><a href="#字符-字节-数-length-lengthb" class="headerlink" title="字符/字节 数(length/lengthb)"></a>字符/字节 数(length/lengthb)</h3><pre><code>例1）select length(&apos;hello world&apos;) 字符,
-lengthb(&apos;hello world&apos;) 字节
-from dual;
-
-查询结果:
-
-字符     字节
------- ------
- 11      11
-
-例2）select length(&apos;北京&apos;) 字符, lengthb(&apos;北京&apos;) 字节 
-from dual;
-
-查询结果: 
-
-字符     字节
------- ------
- 2        4       
-</code></pre><h3 id="字串位置查询-instr-a-b"><a href="#字串位置查询-instr-a-b" class="headerlink" title="字串位置查询(instr(a,b))"></a>字串位置查询(instr(a,b))</h3><pre><code>select instr(&apos;hello world&apos;,&apos;ll&apos;) ll的位置
-from dual;
-
-查询结果:
-
-LL的位置
------
- 3
-</code></pre><h3 id="左右填充-lpad-‘-’-n-’-’-rpad-‘-’-n-’-’"><a href="#左右填充-lpad-‘-’-n-’-’-rpad-‘-’-n-’-’" class="headerlink" title="左右填充(lpad(‘?’,n,’?’)  rpad(‘?’,n,’?’))"></a>左右填充(lpad(‘?’,n,’?’)  rpad(‘?’,n,’?’))</h3><pre><code>说明: 10为补充至10个字节
-select lpad(&apos;abcd&apos;,10,&apos;*&apos;) 左,
-rpad(&apos;abcd&apos;,10,&apos;*&apos;) 右 
-from dual;
-
-查询结果:
-
-左         右 
----------- ----------    
-******abcd abcd******      
-</code></pre><h3 id="trim-去掉前后指定的字符"><a href="#trim-去掉前后指定的字符" class="headerlink" title="trim 去掉前后指定的字符"></a>trim 去掉前后指定的字符</h3><pre><code>select trim(&apos;H&apos; from &apos;Hello WorldH&apos;) 
-from dual;
-
-查询结果:
-
-TRIM(&apos;H&apos;FR                              
-----------  
-ello World 
-</code></pre><h3 id="replace-替换"><a href="#replace-替换" class="headerlink" title="replace 替换"></a>replace 替换</h3><pre><code>select replace(&apos;Hello WOrld&apos;,&apos;l&apos;,&apos;*&apos;) 
-from dual;
-
-查询结果:
-
-REPLACE(&apos;HE       
------------  
-He**o WOr*d
-</code></pre><h3 id="round-四舍五入"><a href="#round-四舍五入" class="headerlink" title="round 四舍五入"></a>round 四舍五入</h3><pre><code>select round(45.926,2) 一,round(45.926,1) 二,
-round(45.926,0) 三,round(45.926,-1) 四,
-round(45.926,-2) 五
- from dual;         
-
-查询结果:
-
- 一         二         三         四         五 
----------- ---------- ---------- ------- --------
- 45.93       45.9         46         50      0 
-</code></pre><h3 id="trunc-截断"><a href="#trunc-截断" class="headerlink" title="trunc 截断"></a>trunc 截断</h3><pre><code>select trunc(45.926,2) 一,trunc(45.926,1) 二,
-trunc(45.926,0) 三,
-trunc(45.926,-1) 四,trunc(45.926,-2) 五
-from dual
-
-查询结果:
-
-  一         二         三         四         五 
------- ---------- ---------- ---------- -------------
- 45.92       45.9         45         40       0  
-</code></pre><h3 id="sysdate-当前时间"><a href="#sysdate-当前时间" class="headerlink" title="sysdate 当前时间"></a>sysdate 当前时间</h3><pre><code>select sysdate from dual;
-
-查询结果:
-
-SYSDATE   
--------------
-01-7月 -16
-</code></pre><h3 id="格式化时间"><a href="#格式化时间" class="headerlink" title="格式化时间"></a>格式化时间</h3><pre><code>select to_char(sysdate,&apos;yyyy-mm-dd hh24:mi:ss&apos;) from dual;
-
-查询结果:
-
-TO_CHAR(SYSDATE,&apos;YY                        
--------------------                        
-2018-12-14 15:06:02
-</code></pre><h3 id="计算员工的工龄：天-星期-月-年"><a href="#计算员工的工龄：天-星期-月-年" class="headerlink" title="计算员工的工龄：天 星期 月 年"></a>计算员工的工龄：天 星期 月 年</h3><pre><code>elect ename,hiredate,(sysdate-hiredate) 天,
-(sysdate-hiredate)/7 星期,
-(sysdate-hiredate)/30 月,
-(sysdate-hiredate)/365 年
-from emp;
-
-查询结果:
-
-ENAME    HIREDATE  天       星期        月       年                                                                                   
----- -------------- ---------- ---------- ----------                                                                                  
-SMITH 17-12月-80 12980.5068 1854.35812 432.683561 35.5630324  
-ALLEN 20-2月 -81 12915.5068  1845.0724 430.516894 35.3849502 
-WARD 22-2月 -81 12913.5068 1844.78669 430.450228 35.3794708
-
-注意:  不允许日期 + 日期 !
-</code></pre><h3 id="add-months-53个月后"><a href="#add-months-53个月后" class="headerlink" title="add_months 53个月后"></a>add_months 53个月后</h3><pre><code>select add_months(sysdate,53) from dual;
-
-查询结果:
-
-ADD_MONTHS(SYS                     
--------------- 
-14-1月-20    
-</code></pre><h3 id="last-day-某月最后一天"><a href="#last-day-某月最后一天" class="headerlink" title="last_day 某月最后一天"></a>last_day 某月最后一天</h3><pre><code>select last_day(sysdate) from dual;
-
-查询结果:
-
-LAST_DAY(SYSDA
---------------
-31-12月-18
-</code></pre><h3 id="下一个周几-next-day"><a href="#下一个周几-next-day" class="headerlink" title="下一个周几 next_day"></a>下一个周几 next_day</h3><pre><code>例(当前日期额下一个周五:)
-select next_day(sysdate,&apos;星期五&apos;) from dual;
-
-查询结果:
-
-NEXT_DAY(SYSDA
---------------
-21-12月-18
-</code></pre><h3 id="查询员工薪水-两位小数，千位符，本地货币代码"><a href="#查询员工薪水-两位小数，千位符，本地货币代码" class="headerlink" title="查询员工薪水:两位小数，千位符，本地货币代码"></a>查询员工薪水:两位小数，千位符，本地货币代码</h3><pre><code>select to_char(sal,&apos;L9,999.99&apos;) from emp;
-
-查询结果:
-TO_CHAR(SAL,&apos;L9,999                    
-------------------  
-        ￥800.00
-     ￥1,600.00
-     ￥1,250.00   
-</code></pre><h3 id="nvl2-a-b-c-当a-null的时候，返回c；否则返回b"><a href="#nvl2-a-b-c-当a-null的时候，返回c；否则返回b" class="headerlink" title="nvl2(a,b,c) 当a=null的时候，返回c；否则返回b"></a>nvl2(a,b,c) 当a=null的时候，返回c；否则返回b</h3><pre><code>select sal*12+nvl2(comm,comm,0) from emp;
-
-查询结果:
-
-SAL*12+NVL2(COMM,COMM,0)   
-------------------------
-    9600
-   19500
-   15500
-   35700
-</code></pre><h3 id="nullif-a-b-当a-b的时候，返回null；否则返回a"><a href="#nullif-a-b-当a-b的时候，返回null；否则返回a" class="headerlink" title="nullif(a,b) 当a=b的时候，返回null；否则返回a"></a>nullif(a,b) 当a=b的时候，返回null；否则返回a</h3><pre><code>例1:
-select nullif(&apos;abc&apos;,&apos;abc&apos;) 值 from dual;
-查询结果:
-值
----
-
-例2:
-select nullif(&apos;abc&apos;,&apos;abcd&apos;) 值 from dual;
-查询结果:
-值
----
-abc
-</code></pre><h3 id="coalesce-从左到右-找到第一个不为null的值"><a href="#coalesce-从左到右-找到第一个不为null的值" class="headerlink" title="coalesce 从左到右 找到第一个不为null的值"></a>coalesce 从左到右 找到第一个不为null的值</h3><pre><code>select comm,sal,coalesce(comm,sal) 
-&quot;第一个不为null的值&quot; 
-from emp;
-
-查询结果:
-
-      COMM   SAL 第一个不为null的值  
------------ ----- ------------------  
-             800                800 
-   300      1600                300
-   500      1250                500  
-                2975               2975
-   1400      1250               1400 
-</code></pre><h3 id="涨工资，总裁1000-经理800-其他400"><a href="#涨工资，总裁1000-经理800-其他400" class="headerlink" title="涨工资，总裁1000 经理800 其他400"></a>涨工资，总裁1000 经理800 其他400</h3><pre><code>方法一:
-select empno,ename,job,sal 涨前,
-       case job when &apos;PRESIDENT&apos; then sal+1000
-                when &apos;MANAGER&apos; then sal+800
-                else sal+400
-        end 涨后
-from emp;   
-
-方法二:
-select empno,ename,job,sal 涨前,
-       decode(job,&apos;PRESIDENT&apos;,sal+1000,
-                  &apos;MANAGER&apos;,sal+800,
-                          sal+400) 涨后
-from emp;
-
-查询结果:
-
-  EMPNO ENAME    JOB             涨前       涨后    
-  ---------- -------- --------- ---------- ----------      
-  7499 ALLEN    SALESMAN        1600       2000
-  7521 WARD     SALESMAN        1250       1650
-  7566 JONES    MANAGER         2975       3775 
-  7654 MARTIN   SALESMAN        1250       1650
-  7698 BLAKE    MANAGER         2850       3650  
-  7782 CLARK    MANAGER         2450       3250
-</code></pre>
       
     </div>
     
@@ -743,7 +561,7 @@ from emp;
           
             <a href="/tags/oracle-sql/" rel="tag"><i class="fa fa-tag"></i> oracle sql</a>
           
-            <a href="/tags/oracle-单行函数/" rel="tag"><i class="fa fa-tag"></i> oracle 单行函数</a>
+            <a href="/tags/oracle-函数/" rel="tag"><i class="fa fa-tag"></i> oracle 函数</a>
           
         </div>
       
@@ -756,8 +574,8 @@ from emp;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/13/oracle-function1/" rel="next" title="oracle函数">
-                <i class="fa fa-chevron-left"></i> oracle函数
+              <a href="/2018/12/12/redis3/" rel="next" title="redis高级篇">
+                <i class="fa fa-chevron-left"></i> redis高级篇
               </a>
             
           </div>
@@ -850,7 +668,7 @@ from emp;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -974,7 +792,7 @@ from emp;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#大小写转换-lower-upper-initcap"><span class="nav-number">1.</span> <span class="nav-text">大小写转换(lower,upper,initcap)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子串-substr"><span class="nav-number">2.</span> <span class="nav-text">子串(substr)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符-字节-数-length-lengthb"><span class="nav-number">3.</span> <span class="nav-text">字符/字节 数(length/lengthb)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字串位置查询-instr-a-b"><span class="nav-number">4.</span> <span class="nav-text">字串位置查询(instr(a,b))</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#左右填充-lpad-‘-’-n-’-’-rpad-‘-’-n-’-’"><span class="nav-number">5.</span> <span class="nav-text">左右填充(lpad(‘?’,n,’?’)  rpad(‘?’,n,’?’))</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trim-去掉前后指定的字符"><span class="nav-number">6.</span> <span class="nav-text">trim 去掉前后指定的字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#replace-替换"><span class="nav-number">7.</span> <span class="nav-text">replace 替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#round-四舍五入"><span class="nav-number">8.</span> <span class="nav-text">round 四舍五入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trunc-截断"><span class="nav-number">9.</span> <span class="nav-text">trunc 截断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sysdate-当前时间"><span class="nav-number">10.</span> <span class="nav-text">sysdate 当前时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式化时间"><span class="nav-number">11.</span> <span class="nav-text">格式化时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算员工的工龄：天-星期-月-年"><span class="nav-number">12.</span> <span class="nav-text">计算员工的工龄：天 星期 月 年</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add-months-53个月后"><span class="nav-number">13.</span> <span class="nav-text">add_months 53个月后</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#last-day-某月最后一天"><span class="nav-number">14.</span> <span class="nav-text">last_day 某月最后一天</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一个周几-next-day"><span class="nav-number">15.</span> <span class="nav-text">下一个周几 next_day</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询员工薪水-两位小数，千位符，本地货币代码"><span class="nav-number">16.</span> <span class="nav-text">查询员工薪水:两位小数，千位符，本地货币代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nvl2-a-b-c-当a-null的时候，返回c；否则返回b"><span class="nav-number">17.</span> <span class="nav-text">nvl2(a,b,c) 当a=null的时候，返回c；否则返回b</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nullif-a-b-当a-b的时候，返回null；否则返回a"><span class="nav-number">18.</span> <span class="nav-text">nullif(a,b) 当a=b的时候，返回null；否则返回a</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#coalesce-从左到右-找到第一个不为null的值"><span class="nav-number">19.</span> <span class="nav-text">coalesce 从左到右 找到第一个不为null的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#涨工资，总裁1000-经理800-其他400"><span class="nav-number">20.</span> <span class="nav-text">涨工资，总裁1000 经理800 其他400</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数的分类"><span class="nav-number">1.</span> <span class="nav-text">函数的分类:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数"><span class="nav-number">2.</span> <span class="nav-text">单行函数分为五种类型：字符函数、数值函数、日期函数、转换函数、通用函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单行函数"><span class="nav-number">3.</span> <span class="nav-text">单行函数:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#大小写控制函数"><span class="nav-number">3.1.</span> <span class="nav-text">大小写控制函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符控制函数"><span class="nav-number">3.2.</span> <span class="nav-text">字符控制函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数字函数"><span class="nav-number">3.3.</span> <span class="nav-text">数字函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期函数"><span class="nav-number">3.4.</span> <span class="nav-text">日期函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通用函数"><span class="nav-number">3.5.</span> <span class="nav-text">通用函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换函数-Conversion-Functions"><span class="nav-number">3.6.</span> <span class="nav-text">转换函数(Conversion Functions)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它辅助函数-Miscellaneous-Single-Row-Functions"><span class="nav-number">4.</span> <span class="nav-text">其它辅助函数(Miscellaneous Single-Row Functions)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多行函数"><span class="nav-number">5.</span> <span class="nav-text">多行函数</span></a></li></ol></div>
             
 
           </div>
