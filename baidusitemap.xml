@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2018/12/13/oracle-sql/</loc>
+    <lastmod>2018-12-14T11:36:41.991Z</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2018/12/13/oracle-function/</loc>
-    <lastmod>2018-12-14T10:24:15.305Z</lastmod>
+    <lastmod>2018-12-14T11:12:41.833Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2018/12/12/springboot-redis/</loc>
+    <lastmod>2018-12-14T10:59:35.292Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2018/12/12/redis4/</loc>
+    <lastmod>2018-12-14T10:59:10.044Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/13/oracle-framework/</loc>
     <lastmod>2018-12-14T05:11:41.124Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2018/12/12/springboot-redis/</loc>
-    <lastmod>2018-12-13T07:46:43.675Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2018/12/12/redis4/</loc>
-    <lastmod>2018-12-13T07:45:55.500Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis3/</loc>
     <lastmod>2018-12-13T07:45:05.677Z</lastmod>
