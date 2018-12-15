@@ -112,9 +112,9 @@
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/oracle1.jpg">
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/oracle2.jpg">
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/oracle3.jpg">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/oracle3.jpg">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/oracle4.jpg">
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/oracle5.jpg">
-<meta property="og:updated_time" content="2018-12-14T05:11:41.124Z">
+<meta property="og:updated_time" content="2018-12-15T03:42:28.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="oracle 数据库 实例 用户 表空间 之间的关系（转）">
 <meta name="twitter:description" content="数据库：Oracle数据库是数据的物理存储。这就包括（数据文件ORA或者DBF、控制文件、联机日志、参数文件）。其实Oracle数据库的概念和其它数据库不一样，这里的数据库是一个操作系统只有一个库。可以看作是Oracle就只有一个大数据库。 实例：一个Oracle实例（Oracle Instance）有一系列的后台进程（Backguound Processes)和内存结构（Memory Struc">
@@ -433,7 +433,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  926字
+                  1.1k字
                 </span>
               
 
@@ -481,7 +481,8 @@
 <p>1，运行CMD进入DOS界面，首先输入：sqlplus，回车；再输入：sys/sys as sysdba，回车，即进入“SQL〉”操作状态。</p>
 <p>2，输入：CREATE TABLESPACE 表空间名称 LOGGING DATAFILE ‘c:\表空间数据文件.ora’ SIZE 500M autoextend on next 200m maxsize 2048m;，表空间创建完成。</p>
 <p>3，输入：CREATE USER 用户名称 PROFILE default IDENTIFIED BY 用户密码 DEFAULT TABLESPACE 授权访问的表空间名称 TEMPORARY TABLESPACE temp ACCOUNT UNLOCK;，用户创建完成，并授权用户访问某表空间。</p>
-<p>具体操作如下图所示：<br><img src="http://pjpn7mq4k.bkt.clouddn.com/oracle3.jpg" alt="avatar"><br>操作2：</p>
+<p>具体操作如下图所示：<br><img src="http://pjpn7mq4k.bkt.clouddn.com/oracle4.jpg" alt="avatar"></p>
+<p>操作2：</p>
 <p>创建表和插入数据，并查询浏览插入的数据。</p>
 <p>1，创建表，输入：</p>
 <p>create table 表名(</p>
@@ -493,6 +494,31 @@
 <p>(值1,值2,值3);，回车。</p>
 <p>3，查询数据，输入：select * from 表名;，回车。</p>
 <p>具体操作如下图所示：<br><img src="http://pjpn7mq4k.bkt.clouddn.com/oracle5.jpg" alt="avatar"></p>
+<h3 id="基本操作流程"><a href="#基本操作流程" class="headerlink" title="基本操作流程"></a>基本操作流程</h3><p>1.创建数据表空间</p>
+<p>create tablespace CICI</p>
+<p>logging</p>
+<p>datafile ‘D:\oraclexe\app\oracle\oradata\CICI\CICI.DBF’</p>
+<p>size 32m</p>
+<p>autoextend on</p>
+<p>next 32m maxsize 2048m</p>
+<p>extent management local;</p>
+<p>2.创建用户并指定表空间</p>
+<p>CREATE USER cici IDENTIFIED BY cici</p>
+<p>PROFILE DEFAULT</p>
+<p>DEFAULT TABLESPACE CICI</p>
+<p>ACCOUNT UNLOCK;</p>
+<p>– 为用户赋予权限</p>
+<p>GRANT connect, resource TO cici;</p>
+<p>grant create session to cici;</p>
+<p>3.登录用户</p>
+<p>sql&gt;conn</p>
+<p>请输入用户名 cici</p>
+<p>请输入密码 XXXXXX</p>
+<p>4.建立表</p>
+<p>create table aa(name varchar2(100),age number(4));</p>
+<p>insert into aa values(‘wo’,29);</p>
+<p>5.查询表</p>
+<p>select * from cici.A;</p>
 
       
     </div>
@@ -786,7 +812,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库："><span class="nav-number">1.</span> <span class="nav-text">数据库：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例："><span class="nav-number">2.</span> <span class="nav-text">实例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户："><span class="nav-number">3.</span> <span class="nav-text">用户：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表空间："><span class="nav-number">4.</span> <span class="nav-text">表空间：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件（dbf、ora）："><span class="nav-number">5.</span> <span class="nav-text">数据文件（dbf、ora）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注："><span class="nav-number">6.</span> <span class="nav-text">注：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系示意图："><span class="nav-number">7.</span> <span class="nav-text">关系示意图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解1："><span class="nav-number">8.</span> <span class="nav-text">理解1：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库："><span class="nav-number">1.</span> <span class="nav-text">数据库：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例："><span class="nav-number">2.</span> <span class="nav-text">实例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户："><span class="nav-number">3.</span> <span class="nav-text">用户：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表空间："><span class="nav-number">4.</span> <span class="nav-text">表空间：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件（dbf、ora）："><span class="nav-number">5.</span> <span class="nav-text">数据文件（dbf、ora）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注："><span class="nav-number">6.</span> <span class="nav-text">注：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系示意图："><span class="nav-number">7.</span> <span class="nav-text">关系示意图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解1："><span class="nav-number">8.</span> <span class="nav-text">理解1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本操作流程"><span class="nav-number">9.</span> <span class="nav-text">基本操作流程</span></a></li></ol></div>
             
 
           </div>

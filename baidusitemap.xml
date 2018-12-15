@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2018/12/13/oracle-framework/</loc>
+    <lastmod>2018-12-15T03:42:28.823Z</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2018/12/13/oracle-sql/</loc>
     <lastmod>2018-12-14T11:55:28.561Z</lastmod>
   </url>  <url>
@@ -12,9 +15,6 @@
   </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis4/</loc>
     <lastmod>2018-12-14T10:59:10.044Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2018/12/13/oracle-framework/</loc>
-    <lastmod>2018-12-14T05:11:41.124Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/12/redis3/</loc>
     <lastmod>2018-12-13T07:45:05.677Z</lastmod>
