@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[oracle索引]]></title>
+    <url>%2F2018%2F12%2F16%2Foracle-index%2F</url>
+    <content type="text"><![CDATA[oracle索引总结 一.说明 #### 1）索引是数据库对象之一，用于加快数据的检索，类似于书籍的索引。在数据库中索引可以减少数据库程序查询结果时需要读取的数据量，类似于在书籍中我们利用索引可以不用翻阅整本书即可找到想要的信息。 #### 2）索引是建立在表上的可选对象；索引的关键在于通过一组排序后的索引键来取代默认的全表扫描检索方式，从而提高检索效率 #### 3）索引在逻辑上和物理上都与相关的表和数据无关，当创建或者删除一个索引时，不会影响基本的表； #### 4）索引一旦建立，在表上进行DML操作时（例如在执行插入、修改或者删除相关操作时），oracle会自动管理索引，索引删除，不会对表产生影响 #### 5）索引对用户是透明的，无论表上是否有索引，sql语句的用法不变 #### 6）oracle创建主键时会自动在该列上创建索引 二.索引原理1. 若没有索引，搜索某个记录时（例如查找name=’wish’）需要搜索所有的记录，因为不能保证只有一个wish，必须全部搜索一遍2. 若在name上建立索引，oracle会对全表进行一次搜索，将每条记录的name值哪找升序排列，然后构建索引条目（name和rowid），存储到索引段中，查询name为wish时即可直接查找对应地方3.创建了索引并不一定就会使用，oracle自动统计表的信息后，决定是否使用索引，表中数据很少时使用全表扫描速度已经很快，没有必要使用索引三.索引使用（创建、修改、删除、查看）1.创建索引语法CREATE [UNIQUE] | [BITMAP] INDEX index_name –unique表示唯一索引 ON table_name([column1 [ASC|DESC],column2 –bitmap，创建位图索引 [ASC|DESC],…] | [express]) [TABLESPACE tablespace_name] [PCTFREE n1] –指定索引在数据块中空闲空间 [STORAGE (INITIAL n2)] [NOLOGGING] –表示创建和重建索引时允许对表做DML操作，默认情况下不应该使用 [NOLINE] [NOSORT]; –表示创建索引时不进行排序，默认不适用，如果数据已经是按照该索引顺序排列的可以使用 2.修改索引1）重命名索引alter index index_sno rename to bitmap_index; 2) 合并索引（表使用一段时间后在索引中会产生碎片，此时索引效率会降低，可以选择重建索引或者合并索引,合并索引方式更好些，无需额外存储空间，代价较低）alter index index_sno coalesce; 3)重建索引方式一：删除原来的索引，重新建立索引 方式二： alter index index_sno rebuild; 3.删除索引drop index index_sno; 4.查看索引复制代码复制代码 select index_name,index-type, tablespace_name, uniqueness from all_indexes where table_name =’tablename’; – eg:create index index_sno on student(‘name’);select * from all_indexes where table_name=’student’; 四.索引分类1. B树索引（默认索引，保存讲过排序过的索引列和对应的rowid值）1）说明： 1.oracle中最常用的索引；B树索引就是一颗二叉树；叶子节点（双向链表）包含索引列和指向表中每个匹配行的ROWID值 2.所有叶子节点具有相同的深度，因而不管查询条件怎样，查询速度基本相同 3.能够适应精确查询、模糊查询和比较查询 2）分类： UNIQUE,NON-UNIQUE(默认),REVERSE KEY（数据列中的数据是反向存储的） 3）创建例子craete index index_sno on student(‘sno’); 4）适合使用场景： 列基数（列不重复值的个数）大时适合使用B数索引 2. 位图索引1）说明： 创建位图索引时，oracle会扫描整张表，并为索引列的每个取值建立一个位图（位图中，对表中每一行 使用一位（bit，0或者1）来标识该行是否包含该位图的索引列的取值，如果为1，表示对应的rowid所在的记录包含该位图索引列值），最后通过位图索 引中的映射函数完成位到行的ROWID的转换 2)创建例子create bitmap index index_sno on student(sno); 3) 适合场景：对于基数小的列适合简历位图索引（例如性别等） 3.单列索引和复合索引（基于多个列创建）注意： 即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引，即至少要包含组合索引的第一列 4. 函数索引1)说明： 1. 当经常要访问一些函数或者表达式时，可以将其存储在索引中，这样下次访问时，该值已经计算出来了，可以加快查询速度 2. 函数索引既可以使用B数索引，也可以使用位图索引；当函数结果不确定时采用B树索引，结果是固定的某几个值时使用位图索引 3. 函数索引中可以水泥用len、trim、substr、upper（每行返回独立结果），不能使用如sum、max、min、avg等 2）例子：create index fbi on student (upper(name)); select * from student where upper(name) =’WISH’; 五.索引建立原则总结1. 如果有两个或者以上的索引，其中有一个唯一性索引，而其他是非唯一，这种情况下oracle将使用唯一性索引而完全忽略非唯一性索引2. 至少要包含组合索引的第一列（即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引）3. 小表不要简历索引4. 对于基数大的列适合建立B树索引，对于基数小的列适合简历位图索引5. 列中有很多空值，但经常查询该列上非空记录时应该建立索引6. 经常进行连接查询的列应该创建索引7. 使用create index时要将最常查询的列放在最前面8. LONG（可变长字符串数据，最长2G）和LONG RAW（可变长二进制数据，最长2G）列不能创建索引9.限制表中索引的数量（创建索引耗费时间，并且随数据量的增大而增大；索引会占用物理空间；当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，降低了数据的维护速度）六.注意事项1. 通配符在搜索词首出现时，oracle不能使用索引，eg：复制代码复制代码 –我们在name上创建索引； create index index_name on student(‘name’); –下面的方式oracle不适用name索引 select * from student where name like ‘%wish%’; –如果通配符出现在字符串的其他位置时，优化器能够利用索引；如下： select * from student where name like ‘wish%’; 复制代码复制代码 2. 不要在索引列上使用not，可以采用其他方式代替如下：（oracle碰到not会停止使用索引，而采用全表扫描）复制代码复制代码 select * from student where not (score=100); select * from student where score &lt;&gt; 100; –替换为 select * from student where score&gt;100 or score &lt;100 复制代码复制代码 3. 索引上使用空值比较将停止使用索引， eg：select * from student where score is not null;]]></content>
+      <categories>
+        <category>oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+        <tag>oracle索引</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[oracle 数据库 实例 用户 表空间 之间的关系（转）]]></title>
     <url>%2F2018%2F12%2F13%2Foracle-framework%2F</url>
     <content type="text"><![CDATA[数据库：Oracle数据库是数据的物理存储。这就包括（数据文件ORA或者DBF、控制文件、联机日志、参数文件）。其实Oracle数据库的概念和其它数据库不一样，这里的数据库是一个操作系统只有一个库。可以看作是Oracle就只有一个大数据库。 实例：一个Oracle实例（Oracle Instance）有一系列的后台进程（Backguound Processes)和内存结构（Memory Structures)组成。一个数据库可以有n个实例。 用户：用户是在实例下建立的。不同实例可以建相同名字的用户。 表空间：表空间是一个用来管理数据存储逻辑概念，表空间只是和数据文件（ORA或者DBF文件）发生关系，数据文件是物理的，一个表空间可以包含多个数据文件，而一个数据文件只能隶属一个表空间。 数据文件（dbf、ora）： 数据文件是数据库的物理存储单位。数据库的数据是存储在表空间中的，真 正是在某一个或者多个数据文件中。而一个表空间可以由一个或多个数据文件组成，一个数据文件只能属于一个表空间。一旦数据文件被加入到某个表空间后，就不能删除这个文件，如果要删除某个数据文件，只能删除其所属于的表空间才行。 注：表的数据，是有用户放入某一个表空间的，而这个表空间会随机把这些表数据放到一个或者多个数据文件中。由于oracle的数据库不是普通的概念，oracle是有用户和表空间对数据进行管理和存放的。但是表不是有表空间去查询的，而是由用户去查的。因为不同用户可以在同一个表空间建立同一个名字的表！这里区分就是用户了！ 关系示意图： 理解1：Oracle数据库可以创建多个实例，每个实例可以创建多个表空间，每个表空间下可以创建多个用户（同时用户也属于表空间对应的实例）和数据库文件，用户可以创建多个表（每个表随机存储在一个或多个数据库文件中），如下图：理解2：理解1MS有误。实例下有和，授权访问，是管理的，经授权在中创建，随机存储到不同的中。如下图所示：操作1：安装Oracle后会有默认的实例，即ORCL。一般不创建多个实例，在默认实例下创建表空间和用户等。 1，运行CMD进入DOS界面，首先输入：sqlplus，回车；再输入：sys/sys as sysdba，回车，即进入“SQL〉”操作状态。 2，输入：CREATE TABLESPACE 表空间名称 LOGGING DATAFILE ‘c:\表空间数据文件.ora’ SIZE 500M autoextend on next 200m maxsize 2048m;，表空间创建完成。 3，输入：CREATE USER 用户名称 PROFILE default IDENTIFIED BY 用户密码 DEFAULT TABLESPACE 授权访问的表空间名称 TEMPORARY TABLESPACE temp ACCOUNT UNLOCK;，用户创建完成，并授权用户访问某表空间。 具体操作如下图所示： 操作2： 创建表和插入数据，并查询浏览插入的数据。 1，创建表，输入： create table 表名( 字段名称1 字段类型, 字段名称2 字段类型, 字段名称3 字段类型 );，回车。 2，插入数据，输入：insert into 表名(字段1,字段2,字段3) VALUES (值1,值2,值3);，回车。 3，查询数据，输入：select * from 表名;，回车。 具体操作如下图所示： 基本操作流程1.创建数据表空间 create tablespace CICI logging datafile ‘D:\oraclexe\app\oracle\oradata\CICI\CICI.DBF’ size 32m autoextend on next 32m maxsize 2048m extent management local; 2.创建用户并指定表空间 CREATE USER cici IDENTIFIED BY cici PROFILE DEFAULT DEFAULT TABLESPACE CICI ACCOUNT UNLOCK; – 为用户赋予权限 GRANT connect, resource TO cici; grant create session to cici; 3.登录用户 sql&gt;conn 请输入用户名 cici 请输入密码 XXXXXX 4.建立表 create table aa(name varchar2(100),age number(4)); insert into aa values(‘wo’,29); 5.查询表 select * from cici.A;]]></content>
@@ -45,9 +57,9 @@
         <category>spring-redis</category>
       </categories>
       <tags>
-        <tag>spring</tag>
-        <tag>redis</tag>
         <tag>非关系型数据库</tag>
+        <tag>redis</tag>
+        <tag>spring</tag>
       </tags>
   </entry>
   <entry>
@@ -58,10 +70,10 @@
         <category>redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>非关系型数据库</tag>
         <tag>数据库</tag>
+        <tag>非关系型数据库</tag>
         <tag>缓存数据库</tag>
+        <tag>redis</tag>
         <tag>持久化</tag>
       </tags>
   </entry>
@@ -73,10 +85,10 @@
         <category>redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>非关系型数据库</tag>
         <tag>数据库</tag>
+        <tag>非关系型数据库</tag>
         <tag>缓存数据库</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -87,10 +99,10 @@
         <category>redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>非关系型数据库</tag>
         <tag>数据库</tag>
+        <tag>非关系型数据库</tag>
         <tag>缓存数据库</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -101,8 +113,8 @@
         <category>springboot-redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
         <tag>非关系型数据库</tag>
+        <tag>redis</tag>
         <tag>springboot</tag>
       </tags>
   </entry>

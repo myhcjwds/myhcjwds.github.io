@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-15T03:42:28.823Z</updated>
+  <updated>2018-12-16T05:30:05.638Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>oracle索引</title>
+    <link href="http://yoursite.com/2018/12/16/oracle-index/"/>
+    <id>http://yoursite.com/2018/12/16/oracle-index/</id>
+    <published>2018-12-16T08:00:00.000Z</published>
+    <updated>2018-12-16T05:30:05.638Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="oracle索引总结"><a href="#oracle索引总结" class="headerlink" title="oracle索引总结"></a>oracle索引总结</h2><p><img src="http://pjpn7mq4k.bkt.clouddn.com/oracle-index.jpg" alt="oracle-index"></p><h3 id="一-说明"><a href="#一-说明" class="headerlink" title="一.说明"></a>一.说明</h3><p>　　#### 1）索引是数据库对象之一，用于加快数据的检索，类似于书籍的索引。在数据库中索引可以减少数据库程序查询结果时需要读取的数据量，类似于在书籍中我们利用索引可以不用翻阅整本书即可找到想要的信息。</p><p>　　#### 2）索引是建立在表上的可选对象；索引的关键在于通过一组排序后的索引键来取代默认的全表扫描检索方式，从而提高检索效率</p><p>　　#### 3）索引在逻辑上和物理上都与相关的表和数据无关，当创建或者删除一个索引时，不会影响基本的表；</p><p>　　#### 4）索引一旦建立，在表上进行DML操作时（例如在执行插入、修改或者删除相关操作时），oracle会自动管理索引，索引删除，不会对表产生影响</p><p>　　#### 5）索引对用户是透明的，无论表上是否有索引，sql语句的用法不变</p><p>　　#### 6）oracle创建主键时会自动在该列上创建索引</p><h3 id="二-索引原理"><a href="#二-索引原理" class="headerlink" title="二.索引原理"></a>二.索引原理</h3><h4 id="1-若没有索引，搜索某个记录时（例如查找name-’wish’）需要搜索所有的记录，因为不能保证只有一个wish，必须全部搜索一遍"><a href="#1-若没有索引，搜索某个记录时（例如查找name-’wish’）需要搜索所有的记录，因为不能保证只有一个wish，必须全部搜索一遍" class="headerlink" title="1.  若没有索引，搜索某个记录时（例如查找name=’wish’）需要搜索所有的记录，因为不能保证只有一个wish，必须全部搜索一遍"></a>1.  若没有索引，搜索某个记录时（例如查找name=’wish’）需要搜索所有的记录，因为不能保证只有一个wish，必须全部搜索一遍</h4><h4 id="2-若在name上建立索引，oracle会对全表进行一次搜索，将每条记录的name值哪找升序排列，然后构建索引条目（name和rowid），存储到索引段中，查询name为wish时即可直接查找对应地方"><a href="#2-若在name上建立索引，oracle会对全表进行一次搜索，将每条记录的name值哪找升序排列，然后构建索引条目（name和rowid），存储到索引段中，查询name为wish时即可直接查找对应地方" class="headerlink" title="2. 若在name上建立索引，oracle会对全表进行一次搜索，将每条记录的name值哪找升序排列，然后构建索引条目（name和rowid），存储到索引段中，查询name为wish时即可直接查找对应地方"></a>2. 若在name上建立索引，oracle会对全表进行一次搜索，将每条记录的name值哪找升序排列，然后构建索引条目（name和rowid），存储到索引段中，查询name为wish时即可直接查找对应地方</h4><h4 id="3-创建了索引并不一定就会使用，oracle自动统计表的信息后，决定是否使用索引，表中数据很少时使用全表扫描速度已经很快，没有必要使用索引"><a href="#3-创建了索引并不一定就会使用，oracle自动统计表的信息后，决定是否使用索引，表中数据很少时使用全表扫描速度已经很快，没有必要使用索引" class="headerlink" title="3.创建了索引并不一定就会使用，oracle自动统计表的信息后，决定是否使用索引，表中数据很少时使用全表扫描速度已经很快，没有必要使用索引"></a>3.创建了索引并不一定就会使用，oracle自动统计表的信息后，决定是否使用索引，表中数据很少时使用全表扫描速度已经很快，没有必要使用索引</h4><h3 id="三-索引使用（创建、修改、删除、查看）"><a href="#三-索引使用（创建、修改、删除、查看）" class="headerlink" title="三.索引使用（创建、修改、删除、查看）"></a>三.索引使用（创建、修改、删除、查看）</h3><h4 id="1-创建索引语法"><a href="#1-创建索引语法" class="headerlink" title="1.创建索引语法"></a>1.创建索引语法</h4><p>CREATE [UNIQUE] | [BITMAP] INDEX index_name  –unique表示唯一索引</p><p>ON table_name([column1 [ASC|DESC],column2    –bitmap，创建位图索引</p><p>[ASC|DESC],…] | [express])</p><p>[TABLESPACE tablespace_name]</p><p>[PCTFREE n1]                                 –指定索引在数据块中空闲空间</p><p>[STORAGE (INITIAL n2)]</p><p>[NOLOGGING]                                  –表示创建和重建索引时允许对表做DML操作，默认情况下不应该使用</p><p>[NOLINE]</p><p>[NOSORT];                                    –表示创建索引时不进行排序，默认不适用，如果数据已经是按照该索引顺序排列的可以使用</p><h4 id="2-修改索引"><a href="#2-修改索引" class="headerlink" title="2.修改索引"></a>2.修改索引</h4><h5 id="1）重命名索引"><a href="#1）重命名索引" class="headerlink" title="1）重命名索引"></a>1）重命名索引</h5><p>alter index index_sno rename to bitmap_index;</p><h5 id="2-合并索引（表使用一段时间后在索引中会产生碎片，此时索引效率会降低，可以选择重建索引或者合并索引-合并索引方式更好些，无需额外存储空间，代价较低）"><a href="#2-合并索引（表使用一段时间后在索引中会产生碎片，此时索引效率会降低，可以选择重建索引或者合并索引-合并索引方式更好些，无需额外存储空间，代价较低）" class="headerlink" title="2) 合并索引（表使用一段时间后在索引中会产生碎片，此时索引效率会降低，可以选择重建索引或者合并索引,合并索引方式更好些，无需额外存储空间，代价较低）"></a>2) 合并索引（表使用一段时间后在索引中会产生碎片，此时索引效率会降低，可以选择重建索引或者合并索引,合并索引方式更好些，无需额外存储空间，代价较低）</h5><p>alter index index_sno coalesce;</p><h5 id="3-重建索引"><a href="#3-重建索引" class="headerlink" title="3)重建索引"></a>3)重建索引</h5><p>方式一：删除原来的索引，重新建立索引</p><p>方式二：</p><p>alter index index_sno rebuild;</p><h4 id="3-删除索引"><a href="#3-删除索引" class="headerlink" title="3.删除索引"></a>3.删除索引</h4><p>drop index index_sno;</p><h4 id="4-查看索引"><a href="#4-查看索引" class="headerlink" title="4.查看索引"></a>4.查看索引</h4><p>复制代码<br>复制代码</p><p>select index_name,index-type, tablespace_name, uniqueness from all_indexes where table_name =’tablename’;</p><p> – eg:<br>create index index_sno on student(‘name’);<br>select * from all_indexes where table_name=’student’;</p><h3 id="四-索引分类"><a href="#四-索引分类" class="headerlink" title="四.索引分类"></a>四.索引分类</h3><h4 id="1-B树索引（默认索引，保存讲过排序过的索引列和对应的rowid值）"><a href="#1-B树索引（默认索引，保存讲过排序过的索引列和对应的rowid值）" class="headerlink" title="1. B树索引（默认索引，保存讲过排序过的索引列和对应的rowid值）"></a>1. B树索引（默认索引，保存讲过排序过的索引列和对应的rowid值）</h4><h5 id="1）说明："><a href="#1）说明：" class="headerlink" title="1）说明："></a>1）说明：</h5><p>　　1.oracle中最常用的索引；B树索引就是一颗二叉树；叶子节点（双向链表）包含索引列和指向表中每个匹配行的ROWID值</p><p>　　2.所有叶子节点具有相同的深度，因而不管查询条件怎样，查询速度基本相同</p><p>　　3.能够适应精确查询、模糊查询和比较查询</p><h5 id="2）分类："><a href="#2）分类：" class="headerlink" title="2）分类："></a>2）分类：</h5><p>　　 UNIQUE,NON-UNIQUE(默认),REVERSE KEY（数据列中的数据是反向存储的）</p><h5 id="3）创建例子"><a href="#3）创建例子" class="headerlink" title="3）创建例子"></a>3）创建例子</h5><p>craete index index_sno on student(‘sno’);</p><h5 id="4）适合使用场景："><a href="#4）适合使用场景：" class="headerlink" title="4）适合使用场景："></a>4）适合使用场景：</h5><p>　　列基数（列不重复值的个数）大时适合使用B数索引</p><p>　　</p><h4 id="2-位图索引"><a href="#2-位图索引" class="headerlink" title="2. 位图索引"></a>2. 位图索引</h4><h5 id="1）说明：-1"><a href="#1）说明：-1" class="headerlink" title="1）说明："></a>1）说明：</h5><p>　　创建位图索引时，oracle会扫描整张表，并为索引列的每个取值建立一个位图（位图中，对表中每一行 使用一位（bit，0或者1）来标识该行是否包含该位图的索引列的取值，如果为1，表示对应的rowid所在的记录包含该位图索引列值），最后通过位图索 引中的映射函数完成位到行的ROWID的转换</p><h5 id="2-创建例子"><a href="#2-创建例子" class="headerlink" title="2)创建例子"></a>2)创建例子</h5><p>create bitmap index index_sno on student(sno);</p><h5 id="3-适合场景："><a href="#3-适合场景：" class="headerlink" title="3) 适合场景："></a>3) 适合场景：</h5><p>对于基数小的列适合简历位图索引（例如性别等）</p><h4 id="3-单列索引和复合索引（基于多个列创建）"><a href="#3-单列索引和复合索引（基于多个列创建）" class="headerlink" title="3.单列索引和复合索引（基于多个列创建）"></a>3.单列索引和复合索引（基于多个列创建）</h4><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>　　即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引，即至少要包含组合索引的第一列</p><h4 id="4-函数索引"><a href="#4-函数索引" class="headerlink" title="4. 函数索引"></a>4. 函数索引</h4><h5 id="1-说明："><a href="#1-说明：" class="headerlink" title="1)说明："></a>1)说明：</h5><p>　　1. 当经常要访问一些函数或者表达式时，可以将其存储在索引中，这样下次访问时，该值已经计算出来了，可以加快查询速度</p><p>　　2. 函数索引既可以使用B数索引，也可以使用位图索引；当函数结果不确定时采用B树索引，结果是固定的某几个值时使用位图索引</p><p>　　3. 函数索引中可以水泥用len、trim、substr、upper（每行返回独立结果），不能使用如sum、max、min、avg等</p><h5 id="2）例子："><a href="#2）例子：" class="headerlink" title="2）例子："></a>2）例子：</h5><p>create index fbi  on student (upper(name));</p><p>select * from student where upper(name) =’WISH’;</p><h3 id="五-索引建立原则总结"><a href="#五-索引建立原则总结" class="headerlink" title="五.索引建立原则总结"></a>五.索引建立原则总结</h3><h4 id="1-如果有两个或者以上的索引，其中有一个唯一性索引，而其他是非唯一，这种情况下oracle将使用唯一性索引而完全忽略非唯一性索引"><a href="#1-如果有两个或者以上的索引，其中有一个唯一性索引，而其他是非唯一，这种情况下oracle将使用唯一性索引而完全忽略非唯一性索引" class="headerlink" title="1. 如果有两个或者以上的索引，其中有一个唯一性索引，而其他是非唯一，这种情况下oracle将使用唯一性索引而完全忽略非唯一性索引"></a>1. 如果有两个或者以上的索引，其中有一个唯一性索引，而其他是非唯一，这种情况下oracle将使用唯一性索引而完全忽略非唯一性索引</h4><h4 id="2-至少要包含组合索引的第一列（即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引）"><a href="#2-至少要包含组合索引的第一列（即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引）" class="headerlink" title="2. 至少要包含组合索引的第一列（即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引）"></a>2. 至少要包含组合索引的第一列（即如果索引建立在多个列上，只有它的第一个列被where子句引用时，优化器才会使用该索引）</h4><h4 id="3-小表不要简历索引"><a href="#3-小表不要简历索引" class="headerlink" title="3. 小表不要简历索引"></a>3. 小表不要简历索引</h4><h4 id="4-对于基数大的列适合建立B树索引，对于基数小的列适合简历位图索引"><a href="#4-对于基数大的列适合建立B树索引，对于基数小的列适合简历位图索引" class="headerlink" title="4. 对于基数大的列适合建立B树索引，对于基数小的列适合简历位图索引"></a>4. 对于基数大的列适合建立B树索引，对于基数小的列适合简历位图索引</h4><h4 id="5-列中有很多空值，但经常查询该列上非空记录时应该建立索引"><a href="#5-列中有很多空值，但经常查询该列上非空记录时应该建立索引" class="headerlink" title="5. 列中有很多空值，但经常查询该列上非空记录时应该建立索引"></a>5. 列中有很多空值，但经常查询该列上非空记录时应该建立索引</h4><h4 id="6-经常进行连接查询的列应该创建索引"><a href="#6-经常进行连接查询的列应该创建索引" class="headerlink" title="6. 经常进行连接查询的列应该创建索引"></a>6. 经常进行连接查询的列应该创建索引</h4><h4 id="7-使用create-index时要将最常查询的列放在最前面"><a href="#7-使用create-index时要将最常查询的列放在最前面" class="headerlink" title="7. 使用create index时要将最常查询的列放在最前面"></a>7. 使用create index时要将最常查询的列放在最前面</h4><h4 id="8-LONG（可变长字符串数据，最长2G）和LONG-RAW（可变长二进制数据，最长2G）列不能创建索引"><a href="#8-LONG（可变长字符串数据，最长2G）和LONG-RAW（可变长二进制数据，最长2G）列不能创建索引" class="headerlink" title="8. LONG（可变长字符串数据，最长2G）和LONG RAW（可变长二进制数据，最长2G）列不能创建索引"></a>8. LONG（可变长字符串数据，最长2G）和LONG RAW（可变长二进制数据，最长2G）列不能创建索引</h4><h4 id="9-限制表中索引的数量（创建索引耗费时间，并且随数据量的增大而增大；索引会占用物理空间；当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，降低了数据的维护速度）"><a href="#9-限制表中索引的数量（创建索引耗费时间，并且随数据量的增大而增大；索引会占用物理空间；当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，降低了数据的维护速度）" class="headerlink" title="9.限制表中索引的数量（创建索引耗费时间，并且随数据量的增大而增大；索引会占用物理空间；当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，降低了数据的维护速度）"></a>9.限制表中索引的数量（创建索引耗费时间，并且随数据量的增大而增大；索引会占用物理空间；当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，降低了数据的维护速度）</h4><h3 id="六-注意事项"><a href="#六-注意事项" class="headerlink" title="六.注意事项"></a>六.注意事项</h3><h4 id="1-通配符在搜索词首出现时，oracle不能使用索引，eg："><a href="#1-通配符在搜索词首出现时，oracle不能使用索引，eg：" class="headerlink" title="1. 通配符在搜索词首出现时，oracle不能使用索引，eg："></a>1. 通配符在搜索词首出现时，oracle不能使用索引，eg：</h4><p>复制代码<br>复制代码</p><p>–我们在name上创建索引；</p><p>create index index_name on student(‘name’);</p><p>–下面的方式oracle不适用name索引</p><p>select * from student where name like ‘%wish%’;</p><p>–如果通配符出现在字符串的其他位置时，优化器能够利用索引；如下：</p><p>select * from student where name like ‘wish%’;</p><p>复制代码<br>复制代码</p><h4 id="2-不要在索引列上使用not，可以采用其他方式代替如下：（oracle碰到not会停止使用索引，而采用全表扫描）"><a href="#2-不要在索引列上使用not，可以采用其他方式代替如下：（oracle碰到not会停止使用索引，而采用全表扫描）" class="headerlink" title="2. 不要在索引列上使用not，可以采用其他方式代替如下：（oracle碰到not会停止使用索引，而采用全表扫描）"></a>2. 不要在索引列上使用not，可以采用其他方式代替如下：（oracle碰到not会停止使用索引，而采用全表扫描）</h4><p>复制代码<br>复制代码</p><p>select * from student where not (score=100);</p><p>select * from student where score &lt;&gt; 100;</p><p>–替换为</p><p>select * from student where score&gt;100 or score &lt;100</p><p>复制代码<br>复制代码</p><h4 id="3-索引上使用空值比较将停止使用索引，-eg："><a href="#3-索引上使用空值比较将停止使用索引，-eg：" class="headerlink" title="3. 索引上使用空值比较将停止使用索引， eg："></a>3. 索引上使用空值比较将停止使用索引， eg：</h4><p>select * from student where score is not null;</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;oracle索引总结&quot;&gt;&lt;a href=&quot;#oracle索引总结&quot; class=&quot;headerlink&quot; title=&quot;oracle索引总结&quot;&gt;&lt;/a&gt;oracle索引总结&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://pjpn7mq4k.bkt.clouddn
+      
+    
+    </summary>
+    
+      <category term="oracle" scheme="http://yoursite.com/categories/oracle/"/>
+    
+    
+      <category term="oracle" scheme="http://yoursite.com/tags/oracle/"/>
+    
+      <category term="oracle索引" scheme="http://yoursite.com/tags/oracle%E7%B4%A2%E5%BC%95/"/>
+    
+  </entry>
   
   <entry>
     <title>oracle 数据库 实例 用户 表空间 之间的关系（转）</title>
@@ -100,35 +127,6 @@
   </entry>
   
   <entry>
-    <title>redis完善(spring整合)篇</title>
-    <link href="http://yoursite.com/2018/12/12/redis4/"/>
-    <id>http://yoursite.com/2018/12/12/redis4/</id>
-    <published>2018-12-12T10:15:42.000Z</published>
-    <updated>2018-12-14T10:59:10.044Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="jedis介绍"><a href="#jedis介绍" class="headerlink" title="jedis介绍"></a>jedis介绍</h3><p>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br>在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br>Jedis同样也是托管在github上，地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a> </p><h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><h4 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h4><p>pom坐标：</p><pre><code>&lt;dependency&gt;        &lt;groupId&gt;redis.clients&lt;/groupId&gt;        &lt;artifactId&gt;jedis&lt;/artifactId&gt;        &lt;version&gt;2.7.0&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><p>通过创建单实例jedis对象连接redis服务，如下代码：</p><pre><code>// 单实例连接redis@Testpublic void testJedisSingle() {Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);jedis.set(&quot;name&quot;, &quot;bar&quot;);String name = jedis.get(&quot;name&quot;);System.out.println(name);jedis.close();}</code></pre><h4 id="连接超时解决"><a href="#连接超时解决" class="headerlink" title="连接超时解决"></a>连接超时解决</h4><p>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。</p><p>关闭防火墙命令：</p><pre><code>sevice iptables stop</code></pre><p>如果是修改防火墙规则，可以修改：</p><pre><code>/etc/sysconfig/iptables文件</code></pre><h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p><pre><code>@Testpublic void pool() {    JedisPoolConfig config = new JedisPoolConfig();    //最大连接数    config.setMaxTotal(30);    //最大连接空闲数    config.setMaxIdle(2);    JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);    Jedis jedis = null;    try  {        jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre><h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><p>配置spring配置文件applicationContext.xml</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd     http://www.springframework.org/schema/context     http://www.springframework.org/schema/context/spring-context-3.2.xsd     http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     http://www.springframework.org/schema/tx     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;    连接池配置    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;    &lt;!-- 最大连接数 --&gt;    &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;    &lt;!-- 最大空闲连接数 --&gt;    &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;    &lt;!-- 每次释放连接的最大数目 --&gt;    &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;    &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;    &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;    &lt;!-- 连接最小空闲时间 --&gt;    &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;    &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;    &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;    &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;    &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;    &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;    &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;    &lt;!-- 在空闲时检查有效性, 默认false --&gt;    &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;    &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;    &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;&lt;/bean&gt;&lt;!-- redis单机 通过连接池 --&gt;&lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;    &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;    &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;    &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;&lt;/bean&gt;&lt;/beans&gt;</code></pre><p>测试代码：</p><pre><code>private ApplicationContext applicationContext;@Beforepublic void init() {    applicationContext = new ClassPathXmlApplicationContext(            &quot;classpath:applicationContext.xml&quot;);}@Testpublic void testJedisPool() {JedisPool pool = (JedisPool) applicationContext.getBean(&quot;jedisPool&quot;);        try  {        Jedis jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;jedis&quot;&gt;&lt;a href=&quot;#jedis&quot; class=&quot;headerlink&quot; title=&quot;jedis&quot;&gt;&lt;/a&gt;jedis&lt;/h2&gt;&lt;h3 id=&quot;jedis介绍&quot;&gt;&lt;a href=&quot;#jedis介绍&quot; class=&quot;headerlink&quot; title=
-      
-    
-    </summary>
-    
-      <category term="spring-redis" scheme="http://yoursite.com/categories/spring-redis/"/>
-    
-    
-      <category term="spring" scheme="http://yoursite.com/tags/spring/"/>
-    
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
-    
-      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
     <title>redis高级篇</title>
     <link href="http://yoursite.com/2018/12/12/redis3/"/>
     <id>http://yoursite.com/2018/12/12/redis3/</id>
@@ -149,15 +147,44 @@
       <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
     
     
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
       <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
-      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
       <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
       <category term="持久化" scheme="http://yoursite.com/tags/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis完善(spring整合)篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis4/"/>
+    <id>http://yoursite.com/2018/12/12/redis4/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-14T10:59:10.044Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="jedis介绍"><a href="#jedis介绍" class="headerlink" title="jedis介绍"></a>jedis介绍</h3><p>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br>在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br>Jedis同样也是托管在github上，地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a> </p><h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><h4 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h4><p>pom坐标：</p><pre><code>&lt;dependency&gt;        &lt;groupId&gt;redis.clients&lt;/groupId&gt;        &lt;artifactId&gt;jedis&lt;/artifactId&gt;        &lt;version&gt;2.7.0&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><p>通过创建单实例jedis对象连接redis服务，如下代码：</p><pre><code>// 单实例连接redis@Testpublic void testJedisSingle() {Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);jedis.set(&quot;name&quot;, &quot;bar&quot;);String name = jedis.get(&quot;name&quot;);System.out.println(name);jedis.close();}</code></pre><h4 id="连接超时解决"><a href="#连接超时解决" class="headerlink" title="连接超时解决"></a>连接超时解决</h4><p>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。</p><p>关闭防火墙命令：</p><pre><code>sevice iptables stop</code></pre><p>如果是修改防火墙规则，可以修改：</p><pre><code>/etc/sysconfig/iptables文件</code></pre><h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p><pre><code>@Testpublic void pool() {    JedisPoolConfig config = new JedisPoolConfig();    //最大连接数    config.setMaxTotal(30);    //最大连接空闲数    config.setMaxIdle(2);    JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);    Jedis jedis = null;    try  {        jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre><h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><p>配置spring配置文件applicationContext.xml</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd     http://www.springframework.org/schema/context     http://www.springframework.org/schema/context/spring-context-3.2.xsd     http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     http://www.springframework.org/schema/tx     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;    连接池配置    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;    &lt;!-- 最大连接数 --&gt;    &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;    &lt;!-- 最大空闲连接数 --&gt;    &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;    &lt;!-- 每次释放连接的最大数目 --&gt;    &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;    &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;    &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;    &lt;!-- 连接最小空闲时间 --&gt;    &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;    &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;    &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;    &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;    &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;    &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;    &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;    &lt;!-- 在空闲时检查有效性, 默认false --&gt;    &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;    &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;    &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;&lt;/bean&gt;&lt;!-- redis单机 通过连接池 --&gt;&lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;    &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;    &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;    &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;&lt;/bean&gt;&lt;/beans&gt;</code></pre><p>测试代码：</p><pre><code>private ApplicationContext applicationContext;@Beforepublic void init() {    applicationContext = new ClassPathXmlApplicationContext(            &quot;classpath:applicationContext.xml&quot;);}@Testpublic void testJedisPool() {JedisPool pool = (JedisPool) applicationContext.getBean(&quot;jedisPool&quot;);        try  {        Jedis jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;jedis&quot;&gt;&lt;a href=&quot;#jedis&quot; class=&quot;headerlink&quot; title=&quot;jedis&quot;&gt;&lt;/a&gt;jedis&lt;/h2&gt;&lt;h3 id=&quot;jedis介绍&quot;&gt;&lt;a href=&quot;#jedis介绍&quot; class=&quot;headerlink&quot; title=
+      
+    
+    </summary>
+    
+      <category term="spring-redis" scheme="http://yoursite.com/categories/spring-redis/"/>
+    
+    
+      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+      <category term="spring" scheme="http://yoursite.com/tags/spring/"/>
     
   </entry>
   
@@ -182,13 +209,13 @@
       <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
     
     
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
       <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
-      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
       <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
     
   </entry>
   
@@ -213,13 +240,13 @@
       <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
     
     
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
       <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
-      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
       <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
     
   </entry>
   
@@ -244,9 +271,9 @@
       <category term="springboot-redis" scheme="http://yoursite.com/categories/springboot-redis/"/>
     
     
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
-    
       <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
     
       <category term="springboot" scheme="http://yoursite.com/tags/springboot/"/>
     
