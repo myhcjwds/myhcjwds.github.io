@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/12/16/hibernate-1/</loc>
+    
+    <lastmod>2018-12-16T13:46:28.314Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/12/16/oracle-index/</loc>
     
     <lastmod>2018-12-16T05:36:34.823Z</lastmod>
