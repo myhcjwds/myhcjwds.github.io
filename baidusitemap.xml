@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://yoursite.com/2018/12/20/hibernate-2/</loc>
-    <lastmod>2018-12-17T12:10:08.053Z</lastmod>
-  </url>  <url>
     <loc>http://yoursite.com/2018/12/16/hibernate-1/</loc>
-    <lastmod>2018-12-17T12:10:05.998Z</lastmod>
+    <lastmod>2018-12-17T12:12:31.333Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2018/12/20/hibernate-2/</loc>
+    <lastmod>2018-12-17T12:12:29.523Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/16/oracle-index/</loc>
     <lastmod>2018-12-16T05:36:34.823Z</lastmod>
