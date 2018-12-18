@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-17T12:13:20.357Z</updated>
+  <updated>2018-12-18T10:01:35.745Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hibernate高级篇(一对多/多对多)</title>
+    <link href="http://yoursite.com/2018/12/20/hibernate-3/"/>
+    <id>http://yoursite.com/2018/12/20/hibernate-3/</id>
+    <published>2018-12-19T23:00:00.000Z</published>
+    <updated>2018-12-18T10:01:35.745Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>Hibernate框架的学习路线</strong></p><pre><code>学习的路线   * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作   * 进阶篇：主要学习一级缓存、事务管理和基本的查询   * 高级篇：主要学习一对多和多对多的操作等   * 完善篇：基本查询和查询的优化</code></pre><hr><p><strong>今天内容</strong></p><pre><code>一. 一对多二. 多对多</code></pre><hr><h2 id="一-一对多"><a href="#一-一对多" class="headerlink" title="一.一对多"></a>一.一对多</h2><h3 id="1-技术分析之Hibernate的关联关系映射之-一对多-映射（重点）"><a href="#1-技术分析之Hibernate的关联关系映射之-一对多-映射（重点）" class="headerlink" title="1.技术分析之Hibernate的关联关系映射之 一对多 映射（重点）"></a>1.技术分析之Hibernate的关联关系映射之 一对多 映射（重点）</h3><pre><code>1. 编写客户和联系人的JavaBean程序（注意一对多的编写规则）    * 客户的JavaBean如下        public class Customer {            private Long cust_id;            private String cust_name;            private Long cust_user_id;            private Long cust_create_id;            private String cust_source;            private String cust_industry;            private String cust_level;            private String cust_linkman;            private String cust_phone;            private String cust_mobile;            private Set&lt;Linkman&gt; linkmans = new HashSet&lt;Linkman&gt;();        }    * 联系人的JavaBean如下        public class Linkman {            private Long lkm_id;            private String lkm_name;            private String lkm_gender;            private String lkm_phone;            private String lkm_mobile;            private String lkm_email;            private String lkm_qq;            private String lkm_position;            private String lkm_memo;            private Customer customer;        }2. 编写客户和联系人的映射配置文件（注意一对多的配置编写）    * 客户的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.Customer&quot; table=&quot;cst_customer&quot;&gt;            &lt;id name=&quot;cust_id&quot; column=&quot;cust_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;cust_name&quot; column=&quot;cust_name&quot;/&gt;            &lt;property name=&quot;cust_user_id&quot; column=&quot;cust_user_id&quot;/&gt;            &lt;property name=&quot;cust_create_id&quot; column=&quot;cust_create_id&quot;/&gt;            &lt;property name=&quot;cust_source&quot; column=&quot;cust_source&quot;/&gt;            &lt;property name=&quot;cust_industry&quot; column=&quot;cust_industry&quot;/&gt;            &lt;property name=&quot;cust_level&quot; column=&quot;cust_level&quot;/&gt;            &lt;property name=&quot;cust_linkman&quot; column=&quot;cust_linkman&quot;/&gt;            &lt;property name=&quot;cust_phone&quot; column=&quot;cust_phone&quot;/&gt;            &lt;property name=&quot;cust_mobile&quot; column=&quot;cust_mobile&quot;/&gt;            &lt;set name=&quot;linkmans&quot;&gt;                &lt;key column=&quot;lkm_cust_id&quot;/&gt;                &lt;one-to-many class=&quot;com.itheima.domain.Linkman&quot;/&gt;            &lt;/set&gt;        &lt;/class&gt;    * 联系人的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.Linkman&quot; table=&quot;cst_linkman&quot;&gt;            &lt;id name=&quot;lkm_id&quot; column=&quot;lkm_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;lkm_name&quot; column=&quot;lkm_name&quot;/&gt;            &lt;property name=&quot;lkm_gender&quot; column=&quot;lkm_gender&quot;/&gt;            &lt;property name=&quot;lkm_phone&quot; column=&quot;lkm_phone&quot;/&gt;            &lt;property name=&quot;lkm_mobile&quot; column=&quot;lkm_mobile&quot;/&gt;            &lt;property name=&quot;lkm_email&quot; column=&quot;lkm_email&quot;/&gt;            &lt;property name=&quot;lkm_qq&quot; column=&quot;lkm_qq&quot;/&gt;            &lt;property name=&quot;lkm_position&quot; column=&quot;lkm_position&quot;/&gt;            &lt;property name=&quot;lkm_memo&quot; column=&quot;lkm_memo&quot;/&gt;            &lt;many-to-one name=&quot;customer&quot; class=&quot;com.itheima.domain.Customer&quot; column=&quot;lkm_cust_id&quot;/&gt;        &lt;/class&gt;</code></pre><hr><h3 id="2-技术分析之保存客户和联系人的数据"><a href="#2-技术分析之保存客户和联系人的数据" class="headerlink" title="2.技术分析之保存客户和联系人的数据"></a>2.技术分析之保存客户和联系人的数据</h3><pre><code>进行双向关联进行数据的保存</code></pre><hr><h3 id="3-技术分析之级联保存"><a href="#3-技术分析之级联保存" class="headerlink" title="3.技术分析之级联保存"></a>3.技术分析之级联保存</h3><pre><code>1. 测试：如果现在代码只插入其中的一方的数据    * 如果只保存其中的一方的数据，那么程序会抛出异常。    * 如果想完成只保存一方的数据，并且把相关联的数据都保存到数据库中，那么需要配置级联！！    * 级联保存是方向性2. 级联保存效果    * 级联保存：保存一方同时可以把关联的对象也保存到数据库中！！    * 使用cascade=&quot;save-update&quot;</code></pre><hr><h3 id="4-技术分析之级联删除"><a href="#4-技术分析之级联删除" class="headerlink" title="4.技术分析之级联删除"></a>4.技术分析之级联删除</h3><pre><code>1. 先来给大家在数据库中演示含有外键的删除客户功能，那么SQL语句是会报出错误的    * 例如：delete from customers where cid = 1;2. 如果使用Hibernate框架直接删除客户的时候，测试发现是可以删除的3. 上述的删除是普通的删除，那么也可以使用级联删除，注意：级联删除也是有方向性的！！    * &lt;many-to-one cascade=&quot;delete&quot; /&gt;</code></pre><hr><h3 id="5-技术分析之级联的取值（cascade的取值）和孤儿删除"><a href="#5-技术分析之级联的取值（cascade的取值）和孤儿删除" class="headerlink" title="5.技术分析之级联的取值（cascade的取值）和孤儿删除"></a>5.技术分析之级联的取值（cascade的取值）和孤儿删除</h3><pre><code>1. 需要大家掌握的取值如下    * none                        -- 不使用级联    * save-update                -- 级联保存或更新    * delete                    -- 级联删除    * delete-orphan                -- 孤儿删除.(注意：只能应用在一对多关系)    * all                        -- 除了delete-orphan的所有情况.（包含save-update delete）    * all-delete-orphan            -- 包含了delete-orphan的所有情况.（包含save-update delete delete-orphan）2. 孤儿删除（孤子删除），只有在一对多的环境下才有孤儿删除    * 在一对多的关系中,可以将一的一方认为是父方.将多的一方认为是子方.孤儿删除:在解除了父子关系的时候.将子方记录就直接删除。    * &lt;many-to-one cascade=&quot;delete-orphan&quot; /&gt;</code></pre><hr><h3 id="6-技术分析之让某一方放弃外键的维护，为多对多做准备"><a href="#6-技术分析之让某一方放弃外键的维护，为多对多做准备" class="headerlink" title="6.技术分析之让某一方放弃外键的维护，为多对多做准备"></a>6.技术分析之让某一方放弃外键的维护，为多对多做准备</h3><pre><code>1. 先测试双方都维护外键的时候，会产生多余的SQL语句。    * 想修改客户和联系人的关系，进行双向关联，双方都会维护外键，会产生多余的SQL语句。    * 产生的原因：session的一级缓存中的快照机制，会让双方都更新数据库，产生了多余的SQL语句。2. 如果不想产生多余的SQL语句，那么需要一方来放弃外键的维护！    * 在&lt;set&gt;标签上配置一个inverse=”true”.true:放弃.false:不放弃.默认值是false    * &lt;inverse=&quot;true&quot;&gt;</code></pre><hr><h3 id="7-技术分析之cascade和inverse的区别"><a href="#7-技术分析之cascade和inverse的区别" class="headerlink" title="7.技术分析之cascade和inverse的区别"></a>7.技术分析之cascade和inverse的区别</h3><pre><code>1. cascade用来级联操作（保存、修改和删除）2. inverse用来维护外键的</code></pre><hr><h2 id="二-Hibernate的关联关系映射之多对多映射"><a href="#二-Hibernate的关联关系映射之多对多映射" class="headerlink" title="二.Hibernate的关联关系映射之多对多映射"></a>二.Hibernate的关联关系映射之多对多映射</h2><h3 id="1-技术分析之多对多JavaBean的编写"><a href="#1-技术分析之多对多JavaBean的编写" class="headerlink" title="1.技术分析之多对多JavaBean的编写"></a>1.技术分析之多对多JavaBean的编写</h3><pre><code>1. 编写用户和角色的JavaBean    * 用户的JavaBean代码如下        public class User {            private Long user_id;            private String user_code;            private String user_name;            private String user_password;            private String user_state;            private Set&lt;Role&gt; roles = new HashSet&lt;Role&gt;();        }    * 角色的JavaBean代码如下        public class Role {            private Long role_id;            private String role_name;            private String role_memo;            private Set&lt;User&gt; users = new HashSet&lt;User&gt;();        }2. 用户和角色的映射配置文件如下    * 用户的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.User&quot; table=&quot;sys_user&quot;&gt;            &lt;id name=&quot;user_id&quot; column=&quot;user_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;user_code&quot; column=&quot;user_code&quot;/&gt;            &lt;property name=&quot;user_name&quot; column=&quot;user_name&quot;/&gt;            &lt;property name=&quot;user_password&quot; column=&quot;user_password&quot;/&gt;            &lt;property name=&quot;user_state&quot; column=&quot;user_state&quot;/&gt;            &lt;set name=&quot;roles&quot; table=&quot;sys_user_role&quot;&gt;                &lt;key column=&quot;user_id&quot;/&gt;                &lt;many-to-many class=&quot;com.itheima.domain.Role&quot; column=&quot;role_id&quot;/&gt;            &lt;/set&gt;        &lt;/class&gt;    * 角色的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.Role&quot; table=&quot;sys_role&quot;&gt;            &lt;id name=&quot;role_id&quot; column=&quot;role_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;role_name&quot; column=&quot;role_name&quot;/&gt;            &lt;property name=&quot;role_memo&quot; column=&quot;role_memo&quot;/&gt;            &lt;set name=&quot;users&quot; table=&quot;sys_user_role&quot;&gt;                &lt;key column=&quot;role_id&quot;/&gt;                &lt;many-to-many class=&quot;com.itheima.domain.User&quot; column=&quot;user_id&quot;/&gt;            &lt;/set&gt;        &lt;/class&gt;3. 多对多进行双向关联的时候:必须有一方去放弃外键维护权</code></pre><hr><h3 id="2-技术分析之多对多的级联保存"><a href="#2-技术分析之多对多的级联保存" class="headerlink" title="2.技术分析之多对多的级联保存"></a>2.技术分析之多对多的级联保存</h3><pre><code>级联保存    * &lt;set cascade=&quot;save-update&quot;&gt;</code></pre><hr><h3 id="3-级联删除（在多对多中是很少使用的）"><a href="#3-级联删除（在多对多中是很少使用的）" class="headerlink" title="3.级联删除（在多对多中是很少使用的）"></a>3.级联删除（在多对多中是很少使用的）</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;Hibernate框架的学习路线&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;学习的路线
+   * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作
+   * 进阶篇：主要学习一级缓存、事务管理和基本的查询
+   * 高级篇：主要学习一对多
+      
+    
+    </summary>
+    
+      <category term="hibernate" scheme="http://yoursite.com/categories/hibernate/"/>
+    
+    
+      <category term="hibernate" scheme="http://yoursite.com/tags/hibernate/"/>
+    
+      <category term="hibernate高级篇" scheme="http://yoursite.com/tags/hibernate%E9%AB%98%E7%BA%A7%E7%AF%87/"/>
+    
+      <category term="hibernate一对多" scheme="http://yoursite.com/tags/hibernate%E4%B8%80%E5%AF%B9%E5%A4%9A/"/>
+    
+      <category term="hibernate多对多" scheme="http://yoursite.com/tags/hibernate%E5%A4%9A%E5%AF%B9%E5%A4%9A/"/>
+    
+  </entry>
   
   <entry>
     <title>hibernate进阶(持久化对象/session/事务)</title>
@@ -56,37 +91,29 @@
   </entry>
   
   <entry>
-    <title>hibernate高级篇(一对多/多对多)</title>
-    <link href="http://yoursite.com/2018/12/20/hibernate-3/"/>
-    <id>http://yoursite.com/2018/12/20/hibernate-3/</id>
-    <published>2018-12-19T23:00:00.000Z</published>
-    <updated>2018-12-18T10:01:35.745Z</updated>
+    <title>nginx介绍篇(反向代理/负载均衡/动静分离/session共享)</title>
+    <link href="http://yoursite.com/2018/12/17/nginx-introduce/"/>
+    <id>http://yoursite.com/2018/12/17/nginx-introduce/</id>
+    <published>2018-12-17T04:00:00.000Z</published>
+    <updated>2018-12-18T13:28:45.638Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>Hibernate框架的学习路线</strong></p><pre><code>学习的路线   * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作   * 进阶篇：主要学习一级缓存、事务管理和基本的查询   * 高级篇：主要学习一对多和多对多的操作等   * 完善篇：基本查询和查询的优化</code></pre><hr><p><strong>今天内容</strong></p><pre><code>一. 一对多二. 多对多</code></pre><hr><h2 id="一-一对多"><a href="#一-一对多" class="headerlink" title="一.一对多"></a>一.一对多</h2><h3 id="1-技术分析之Hibernate的关联关系映射之-一对多-映射（重点）"><a href="#1-技术分析之Hibernate的关联关系映射之-一对多-映射（重点）" class="headerlink" title="1.技术分析之Hibernate的关联关系映射之 一对多 映射（重点）"></a>1.技术分析之Hibernate的关联关系映射之 一对多 映射（重点）</h3><pre><code>1. 编写客户和联系人的JavaBean程序（注意一对多的编写规则）    * 客户的JavaBean如下        public class Customer {            private Long cust_id;            private String cust_name;            private Long cust_user_id;            private Long cust_create_id;            private String cust_source;            private String cust_industry;            private String cust_level;            private String cust_linkman;            private String cust_phone;            private String cust_mobile;            private Set&lt;Linkman&gt; linkmans = new HashSet&lt;Linkman&gt;();        }    * 联系人的JavaBean如下        public class Linkman {            private Long lkm_id;            private String lkm_name;            private String lkm_gender;            private String lkm_phone;            private String lkm_mobile;            private String lkm_email;            private String lkm_qq;            private String lkm_position;            private String lkm_memo;            private Customer customer;        }2. 编写客户和联系人的映射配置文件（注意一对多的配置编写）    * 客户的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.Customer&quot; table=&quot;cst_customer&quot;&gt;            &lt;id name=&quot;cust_id&quot; column=&quot;cust_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;cust_name&quot; column=&quot;cust_name&quot;/&gt;            &lt;property name=&quot;cust_user_id&quot; column=&quot;cust_user_id&quot;/&gt;            &lt;property name=&quot;cust_create_id&quot; column=&quot;cust_create_id&quot;/&gt;            &lt;property name=&quot;cust_source&quot; column=&quot;cust_source&quot;/&gt;            &lt;property name=&quot;cust_industry&quot; column=&quot;cust_industry&quot;/&gt;            &lt;property name=&quot;cust_level&quot; column=&quot;cust_level&quot;/&gt;            &lt;property name=&quot;cust_linkman&quot; column=&quot;cust_linkman&quot;/&gt;            &lt;property name=&quot;cust_phone&quot; column=&quot;cust_phone&quot;/&gt;            &lt;property name=&quot;cust_mobile&quot; column=&quot;cust_mobile&quot;/&gt;            &lt;set name=&quot;linkmans&quot;&gt;                &lt;key column=&quot;lkm_cust_id&quot;/&gt;                &lt;one-to-many class=&quot;com.itheima.domain.Linkman&quot;/&gt;            &lt;/set&gt;        &lt;/class&gt;    * 联系人的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.Linkman&quot; table=&quot;cst_linkman&quot;&gt;            &lt;id name=&quot;lkm_id&quot; column=&quot;lkm_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;lkm_name&quot; column=&quot;lkm_name&quot;/&gt;            &lt;property name=&quot;lkm_gender&quot; column=&quot;lkm_gender&quot;/&gt;            &lt;property name=&quot;lkm_phone&quot; column=&quot;lkm_phone&quot;/&gt;            &lt;property name=&quot;lkm_mobile&quot; column=&quot;lkm_mobile&quot;/&gt;            &lt;property name=&quot;lkm_email&quot; column=&quot;lkm_email&quot;/&gt;            &lt;property name=&quot;lkm_qq&quot; column=&quot;lkm_qq&quot;/&gt;            &lt;property name=&quot;lkm_position&quot; column=&quot;lkm_position&quot;/&gt;            &lt;property name=&quot;lkm_memo&quot; column=&quot;lkm_memo&quot;/&gt;            &lt;many-to-one name=&quot;customer&quot; class=&quot;com.itheima.domain.Customer&quot; column=&quot;lkm_cust_id&quot;/&gt;        &lt;/class&gt;</code></pre><hr><h3 id="2-技术分析之保存客户和联系人的数据"><a href="#2-技术分析之保存客户和联系人的数据" class="headerlink" title="2.技术分析之保存客户和联系人的数据"></a>2.技术分析之保存客户和联系人的数据</h3><pre><code>进行双向关联进行数据的保存</code></pre><hr><h3 id="3-技术分析之级联保存"><a href="#3-技术分析之级联保存" class="headerlink" title="3.技术分析之级联保存"></a>3.技术分析之级联保存</h3><pre><code>1. 测试：如果现在代码只插入其中的一方的数据    * 如果只保存其中的一方的数据，那么程序会抛出异常。    * 如果想完成只保存一方的数据，并且把相关联的数据都保存到数据库中，那么需要配置级联！！    * 级联保存是方向性2. 级联保存效果    * 级联保存：保存一方同时可以把关联的对象也保存到数据库中！！    * 使用cascade=&quot;save-update&quot;</code></pre><hr><h3 id="4-技术分析之级联删除"><a href="#4-技术分析之级联删除" class="headerlink" title="4.技术分析之级联删除"></a>4.技术分析之级联删除</h3><pre><code>1. 先来给大家在数据库中演示含有外键的删除客户功能，那么SQL语句是会报出错误的    * 例如：delete from customers where cid = 1;2. 如果使用Hibernate框架直接删除客户的时候，测试发现是可以删除的3. 上述的删除是普通的删除，那么也可以使用级联删除，注意：级联删除也是有方向性的！！    * &lt;many-to-one cascade=&quot;delete&quot; /&gt;</code></pre><hr><h3 id="5-技术分析之级联的取值（cascade的取值）和孤儿删除"><a href="#5-技术分析之级联的取值（cascade的取值）和孤儿删除" class="headerlink" title="5.技术分析之级联的取值（cascade的取值）和孤儿删除"></a>5.技术分析之级联的取值（cascade的取值）和孤儿删除</h3><pre><code>1. 需要大家掌握的取值如下    * none                        -- 不使用级联    * save-update                -- 级联保存或更新    * delete                    -- 级联删除    * delete-orphan                -- 孤儿删除.(注意：只能应用在一对多关系)    * all                        -- 除了delete-orphan的所有情况.（包含save-update delete）    * all-delete-orphan            -- 包含了delete-orphan的所有情况.（包含save-update delete delete-orphan）2. 孤儿删除（孤子删除），只有在一对多的环境下才有孤儿删除    * 在一对多的关系中,可以将一的一方认为是父方.将多的一方认为是子方.孤儿删除:在解除了父子关系的时候.将子方记录就直接删除。    * &lt;many-to-one cascade=&quot;delete-orphan&quot; /&gt;</code></pre><hr><h3 id="6-技术分析之让某一方放弃外键的维护，为多对多做准备"><a href="#6-技术分析之让某一方放弃外键的维护，为多对多做准备" class="headerlink" title="6.技术分析之让某一方放弃外键的维护，为多对多做准备"></a>6.技术分析之让某一方放弃外键的维护，为多对多做准备</h3><pre><code>1. 先测试双方都维护外键的时候，会产生多余的SQL语句。    * 想修改客户和联系人的关系，进行双向关联，双方都会维护外键，会产生多余的SQL语句。    * 产生的原因：session的一级缓存中的快照机制，会让双方都更新数据库，产生了多余的SQL语句。2. 如果不想产生多余的SQL语句，那么需要一方来放弃外键的维护！    * 在&lt;set&gt;标签上配置一个inverse=”true”.true:放弃.false:不放弃.默认值是false    * &lt;inverse=&quot;true&quot;&gt;</code></pre><hr><h3 id="7-技术分析之cascade和inverse的区别"><a href="#7-技术分析之cascade和inverse的区别" class="headerlink" title="7.技术分析之cascade和inverse的区别"></a>7.技术分析之cascade和inverse的区别</h3><pre><code>1. cascade用来级联操作（保存、修改和删除）2. inverse用来维护外键的</code></pre><hr><h2 id="二-Hibernate的关联关系映射之多对多映射"><a href="#二-Hibernate的关联关系映射之多对多映射" class="headerlink" title="二.Hibernate的关联关系映射之多对多映射"></a>二.Hibernate的关联关系映射之多对多映射</h2><h3 id="1-技术分析之多对多JavaBean的编写"><a href="#1-技术分析之多对多JavaBean的编写" class="headerlink" title="1.技术分析之多对多JavaBean的编写"></a>1.技术分析之多对多JavaBean的编写</h3><pre><code>1. 编写用户和角色的JavaBean    * 用户的JavaBean代码如下        public class User {            private Long user_id;            private String user_code;            private String user_name;            private String user_password;            private String user_state;            private Set&lt;Role&gt; roles = new HashSet&lt;Role&gt;();        }    * 角色的JavaBean代码如下        public class Role {            private Long role_id;            private String role_name;            private String role_memo;            private Set&lt;User&gt; users = new HashSet&lt;User&gt;();        }2. 用户和角色的映射配置文件如下    * 用户的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.User&quot; table=&quot;sys_user&quot;&gt;            &lt;id name=&quot;user_id&quot; column=&quot;user_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;user_code&quot; column=&quot;user_code&quot;/&gt;            &lt;property name=&quot;user_name&quot; column=&quot;user_name&quot;/&gt;            &lt;property name=&quot;user_password&quot; column=&quot;user_password&quot;/&gt;            &lt;property name=&quot;user_state&quot; column=&quot;user_state&quot;/&gt;            &lt;set name=&quot;roles&quot; table=&quot;sys_user_role&quot;&gt;                &lt;key column=&quot;user_id&quot;/&gt;                &lt;many-to-many class=&quot;com.itheima.domain.Role&quot; column=&quot;role_id&quot;/&gt;            &lt;/set&gt;        &lt;/class&gt;    * 角色的映射配置文件如下        &lt;class name=&quot;com.itheima.domain.Role&quot; table=&quot;sys_role&quot;&gt;            &lt;id name=&quot;role_id&quot; column=&quot;role_id&quot;&gt;                &lt;generator class=&quot;native&quot;/&gt;            &lt;/id&gt;            &lt;property name=&quot;role_name&quot; column=&quot;role_name&quot;/&gt;            &lt;property name=&quot;role_memo&quot; column=&quot;role_memo&quot;/&gt;            &lt;set name=&quot;users&quot; table=&quot;sys_user_role&quot;&gt;                &lt;key column=&quot;role_id&quot;/&gt;                &lt;many-to-many class=&quot;com.itheima.domain.User&quot; column=&quot;user_id&quot;/&gt;            &lt;/set&gt;        &lt;/class&gt;3. 多对多进行双向关联的时候:必须有一方去放弃外键维护权</code></pre><hr><h3 id="2-技术分析之多对多的级联保存"><a href="#2-技术分析之多对多的级联保存" class="headerlink" title="2.技术分析之多对多的级联保存"></a>2.技术分析之多对多的级联保存</h3><pre><code>级联保存    * &lt;set cascade=&quot;save-update&quot;&gt;</code></pre><hr><h3 id="3-级联删除（在多对多中是很少使用的）"><a href="#3-级联删除（在多对多中是很少使用的）" class="headerlink" title="3.级联删除（在多对多中是很少使用的）"></a>3.级联删除（在多对多中是很少使用的）</h3>]]></content>
+    <content type="html"><![CDATA[<h2 id="一-nginx概述"><a href="#一-nginx概述" class="headerlink" title="一.nginx概述"></a>一.nginx概述</h2><h3 id="1-什么是nginx"><a href="#1-什么是nginx" class="headerlink" title="1.什么是nginx"></a>1.什么是nginx</h3><p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p><h3 id="2-为什么使用Nginx"><a href="#2-为什么使用Nginx" class="headerlink" title="2.为什么使用Nginx?"></a>2.为什么使用Nginx?</h3><p>背景:<br>互联网飞速发展的今天,大用户量高并发已经成为互联网的主体.怎样能让一个网站能够承载几万个或几十万个用户的持续访问呢？这是一些中小网站急需解决的问题。用单机tomcat搭建的网站，在比较理想的状态下能够承受的并发访问量在150到200左右。按照并发访问量占总用户数量的5%到10%这样计算，单点tomcat网站的用户人数在1500到4000左右。对于一个为全国范围提供服务的网站显然是不够用的，为了解决这个问题引入了负载均衡方法。负载均衡就是一个web服务器解决不了的问题可以通过多个web服务器来平均分担压力来解决，并发过来的请求被平均分配到多个后台web服务器来处理，这样压力就被分解开来。</p><p>负载均衡服务器分为两种一种是通过硬件实现的负载均衡服务器，简称硬负载例如：f5。另一种是通过软件来实现的负载均衡，简称软负载:例如apache和nginx。硬负载和软负载相比前者作用的网络层次比较多可以作用到socket接口的数据链路层对发出的请求进行分组转发但是价格成本比较贵，而软负载作用的层次在http协议层之上可以对http请求进行分组转发并且因为是开源的所以几乎是0成本，并且阿里巴巴，京东等电商网站使用的都是Nginx服务器。</p><h2 id="二-nginx的功能实现"><a href="#二-nginx的功能实现" class="headerlink" title="二.nginx的功能实现"></a>二.nginx的功能实现</h2><p>完成Nginx负载均衡,那么需要先来介绍Tomcat的安装和配置,我们首先要来配置Tomcat完成集群的配置.因为我们没有多台服务器运行Tomcat.那么我们可以模拟在一台服务器上运行多个Tomcat程序.</p><h3 id="1-使用Tomcat配置Tomcat集群"><a href="#1-使用Tomcat配置Tomcat集群" class="headerlink" title="1.使用Tomcat配置Tomcat集群:"></a>1.使用Tomcat配置Tomcat集群:</h3><p>修改 nginx/conf/nginx.conf 文件：<br><img src="http://pjpn7mq4k.bkt.clouddn.com/nginx1.png" alt=""></p><h3 id="2session共享问题"><a href="#2session共享问题" class="headerlink" title="2session共享问题"></a>2session共享问题</h3><p>问题:通过以上的配置我们已经可以通过访问<a href="http://192.168.93.88/project访问到不同的tomcat来分担服务器端的压力.请求负载过程中会话信息不能丢失.那么需要在多个tomcat中session需要共享" target="_blank" rel="noopener">http://192.168.93.88/project访问到不同的tomcat来分担服务器端的压力.请求负载过程中会话信息不能丢失.那么需要在多个tomcat中session需要共享</a>.</p><p>配置Tomcat的session共享可以有<strong>三种解决方案:</strong></p><p>第一种是以负载均衡服务器本身提供的session共享策略，每种服务期的配置是不一样的并且nginx本身是没有的。（linux常用     一个ip只能始终访问一台服务器）</p><p>第二种是利用web容器本身的session共享策略来配置共享。针对于weblogic这种方式还是靠普的。但是针对于tomcat这种方式存在很大的缺陷，主要因为是依靠广播方式来实现的session复制，会浪费很多带宽导致整个网络反映缓慢。官网也建议这种方式最好不要超过4台tomcat,具体的内容可参考/webapps/docs/cluster-howto.html里面有详细的说明。下面是具体的配置过程（windows常用）</p><p>第三种是Tomcat集群+redis的Session共享配置方法.</p><h2 id="二-nginx反向代理-负载均衡-动静分离-理解"><a href="#二-nginx反向代理-负载均衡-动静分离-理解" class="headerlink" title="二.nginx反向代理/负载均衡/动静分离 理解"></a>二.nginx反向代理/负载均衡/动静分离 理解</h2><h3 id="1-nginx反向代理"><a href="#1-nginx反向代理" class="headerlink" title="1.nginx反向代理"></a>1.nginx反向代理</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。<br><img src="http://pjpn7mq4k.bkt.clouddn.com/nginx2.png" alt=""></p><h3 id="2-nginx负载均衡"><a href="#2-nginx负载均衡" class="headerlink" title="2.nginx负载均衡"></a>2.nginx负载均衡</h3><p>负载均衡，英文名称为Load Balance，是指建立在现有网络结构之上，并提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。其原理就是数据流量分摊到多个服务器上执行，减轻每台服务器的压力，多台服务器共同完成工作任务，从而提高了数据的吞吐量。<br><img src="http://pjpn7mq4k.bkt.clouddn.com/nginx3.png" alt=""></p><h3 id="3-nginx动静分离"><a href="#3-nginx动静分离" class="headerlink" title="3.nginx动静分离"></a>3.nginx动静分离</h3><p>为了提高网站的响应速度，减轻程序服务器（Tomcat，Jboss等）的负载，对于静态资源比如图片，js，css等文件，我们可以在反向代理服务器中进行缓存，这样浏览器在请求一个静态资源时，代理服务器就可以直接处理，而不用将请求转发给后端服务器。用户请求的动态文件比如servlet,jsp则转发给Tomcat，Jboss服务器处理，这就是动静分离。<br><img src="http://pjpn7mq4k.bkt.clouddn.com/nginx4.png" alt=""></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;strong&gt;Hibernate框架的学习路线&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;学习的路线
-   * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作
-   * 进阶篇：主要学习一级缓存、事务管理和基本的查询
-   * 高级篇：主要学习一对多
+        &lt;h2 id=&quot;一-nginx概述&quot;&gt;&lt;a href=&quot;#一-nginx概述&quot; class=&quot;headerlink&quot; title=&quot;一.nginx概述&quot;&gt;&lt;/a&gt;一.nginx概述&lt;/h2&gt;&lt;h3 id=&quot;1-什么是nginx&quot;&gt;&lt;a href=&quot;#1-什么是nginx&quot; cla
       
     
     </summary>
     
-      <category term="hibernate" scheme="http://yoursite.com/categories/hibernate/"/>
+      <category term="nginx" scheme="http://yoursite.com/categories/nginx/"/>
     
     
-      <category term="hibernate" scheme="http://yoursite.com/tags/hibernate/"/>
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
-      <category term="hibernate高级篇" scheme="http://yoursite.com/tags/hibernate%E9%AB%98%E7%BA%A7%E7%AF%87/"/>
-    
-      <category term="hibernate一对多" scheme="http://yoursite.com/tags/hibernate%E4%B8%80%E5%AF%B9%E5%A4%9A/"/>
-    
-      <category term="hibernate多对多" scheme="http://yoursite.com/tags/hibernate%E5%A4%9A%E5%AF%B9%E5%A4%9A/"/>
+      <category term="nginx 功能概述" scheme="http://yoursite.com/tags/nginx-%E5%8A%9F%E8%83%BD%E6%A6%82%E8%BF%B0/"/>
     
   </entry>
   
@@ -233,39 +260,6 @@
   </entry>
   
   <entry>
-    <title>redis高级篇</title>
-    <link href="http://yoursite.com/2018/12/12/redis3/"/>
-    <id>http://yoursite.com/2018/12/12/redis3/</id>
-    <published>2018-12-12T10:15:42.000Z</published>
-    <updated>2018-12-13T07:45:05.677Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis的高性能是由于其将所有数据都存储在了内存中<br>为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，<br>这一过程就是持久化。<br>Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。</p><h3 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h3><p>RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久化到硬盘。<br>RDB是Redis默认采用的持久化方式，在redis.conf配置文件中默认有此下配置：</p><p>save 900 1<br>save 300 10<br>save 60 10000</p><p>save 开头的一行就是持久化配置，可以配置多个条件（每行配置一个条件），每个条件之间是“或”的关系，“save 900 1”表示15分钟（900秒钟）内至少1个键被更改则进行快照，“save 300 10”表示5分钟（300秒）内至少10个键被更改则进行快照。</p><p>在redis.conf中：<br>配置dir指定rdb快照文件的位置<br>配置dbfilenam指定rdb快照文件的名称</p><p>Redis启动后会读取RDB快照文件，将数据从硬盘载入到内存。根据数据量大小与结构和服务器性能不同，这个时间也不同。通常将记录一千万个字符串类型键、大小为1GB的快照文件载入到内存中需要花费20～30秒钟。</p><p>问题总结：<br>通过RDB方式实现持久化，一旦Redis异常退出，就会丢失最后一次快照以后更改的所有数据。这就需要开发者根据具体的应用场合，通过组合设置自动快照条件的方式来将可能发生的数据损失控制在能够接受的范围。如果数据很重要以至于无法承受任何损失，则可以考虑使用AOF方式进行持久化。</p><h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>默认情况下Redis没有开启AOF（append only file）方式的持久化，可以通过appendonly参数开启：<br>appendonly yes<br>开启AOF持久化后每执行一条会更改Redis中的数据的命令，Redis就会将该命令写入硬<br>盘中的AOF文件。AOF文件的保存位置和RDB文件的位置相同，都是通过dir参数设置的，默认的文件名是appendonly.aof，可以通过appendfilename参数修改：appendfilename appendonly.aof</p><h2 id="主从复制（了解）"><a href="#主从复制（了解）" class="headerlink" title="主从复制（了解）"></a>主从复制（了解）</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>持久化保证了即使redis服务重启也会丢失数据，因为redis服务重启后会将硬盘上持久化的数据恢复到内存中，但是当redis服务器的硬盘损坏了可能会导致数据丢失，如果通过redis的主从复制机制就可以避免这种单点故障，如下图：</p><p>说明：<br>主redis中的数据有两个副本（replication）即从redis1和从redis2，即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。<br>主redis中的数据和从redis上的数据保持实时同步，当主redis写入数据时通过主从复制机制会复制到两个从redis服务上。<br>只有一个主redis，可以有多个从redis。<br>主从复制不会阻塞master，在同步数据时，master 可以继续处理client 请求<br>一个redis可以即是主又是从，如下图：</p><h3 id="主从配置"><a href="#主从配置" class="headerlink" title="主从配置"></a>主从配置</h3><h4 id="主redis配置"><a href="#主redis配置" class="headerlink" title="主redis配置"></a>主redis配置</h4><p>无需特殊配置。</p><h4 id="从redis配置"><a href="#从redis配置" class="headerlink" title="从redis配置"></a>从redis配置</h4><p>修改从redis服务器上的redis.conf文件，添加slaveof 主redisip  主redis端口</p><p>上边的配置说明当前该从redis服务器所对应的主redis是192.168.101.3，端口是6379</p><h3 id="主从复制过程"><a href="#主从复制过程" class="headerlink" title="主从复制过程"></a>主从复制过程</h3><h4 id="完整复制"><a href="#完整复制" class="headerlink" title="完整复制"></a>完整复制</h4><p>在redis2.8版本之前主从复制过程如下图：</p><p>复制过程说明：</p><p>1、slave 服务启动，slave 会建立和master 的连接，发送sync 命令。<br>2、master启动一个后台进程将数据库快照保存到RDB文件中<br>注意：此时如果生成RDB文件过程中存在写数据操作会导致RDB文件和当前主redis数据不一致，所以此时master 主进程会开始收集写命令并缓存起来。<br>3、master 就发送RDB文件给slave<br>4、slave 将文件保存到磁盘上，然后加载到内存恢复<br>5、master把缓存的命令转发给slave<br>注意：后续master 收到的写命令都会通过开始建立的连接发送给slave。<br>当master 和slave 的连接断开时slave 可以自动重新建立连接。如果master 同时收到多个slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有slave。</p><p>完整复制的问题：</p><p>在redis2.8之前从redis每次同步都会从主redis中复制全部的数据，如果从redis是新创建的从主redis中复制全部的数据这是没有问题的，但是，如果当从redis停止运行，再启动时可能只有少部分数据和主redis不同步，此时启动redis仍然会从主redis复制全部数据，这样的性能肯定没有只复制那一小部分不同步的数据高。</p><h4 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h4><p>部分复制说明：<br>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master的runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步），主机验证 runid 和 offset 是否有效， runid 相当于主机身份验证码，用来验证从机上一次连接的主机，如果runid验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据offset同步部分数据。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h2&gt;&lt;p&gt;Redis的高性能是由于其将所有数据都存储在了内存中&lt;br&gt;为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬
-      
-    
-    </summary>
-    
-      <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
-    
-    
-      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
-    
-      <category term="持久化" scheme="http://yoursite.com/tags/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
     <title>redis完善(spring整合)篇</title>
     <link href="http://yoursite.com/2018/12/12/redis4/"/>
     <id>http://yoursite.com/2018/12/12/redis4/</id>
@@ -353,6 +347,39 @@
       <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
       <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis高级篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis3/"/>
+    <id>http://yoursite.com/2018/12/12/redis3/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-13T07:45:05.677Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis的高性能是由于其将所有数据都存储在了内存中<br>为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，<br>这一过程就是持久化。<br>Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。</p><h3 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h3><p>RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久化到硬盘。<br>RDB是Redis默认采用的持久化方式，在redis.conf配置文件中默认有此下配置：</p><p>save 900 1<br>save 300 10<br>save 60 10000</p><p>save 开头的一行就是持久化配置，可以配置多个条件（每行配置一个条件），每个条件之间是“或”的关系，“save 900 1”表示15分钟（900秒钟）内至少1个键被更改则进行快照，“save 300 10”表示5分钟（300秒）内至少10个键被更改则进行快照。</p><p>在redis.conf中：<br>配置dir指定rdb快照文件的位置<br>配置dbfilenam指定rdb快照文件的名称</p><p>Redis启动后会读取RDB快照文件，将数据从硬盘载入到内存。根据数据量大小与结构和服务器性能不同，这个时间也不同。通常将记录一千万个字符串类型键、大小为1GB的快照文件载入到内存中需要花费20～30秒钟。</p><p>问题总结：<br>通过RDB方式实现持久化，一旦Redis异常退出，就会丢失最后一次快照以后更改的所有数据。这就需要开发者根据具体的应用场合，通过组合设置自动快照条件的方式来将可能发生的数据损失控制在能够接受的范围。如果数据很重要以至于无法承受任何损失，则可以考虑使用AOF方式进行持久化。</p><h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>默认情况下Redis没有开启AOF（append only file）方式的持久化，可以通过appendonly参数开启：<br>appendonly yes<br>开启AOF持久化后每执行一条会更改Redis中的数据的命令，Redis就会将该命令写入硬<br>盘中的AOF文件。AOF文件的保存位置和RDB文件的位置相同，都是通过dir参数设置的，默认的文件名是appendonly.aof，可以通过appendfilename参数修改：appendfilename appendonly.aof</p><h2 id="主从复制（了解）"><a href="#主从复制（了解）" class="headerlink" title="主从复制（了解）"></a>主从复制（了解）</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>持久化保证了即使redis服务重启也会丢失数据，因为redis服务重启后会将硬盘上持久化的数据恢复到内存中，但是当redis服务器的硬盘损坏了可能会导致数据丢失，如果通过redis的主从复制机制就可以避免这种单点故障，如下图：</p><p>说明：<br>主redis中的数据有两个副本（replication）即从redis1和从redis2，即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。<br>主redis中的数据和从redis上的数据保持实时同步，当主redis写入数据时通过主从复制机制会复制到两个从redis服务上。<br>只有一个主redis，可以有多个从redis。<br>主从复制不会阻塞master，在同步数据时，master 可以继续处理client 请求<br>一个redis可以即是主又是从，如下图：</p><h3 id="主从配置"><a href="#主从配置" class="headerlink" title="主从配置"></a>主从配置</h3><h4 id="主redis配置"><a href="#主redis配置" class="headerlink" title="主redis配置"></a>主redis配置</h4><p>无需特殊配置。</p><h4 id="从redis配置"><a href="#从redis配置" class="headerlink" title="从redis配置"></a>从redis配置</h4><p>修改从redis服务器上的redis.conf文件，添加slaveof 主redisip  主redis端口</p><p>上边的配置说明当前该从redis服务器所对应的主redis是192.168.101.3，端口是6379</p><h3 id="主从复制过程"><a href="#主从复制过程" class="headerlink" title="主从复制过程"></a>主从复制过程</h3><h4 id="完整复制"><a href="#完整复制" class="headerlink" title="完整复制"></a>完整复制</h4><p>在redis2.8版本之前主从复制过程如下图：</p><p>复制过程说明：</p><p>1、slave 服务启动，slave 会建立和master 的连接，发送sync 命令。<br>2、master启动一个后台进程将数据库快照保存到RDB文件中<br>注意：此时如果生成RDB文件过程中存在写数据操作会导致RDB文件和当前主redis数据不一致，所以此时master 主进程会开始收集写命令并缓存起来。<br>3、master 就发送RDB文件给slave<br>4、slave 将文件保存到磁盘上，然后加载到内存恢复<br>5、master把缓存的命令转发给slave<br>注意：后续master 收到的写命令都会通过开始建立的连接发送给slave。<br>当master 和slave 的连接断开时slave 可以自动重新建立连接。如果master 同时收到多个slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有slave。</p><p>完整复制的问题：</p><p>在redis2.8之前从redis每次同步都会从主redis中复制全部的数据，如果从redis是新创建的从主redis中复制全部的数据这是没有问题的，但是，如果当从redis停止运行，再启动时可能只有少部分数据和主redis不同步，此时启动redis仍然会从主redis复制全部数据，这样的性能肯定没有只复制那一小部分不同步的数据高。</p><h4 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h4><p>部分复制说明：<br>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master的runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步），主机验证 runid 和 offset 是否有效， runid 相当于主机身份验证码，用来验证从机上一次连接的主机，如果runid验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据offset同步部分数据。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h2&gt;&lt;p&gt;Redis的高性能是由于其将所有数据都存储在了内存中&lt;br&gt;为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬
+      
+    
+    </summary>
+    
+      <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+      <category term="持久化" scheme="http://yoursite.com/tags/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
     
   </entry>
   
