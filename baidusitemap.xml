@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://yoursite.com/2018/12/20/hibernate-2/</loc>
-    <lastmod>2018-12-19T10:22:56.734Z</lastmod>
+    <loc>http://yoursite.com/2018/12/18/hibernate-3/</loc>
+    <lastmod>2018-12-19T10:25:34.136Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2018/12/17/hibernate-2/</loc>
+    <lastmod>2018-12-19T10:25:32.605Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/19/hibernate-4/</loc>
     <lastmod>2018-12-19T10:22:24.337Z</lastmod>
@@ -12,9 +15,6 @@
   </url>  <url>
     <loc>http://yoursite.com/2018/12/17/nginx-introduce/</loc>
     <lastmod>2018-12-18T13:28:45.638Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2018/12/20/hibernate-3/</loc>
-    <lastmod>2018-12-18T10:01:35.745Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/16/oracle-index/</loc>
     <lastmod>2018-12-16T05:36:34.823Z</lastmod>
