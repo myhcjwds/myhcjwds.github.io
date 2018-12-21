@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="struts2,struts2进阶篇篇,">
 
 
 
@@ -101,16 +101,21 @@
 
 
 
-<meta name="description" content="在每天重复的习惯里,不断地遇见美好！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Blog of MYH">
-<meta property="og:url" content="http://yoursite.com/tags/oracle-sql/index.html">
+<meta name="description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之在Struts2框架中使用Servlet的API1. 在Action类中也可">
+<meta name="keywords" content="struts2,struts2进阶篇篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="struts2进阶篇(Servlet的API&#x2F;参数封装&#x2F;拦截器的定义使用)">
+<meta property="og:url" content="http://yoursite.com/2018/12/21/struts2-2/index.html">
 <meta property="og:site_name" content="Blog of MYH">
-<meta property="og:description" content="在每天重复的习惯里,不断地遇见美好！">
+<meta property="og:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之在Struts2框架中使用Servlet的API1. 在Action类中也可">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-3.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-4.png">
+<meta property="og:updated_time" content="2018-12-21T00:44:55.966Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog of MYH">
-<meta name="twitter:description" content="在每天重复的习惯里,不断地遇见美好！">
+<meta name="twitter:title" content="struts2进阶篇(Servlet的API&#x2F;参数封装&#x2F;拦截器的定义使用)">
+<meta name="twitter:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之在Struts2框架中使用Servlet的API1. 在Action类中也可">
+<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-3.png">
 
 
 
@@ -140,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/oracle-sql/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/21/struts2-2/">
 
 
 
 
 
-  <title>标签: oracle sql | Blog of MYH</title>
+  <title>struts2进阶篇(Servlet的API/参数封装/拦截器的定义使用) | Blog of MYH</title>
   
 
 
@@ -165,7 +170,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 	<a href="https://github.com/myhcjwds" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -301,52 +306,430 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>oracle sql<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/21/struts2-2/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YuHang Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myhcjwds.gif#头像">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog of MYH">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/12/13/oracle-sql/" itemprop="url">
-              
-                <span itemprop="name">oracle基本命令</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">struts2进阶篇(Servlet的API/参数封装/拦截器的定义使用)</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-13T16:00:00+08:00" content="2018-12-13">
-          12-13
-        </time>
-      </div>
+        <div class="post-meta">
+		
+  <i class="fa fa-thumb-tack"></i>
+  <font color="7D26CD">置顶</font>
+  <span class="post-meta-divider">|</span>
 
-    </header>
-  </article>
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-21T21:00:00+08:00">
+                2018-12-21
+              </time>
+            
 
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/struts2/" itemprop="url" rel="index">
+                    <span itemprop="name">struts2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/21/struts2-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/21/struts2-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/12/21/struts2-2/" class="leancloud_visitors" data-flag-title="struts2进阶篇(Servlet的API/参数封装/拦截器的定义使用)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.2k字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    </div>
+      
 
+      
+        <p><strong>Struts2的学习路线</strong></p>
+<pre><code>1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写）
+2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器
+3.Struts2的完善篇: Struts2的值栈和OGNL表达式
+</code></pre><hr>
+<h2 id="一-技术分析之在Struts2框架中使用Servlet的API"><a href="#一-技术分析之在Struts2框架中使用Servlet的API" class="headerlink" title="一.技术分析之在Struts2框架中使用Servlet的API"></a>一.技术分析之在Struts2框架中使用Servlet的API</h2><pre><code>1. 在Action类中也可以获取到Servlet一些常用的API
+    * 需求：提供JSP的表单页面的数据，在Action中使用Servlet的API接收到，然后保存到三个域对象中，最后再显示到JSP的页面上。
+        * 提供JSP注册的页面，演示下面这三种方式
+            &lt;h3&gt;注册页面&lt;/h3&gt;
+            &lt;form action=&quot;${ pageContext.request.contextPath }/xxx.action&quot; method=&quot;post&quot;&gt;
+                姓名:&lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;&lt;br/&gt;
+                密码:&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;&lt;br/&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;注册&quot; /&gt;
+            &lt;/form&gt;
+
+2. 完全解耦合的方式
+    * 如果使用该种方式，Struts2框架中提供了一个类，ActionContext类，该类中提供一些方法，通过方法获取Servlet的API
+    * 一些常用的方法如下
+        * static ActionContext getContext()                                          -- 获取ActionContext对象实例
+        * java.util.Map&lt;java.lang.String,java.lang.Object&gt; getParameters()          -- 获取请求参数，相当于request.getParameterMap();
+        * java.util.Map&lt;java.lang.String,java.lang.Object&gt; getSession()              -- 获取的代表session域的Map集合，就相当于操作session域。
+        * java.util.Map&lt;java.lang.String,java.lang.Object&gt; getApplication()         -- 获取代表application域的Map集合
+        * void put(java.lang.String key, java.lang.Object value)                      -- 注意：向request域中存入值。
+
+3. 使用原生Servlet的API的方式
+    * Struts2框架提供了一个类，ServletActionContext，该类中提供了一些静态的方法
+    * 具体的方法如下
+        * getPageContext()
+        * getRequest()
+        * getResponse()
+        * getServletContext()
+</code></pre><hr>
+<h2 id="二-技术分析之结果页面的跳转"><a href="#二-技术分析之结果页面的跳转" class="headerlink" title="二.技术分析之结果页面的跳转"></a>二.技术分析之结果页面的跳转</h2><pre><code>1. 结果页面存在两种方式
+    * 全局结果页面
+        &gt; 条件：如果&lt;package&gt;包中的一些action都返回success，并且返回的页面都是同一个JSP页面，这样就可以配置全局的结果页面。
+        &gt; 全局结果页面针对的当前的包中的所有的Action，但是如果局部还有结果页面，会优先局部的。使用的标签是
+            &lt;global-results&gt;
+                &lt;result&gt;/demo3/suc.jsp&lt;/result&gt;
+            &lt;/global-results&gt;
+
+    * 局部结果页面
+        &lt;result&gt;/demo3/suc.jsp&lt;/result&gt;
+
+2. 结果页面的类型
+    * 结果页面使用&lt;result&gt;标签进行配置，包含两个属性
+        &gt; name    -- 逻辑视图的名称
+        &gt; type    -- 跳转的类型，值一些，需要掌握一些常用的类型。常见的结果类型去struts-default.xml中查找。
+            * dispatcher        -- 转发.type的默认值.Action---&gt;JSP
+            * redirect            -- 重定向.    Action---&gt;JSP
+            * chain                -- 多个action之间跳转.从一个Action转发到另一个Action.    Action---Action
+            * redirectAction    -- 多个action之间跳转.从一个Action重定向到另一个Action.    Action---Action
+            * stream            -- 文件下载时候使用的
+</code></pre><hr>
+<h2 id="三-技术分析之Struts2框架的数据封装"><a href="#三-技术分析之Struts2框架的数据封装" class="headerlink" title="三.技术分析之Struts2框架的数据封装"></a>三.技术分析之Struts2框架的数据封装</h2><p><img src="http://pjpn7mq4k.bkt.clouddn.com/struts2-3.png" alt="">    </p>
+<pre><code>1. 为什么要使用数据的封装呢？
+    * 作为MVC框架，必须要负责解析HTTP请求参数，并将其封装到Model对象中
+    * 封装数据为开发提供了很多方便
+    * Struts2框架提供了很强大的数据封装的功能，不再需要使用Servlet的API完成手动封装了！！
+
+2. Struts2中提供了两类数据封装的方式？
+    * 第一种方式：属性驱动
+        &gt; 提供对应属性的set方法进行数据的封装。
+            * 表单的哪些属性需要封装数据，那么在对应的Action类中提供该属性的set方法即可。
+            * 表单中的数据提交，最终找到Action类中的setXxx的方法，最后赋值给全局变量。
+
+            * 注意0：Struts2的框架采用的拦截器完成数据的封装。
+            * 注意1：这种方式不是特别好:因为属性特别多,提供特别多的set方法,而且还需要手动将数据存入到对象中.
+            * 注意2：这种情况下，Action类就相当于一个JavaBean，就没有体现出MVC的思想，Action类又封装数据，又接收请求处理，耦合性较高。
+
+        &gt; 在页面上，使用OGNL表达式进行数据封装。
+            * 在页面中使用OGNL表达式进行数据的封装，就可以直接把属性封装到某一个JavaBean的对象中。
+            * 在页面中定义一个JavaBean，并且提供set方法：例如：private User user;
+            * 页面中的编写发生了变化，需要使用OGNL的方式，表单中的写法：&lt;input type=&quot;text&quot; name=&quot;user.username&quot;&gt;
+
+            * 注意：只提供一个set方法还不够，必须还需要提供user属性的get和set方法！！！
+                &gt; 先调用get方法，判断一下是否有user对象的实例对象，如果没有，调用set方法把拦截器创建的对象注入进来，
+
+    * 第二种方式：模型驱动
+        &gt; 使用模型驱动的方式，也可以把表单中的数据直接封装到一个JavaBean的对象中，并且表单的写法和之前的写法没有区别！
+        &gt; 编写的页面不需要任何变化，正常编写name属性的值
+        &gt; 模型驱动的编写步骤：
+            * 手动实例化JavaBean，即：private User user = new User();
+            * 必须实现ModelDriven&lt;T&gt;接口，实现getModel()的方法，在getModel()方法中返回user即可！！
+</code></pre><hr>
+<h2 id="四-技术分析之Struts2把数据封装到集合中"><a href="#四-技术分析之Struts2把数据封装到集合中" class="headerlink" title="四.技术分析之Struts2把数据封装到集合中"></a>四.技术分析之Struts2把数据封装到集合中</h2><pre><code>1. 封装复杂类型的参数（集合类型 Collection 、Map接口等）
+2. 需求：页面中有可能想批量添加一些数据，那么现在就可以使用上述的技术了。把数据封装到集合中
+3. 把数据封装到Collection中
+    * 因为Collection接口都会有下标值，所有页面的写法会有一些区别，注意：
+        &gt; &lt;input type=&quot;text&quot; name=&quot;products[0].name&quot; /&gt;
+    * 在Action中的写法，需要提供products的集合，并且提供get和set方法。
+
+4. 把数据封装到Map中
+    * Map集合是键值对的形式，页面的写法
+        &gt; &lt;input type=&quot;text&quot; name=&quot;map[&apos;one&apos;].name&quot; /&gt;
+    * Action中提供map集合，并且提供get和set方法
+</code></pre><hr>
+<h2 id="五-案例总结之Struts2的拦截器技术"><a href="#五-案例总结之Struts2的拦截器技术" class="headerlink" title="五.案例总结之Struts2的拦截器技术"></a>五.案例总结之Struts2的拦截器技术</h2><pre><code>1. 拦截器的概述
+    * 拦截器就是AOP（Aspect-Oriented Programming）的一种实现。（AOP是指用于在某个方法或字段被访问之前，进行拦截然后在之前或之后加入某些操作。）
+    * 过滤器:过滤从客服端发送到服务器端请求的
+
+    * 拦截器:拦截对目标Action中的某些方法进行拦截
+        * 拦截器不能拦截JSP
+        * 拦截到Action中某些方法
+
+2. 拦截器和过滤器的区别
+    1）拦截器是基于JAVA反射机制的，而过滤器是基于函数回调的
+    2）过滤器依赖于Servlet容器，而拦截器不依赖于Servlet容器
+    3）拦截器只能对Action请求起作用（Action中的方法），而过滤器可以对几乎所有的请求起作用（CSS JSP JS）
+
+    * 拦截器 采用 责任链 模式
+        &gt; 在责任链模式里,很多对象由每一个对象对其下家的引用而连接起来形成一条链
+        &gt; 责任链每一个节点，都可以继续调用下一个节点，也可以阻止流程继续执行
+
+    * 在struts2 中可以定义很多个拦截器，将多个拦截器按照特定顺序 组成拦截器栈 （顺序调用 栈中的每一个拦截器 ）
+
+3. Struts2的核心是拦截器，看一下Struts2的运行流程
+</code></pre><p><img src="http://pjpn7mq4k.bkt.clouddn.com/struts2-4.png" alt="">    </p>
+<hr>
+<h2 id="六-案例总结之自定义拦截器和配置"><a href="#六-案例总结之自定义拦截器和配置" class="headerlink" title="六.案例总结之自定义拦截器和配置"></a>六.案例总结之自定义拦截器和配置</h2><pre><code>1. 编写拦截器，需要实现Interceptor接口，实现接口中的三个方法
+    protected String doIntercept(ActionInvocation invocation) throws Exception {
+        // 获取session对象
+        User user = (User) ServletActionContext.getRequest().getSession().getAttribute(&quot;existUser&quot;);
+        if(user == null){
+            // 说明，没有登录，后面就不会执行了
+            return &quot;login&quot;;
+        }
+        return invocation.invoke();
+    }
+
+2. 需要在struts.xml中进行拦截器的配置，配置一共有两种方式
+    &lt;!-- 定义了拦截器 第一种方式
+    &lt;interceptors&gt;
+        &lt;interceptor name=&quot;DemoInterceptor&quot; class=&quot;com.itheima.interceptor.DemoInterceptor&quot;/&gt;
+    &lt;/interceptors&gt;
+    --&gt;
+
+    &lt;!-- 第二种方式：定义拦截器栈 --&gt;
+    &lt;interceptors&gt;
+        &lt;interceptor name=&quot;DemoInterceptor&quot; class=&quot;com.itheima.interceptor.DemoInterceptor&quot;/&gt;
+        &lt;!-- 定义拦截器栈 --&gt;
+        &lt;interceptor-stack name=&quot;myStack&quot;&gt;
+            &lt;interceptor-ref name=&quot;DemoInterceptor&quot;/&gt;
+            &lt;interceptor-ref name=&quot;defaultStack&quot;/&gt;
+        &lt;/interceptor-stack&gt;
+    &lt;/interceptors&gt;
+
+    &lt;action name=&quot;userAction&quot; class=&quot;com.itheima.demo3.UserAction&quot;&gt;
+        &lt;!-- 只要是引用自己的拦截器，默认栈的拦截器就不执行了，必须要手动引入默认栈 
+        &lt;interceptor-ref name=&quot;DemoInterceptor&quot;/&gt;
+        &lt;interceptor-ref name=&quot;defaultStack&quot;/&gt;
+        --&gt;
+
+        &lt;!-- 引入拦截器栈就OK --&gt;
+        &lt;interceptor-ref name=&quot;myStack&quot;/&gt;
+    &lt;/action&gt;
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢您！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt="YuHang Ma 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.png" alt="YuHang Ma 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	<div>
+	
+	<div>
+      
+        
+      
+</div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/struts2/" rel="tag"><i class="fa fa-tag"></i> struts2</a>
+          
+            <a href="/tags/struts2进阶篇篇/" rel="tag"><i class="fa fa-tag"></i> struts2进阶篇篇</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/20/struts2-1/" rel="next" title="struts2入门篇(基础框架搭建)">
+                <i class="fa fa-chevron-left"></i> struts2入门篇(基础框架搭建)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -354,6 +737,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -374,8 +764,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -506,6 +905,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-技术分析之在Struts2框架中使用Servlet的API"><span class="nav-number">1.</span> <span class="nav-text">一.技术分析之在Struts2框架中使用Servlet的API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-技术分析之结果页面的跳转"><span class="nav-number">2.</span> <span class="nav-text">二.技术分析之结果页面的跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-技术分析之Struts2框架的数据封装"><span class="nav-number">3.</span> <span class="nav-text">三.技术分析之Struts2框架的数据封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-技术分析之Struts2把数据封装到集合中"><span class="nav-number">4.</span> <span class="nav-text">四.技术分析之Struts2把数据封装到集合中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五-案例总结之Struts2的拦截器技术"><span class="nav-number">5.</span> <span class="nav-text">五.案例总结之Struts2的拦截器技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六-案例总结之自定义拦截器和配置"><span class="nav-number">6.</span> <span class="nav-text">六.案例总结之自定义拦截器和配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -656,6 +1071,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
