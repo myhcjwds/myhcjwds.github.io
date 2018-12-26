@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-25T12:03:20.838Z</updated>
+  <updated>2018-12-26T12:53:26.747Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SSH整合(spring整合hibernate/spring整合structs2)</title>
+    <link href="http://yoursite.com/2018/12/26/ssh/"/>
+    <id>http://yoursite.com/2018/12/26/ssh/</id>
+    <published>2018-12-26T13:00:00.000Z</published>
+    <updated>2018-12-26T12:53:26.747Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://pjpn7mq4k.bkt.clouddn.com/ssh1.png" alt=""></p><hr><h3 id="一-技术分析之SSH三大框架需要的jar包"><a href="#一-技术分析之SSH三大框架需要的jar包" class="headerlink" title="一.技术分析之SSH三大框架需要的jar包"></a>一.技术分析之SSH三大框架需要的jar包</h3><pre><code>1. Struts2框架    * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包    * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Spring的插件包2. Hibernate框架    * hibernate-release-5.0.7.Final\lib\required\*.jar            -- Hibernate框架需要的jar包    * slf4j-api-1.6.1.jar                                        -- 日志接口    * slf4j-log4j12-1.7.2.jar                                    -- 日志实现    * mysql-connector-java-5.1.7-bin.jar                        -- MySQL的驱动包3. Spring框架    * IOC核心包    * AOP核心包    * JDBC模板和事务核心包    * Spring整合JUnit测试包    * Spring整合Hibernate核心包    * Spring整合Struts2核心包</code></pre><h3 id="二-SSH三大框架需要的配置文件"><a href="#二-SSH三大框架需要的配置文件" class="headerlink" title="二.SSH三大框架需要的配置文件"></a>二.SSH三大框架需要的配置文件</h3><pre><code>1. Struts2框架    * 在web.xml中配置核心的过滤器        &lt;filter&gt;            &lt;filter-name&gt;struts2&lt;/filter-name&gt;            &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;        &lt;/filter&gt;        &lt;filter-mapping&gt;            &lt;filter-name&gt;struts2&lt;/filter-name&gt;            &lt;url-pattern&gt;/*&lt;/url-pattern&gt;        &lt;/filter-mapping&gt;    * 在src目录下创建struts.xml，用来配置Action2. Hibernate框架    * 在src目录创建hibernate.cfg.xml配置文件    * 在JavaBean所在的包下映射的配置文件3. Spring框架    * 在web.xml配置整合WEB的监听器        &lt;listener&gt;            &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;        &lt;/listener&gt;        &lt;context-param&gt;            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;            &lt;param-value&gt;classpath:applicationContext.xml&lt;/param-value&gt;        &lt;/context-param&gt;    * 在src目录下创建applicationContext.xml    * 在src目录下log4j.proerties</code></pre><h2 id="三-Spring框架整合Struts2框架"><a href="#三-Spring框架整合Struts2框架" class="headerlink" title="三.Spring框架整合Struts2框架"></a>三.Spring框架整合Struts2框架</h2><pre><code>1. 导入CRM项目的UI页面，找到添加客户的页面，修改form表单，访问Action2. 编写CustomerAction接收请求，在struts.xml中完成Action的配置    &lt;package name=&quot;crm&quot; extends=&quot;struts-default&quot; namespace=&quot;/&quot;&gt;        &lt;action name=&quot;customer_*&quot; class=&quot;com.itheima.web.action.CustomerAction&quot; method=&quot;{1}&quot;&gt;        &lt;/action&gt;    &lt;/package&gt;3. 在Action中获取到service（开发不会使用，因为麻烦）    * 可以通过 WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext()); 来获取，但是这种方式编写代码太麻烦了！！4. Spring整合Struts2框架的第一种方式（Action由Struts2框架来创建）    * 因为导入的struts2-spring-plugin-2.3.24.jar 包自带一个配置文件 struts-plugin.xml ，该配置文件中有如下代码        * &lt;constant name=&quot;struts.objectFactory&quot; value=&quot;spring&quot; /&gt;    开启一个常量，如果该常量开启，那么下面的常量就可以使用        * struts.objectFactory.spring.autoWire = name，该常量是可以让Action的类来自动装配Bean对象！！5. Spring整合Struts2框架的第二种方式（Action由Spring框架来创建）（推荐大家来使用的）    * 把具体的Action类配置文件applicatonContext.xml的配置文件中，但是注意：struts.xml需要做修改    * applicationContext.xml        * &lt;bean id=&quot;customerAction&quot; class=&quot;com.itheima.web.action.CustomerAction&quot; scope=&quot;prototype&quot;&gt;    * struts.xml中的修改，把全路径修改成ID值        * &lt;action name=&quot;customer_*&quot; class=&quot;customerAction&quot; method=&quot;{1}&quot;&gt;    * 第二种方式需要有两个注意的地方        * Spring框架默认生成CustomerAction是单例的，而Struts2框架是多例的。所以需要配置 scope=&quot;prototype&quot;        * CustomerService现在必须自己手动注入了</code></pre><h3 id="四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）"><a href="#四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）" class="headerlink" title="四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）"></a>四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）</h3><pre><code>1. 编写CustomerDaoImpl的代码，加入配置并且在CustomerServiceImpl中完成注入2. 编写映射的配置文件，并且在hibernate.cfg.xml的配置文件中引入映射的配置文件3. 在applicationContext.xml的配置文件，配置加载hibernate.cfg.xml的配置    &lt;bean id=&quot;sessionFactory&quot; class=&quot;org.springframework.orm.hibernate5.LocalSessionFactoryBean&quot;&gt;        &lt;property name=&quot;configLocation&quot; value=&quot;classpath:hibernate.cfg.xml&quot;/&gt;    &lt;/bean&gt;4. 在CustomerDaoImpl中想完成数据的添加，Spring框架提供了一个HibernateDaoSupport的工具类，以后DAO都可以继承该类！！    public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao {        public void save(Customer c) {            System.out.println(&quot;持久层...&quot;);            this.getHibernateTemplate().save(c);        }    }    &lt;bean id=&quot;customerDao&quot; class=&quot;com.itheima.dao.CustomerDaoImpl&quot;&gt;        &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;/&gt;    &lt;/bean&gt;5. 开启事务的配置    * 先配置事务管理器，注意现在使用的是Hibernate框架，所以需要使用Hibernate框架的事务管理器        &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate5.HibernateTransactionManager&quot;&gt;            &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;/&gt;        &lt;/bean&gt;    * 开启注解事务        &lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;/&gt;    * 在Service类中添加事务注解        @Transactional</code></pre><h3 id="五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）"><a href="#五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）" class="headerlink" title="五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）"></a>五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）</h3><pre><code>1. Hibernate配置文件中    * 数据库连接基本参数（4大参数）    * Hibernate相关的属性    * 连接池    * 映射文件2. 开始进行配置    * 先配置连接池相关的信息        &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;            &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;            &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql:///xxx&quot;/&gt;            &lt;property name=&quot;user&quot; value=&quot;root&quot;/&gt;            &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;        &lt;/bean&gt;    * 修改 LocalSessionFactoryBean 的属性配置，因为已经没有了hibernate.cfg.xml的配置文件，所以需要修改该配置，注入连接池        &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate5.HibernateTransactionManager&quot;&gt;            &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;        &lt;/bean&gt;    * 继续在 LocalSessionFactoryBean 中配置，使用hibernateProperties属性继续来配置其他的属性，注意值是properties属性文件        &lt;!-- 配置其他的属性 --&gt;        &lt;property name=&quot;hibernateProperties&quot;&gt;            &lt;props&gt;                &lt;prop key=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/prop&gt;                &lt;prop key=&quot;hibernate.show_sql&quot;&gt;true&lt;/prop&gt;                &lt;prop key=&quot;hibernate.format_sql&quot;&gt;true&lt;/prop&gt;                &lt;prop key=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/prop&gt;            &lt;/props&gt;        &lt;/property&gt;        &lt;!-- 配置映射 --&gt;        &lt;property name=&quot;mappingResources&quot;&gt;            &lt;list&gt;                &lt;value&gt;com/itheima/domain/Customer.hbm.xml&lt;/value&gt;            &lt;/list&gt;        &lt;/property&gt;</code></pre><h2 id="六-技术分析之Hibernate的模板的常用的方法"><a href="#六-技术分析之Hibernate的模板的常用的方法" class="headerlink" title="六.技术分析之Hibernate的模板的常用的方法"></a>六.技术分析之Hibernate的模板的常用的方法</h2><pre><code>1. 增删改的操作:    * 添加:        * save(Object obj);    * 修改:        * update(Object obj);    * 删除:        * delete(Object obj);2. 查询的操作:    * 查询一条记录:        * Object get(Class c,Serializable id);        * Object load(Class c,Serializable id);3. 查询多条记录:    * List find(String hql,Object... args);</code></pre><h2 id="七-延迟加载问题"><a href="#七-延迟加载问题" class="headerlink" title="七.延迟加载问题"></a>七.延迟加载问题</h2><pre><code>1. 使用延迟加载的时候，再WEB层查询对象的时候程序会抛出异常！    * 原因是延迟加载还没有发生SQL语句，在业务层session对象就已经销毁了，所以查询到的JavaBean对象已经变成了托管态对象！    * 注意：一定要先删除javassist-3.11.0.GA.jar包（jar包冲突了）2. 解决办法非常简单，Spring框架提供了一个过滤器，让session对象在WEB层就创建，在WEB层销毁。只需要配置该过滤器即可    * 但是：要注意需要在struts2的核心过滤器之前进行配置        &lt;filter&gt;            &lt;filter-name&gt;OpenSessionInViewFilter&lt;/filter-name&gt;            &lt;filter-class&gt;org.springframework.orm.hibernate5.support.OpenSessionInViewFilter&lt;/filter-class&gt;        &lt;/filter&gt;        &lt;filter-mapping&gt;            &lt;filter-name&gt;OpenSessionInViewFilter&lt;/filter-name&gt;            &lt;url-pattern&gt;/*&lt;/url-pattern&gt;        &lt;/filter-mapping&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;http://pjpn7mq4k.bkt.clouddn.com/ssh1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;一-技术分析之SSH三大框架需要的jar包&quot;&gt;&lt;a href=&quot;#一-技术分析之SSH三大框架需要的jar包&quot; cla
+      
+    
+    </summary>
+    
+      <category term="SSH" scheme="http://yoursite.com/categories/SSH/"/>
+    
+    
+      <category term="spring" scheme="http://yoursite.com/tags/spring/"/>
+    
+      <category term="spring整合hibernate" scheme="http://yoursite.com/tags/spring%E6%95%B4%E5%90%88hibernate/"/>
+    
+      <category term="spring整合structs2" scheme="http://yoursite.com/tags/spring%E6%95%B4%E5%90%88structs2/"/>
+    
+  </entry>
   
   <entry>
     <title>spring高级篇(AOP[注解方式]/spring AOP/Spring框架的JDBC模板/Spring的事务管理)</title>
@@ -508,6 +539,35 @@
   </entry>
   
   <entry>
+    <title>redis完善(spring整合)篇</title>
+    <link href="http://yoursite.com/2018/12/12/redis4/"/>
+    <id>http://yoursite.com/2018/12/12/redis4/</id>
+    <published>2018-12-12T10:15:42.000Z</published>
+    <updated>2018-12-14T10:59:10.044Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="jedis介绍"><a href="#jedis介绍" class="headerlink" title="jedis介绍"></a>jedis介绍</h3><p>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br>在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br>Jedis同样也是托管在github上，地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a> </p><h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><h4 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h4><p>pom坐标：</p><pre><code>&lt;dependency&gt;        &lt;groupId&gt;redis.clients&lt;/groupId&gt;        &lt;artifactId&gt;jedis&lt;/artifactId&gt;        &lt;version&gt;2.7.0&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><p>通过创建单实例jedis对象连接redis服务，如下代码：</p><pre><code>// 单实例连接redis@Testpublic void testJedisSingle() {Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);jedis.set(&quot;name&quot;, &quot;bar&quot;);String name = jedis.get(&quot;name&quot;);System.out.println(name);jedis.close();}</code></pre><h4 id="连接超时解决"><a href="#连接超时解决" class="headerlink" title="连接超时解决"></a>连接超时解决</h4><p>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。</p><p>关闭防火墙命令：</p><pre><code>sevice iptables stop</code></pre><p>如果是修改防火墙规则，可以修改：</p><pre><code>/etc/sysconfig/iptables文件</code></pre><h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p><pre><code>@Testpublic void pool() {    JedisPoolConfig config = new JedisPoolConfig();    //最大连接数    config.setMaxTotal(30);    //最大连接空闲数    config.setMaxIdle(2);    JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);    Jedis jedis = null;    try  {        jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre><h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><p>配置spring配置文件applicationContext.xml</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd     http://www.springframework.org/schema/context     http://www.springframework.org/schema/context/spring-context-3.2.xsd     http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     http://www.springframework.org/schema/tx     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;    连接池配置    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;    &lt;!-- 最大连接数 --&gt;    &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;    &lt;!-- 最大空闲连接数 --&gt;    &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;    &lt;!-- 每次释放连接的最大数目 --&gt;    &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;    &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;    &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;    &lt;!-- 连接最小空闲时间 --&gt;    &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;    &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;    &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;    &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;    &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;    &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;    &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;    &lt;!-- 在空闲时检查有效性, 默认false --&gt;    &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;    &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;    &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;&lt;/bean&gt;&lt;!-- redis单机 通过连接池 --&gt;&lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;    &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;    &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;    &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;&lt;/bean&gt;&lt;/beans&gt;</code></pre><p>测试代码：</p><pre><code>private ApplicationContext applicationContext;@Beforepublic void init() {    applicationContext = new ClassPathXmlApplicationContext(            &quot;classpath:applicationContext.xml&quot;);}@Testpublic void testJedisPool() {JedisPool pool = (JedisPool) applicationContext.getBean(&quot;jedisPool&quot;);        try  {        Jedis jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;jedis&quot;&gt;&lt;a href=&quot;#jedis&quot; class=&quot;headerlink&quot; title=&quot;jedis&quot;&gt;&lt;/a&gt;jedis&lt;/h2&gt;&lt;h3 id=&quot;jedis介绍&quot;&gt;&lt;a href=&quot;#jedis介绍&quot; class=&quot;headerlink&quot; title=
+      
+    
+    </summary>
+    
+      <category term="spring-redis" scheme="http://yoursite.com/categories/spring-redis/"/>
+    
+    
+      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
+    
+      <category term="spring" scheme="http://yoursite.com/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
     <title>redis进阶篇</title>
     <link href="http://yoursite.com/2018/12/12/redis2/"/>
     <id>http://yoursite.com/2018/12/12/redis2/</id>
@@ -539,35 +599,6 @@
   </entry>
   
   <entry>
-    <title>redis完善(spring整合)篇</title>
-    <link href="http://yoursite.com/2018/12/12/redis4/"/>
-    <id>http://yoursite.com/2018/12/12/redis4/</id>
-    <published>2018-12-12T10:15:42.000Z</published>
-    <updated>2018-12-14T10:59:10.044Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="jedis"><a href="#jedis" class="headerlink" title="jedis"></a>jedis</h2><h3 id="jedis介绍"><a href="#jedis介绍" class="headerlink" title="jedis介绍"></a>jedis介绍</h3><p>Redis不仅是使用命令来操作，现在基本上主流的语言都有客户端支持，比如java、C、C#、C++、php、Node.js、Go等。<br>在官方网站里列一些Java的客户端，有Jedis、Redisson、Jredis、JDBC-Redis、等其中官方推荐使用Jedis和Redisson。 在企业中用的最多的就是Jedis，下面我们就重点学习下Jedis。<br>Jedis同样也是托管在github上，地址：<a href="https://github.com/xetorthio/jedis" target="_blank" rel="noopener">https://github.com/xetorthio/jedis</a> </p><h3 id="通过jedis连接redis单机"><a href="#通过jedis连接redis单机" class="headerlink" title="通过jedis连接redis单机"></a>通过jedis连接redis单机</h3><h4 id="jar包"><a href="#jar包" class="headerlink" title="jar包"></a>jar包</h4><p>pom坐标：</p><pre><code>&lt;dependency&gt;        &lt;groupId&gt;redis.clients&lt;/groupId&gt;        &lt;artifactId&gt;jedis&lt;/artifactId&gt;        &lt;version&gt;2.7.0&lt;/version&gt;    &lt;/dependency&gt;</code></pre><h4 id="单实例连接"><a href="#单实例连接" class="headerlink" title="单实例连接"></a>单实例连接</h4><p>通过创建单实例jedis对象连接redis服务，如下代码：</p><pre><code>// 单实例连接redis@Testpublic void testJedisSingle() {Jedis jedis = new Jedis(&quot;192.168.101.3&quot;, 6379);jedis.set(&quot;name&quot;, &quot;bar&quot;);String name = jedis.get(&quot;name&quot;);System.out.println(name);jedis.close();}</code></pre><h4 id="连接超时解决"><a href="#连接超时解决" class="headerlink" title="连接超时解决"></a>连接超时解决</h4><p>由于linux防火墙默认开启，redis的服务端口6379并不在开放规则之内，所有需要将此端口开放访问或者关闭防火墙。</p><p>关闭防火墙命令：</p><pre><code>sevice iptables stop</code></pre><p>如果是修改防火墙规则，可以修改：</p><pre><code>/etc/sysconfig/iptables文件</code></pre><h4 id="使用连接池连接"><a href="#使用连接池连接" class="headerlink" title="使用连接池连接"></a>使用连接池连接</h4><p>通过单实例连接redis不能对redis连接进行共享，可以使用连接池对redis连接进行共享，提高资源利用率，使用jedisPool连接redis服务，如下代码：</p><pre><code>@Testpublic void pool() {    JedisPoolConfig config = new JedisPoolConfig();    //最大连接数    config.setMaxTotal(30);    //最大连接空闲数    config.setMaxIdle(2);    JedisPool pool = new JedisPool(config, &quot;192.168.101.3&quot;, 6379);    Jedis jedis = null;    try  {        jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre><h4 id="jedis与spring整合"><a href="#jedis与spring整合" class="headerlink" title="jedis与spring整合"></a>jedis与spring整合</h4><p>配置spring配置文件applicationContext.xml</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;xmlns:context=&quot;http://www.springframework.org/schema/context&quot;xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd     http://www.springframework.org/schema/context     http://www.springframework.org/schema/context/spring-context-3.2.xsd     http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     http://www.springframework.org/schema/tx     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd &quot;&gt;    连接池配置    &lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;    &lt;!-- 最大连接数 --&gt;    &lt;property name=&quot;maxTotal&quot; value=&quot;30&quot; /&gt;    &lt;!-- 最大空闲连接数 --&gt;    &lt;property name=&quot;maxIdle&quot; value=&quot;10&quot; /&gt;    &lt;!-- 每次释放连接的最大数目 --&gt;    &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;1024&quot; /&gt;    &lt;!-- 释放连接的扫描间隔（毫秒） --&gt;    &lt;property name=&quot;timeBetweenEvictionRunsMillis&quot; value=&quot;30000&quot; /&gt;    &lt;!-- 连接最小空闲时间 --&gt;    &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;1800000&quot; /&gt;    &lt;!-- 连接空闲多久后释放, 当空闲时间&gt;该值 且 空闲连接&gt;最大空闲连接数 时直接释放 --&gt;    &lt;property name=&quot;softMinEvictableIdleTimeMillis&quot; value=&quot;10000&quot; /&gt;    &lt;!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 --&gt;    &lt;property name=&quot;maxWaitMillis&quot; value=&quot;1500&quot; /&gt;    &lt;!-- 在获取连接的时候检查有效性, 默认false --&gt;    &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot; /&gt;    &lt;!-- 在空闲时检查有效性, 默认false --&gt;    &lt;property name=&quot;testWhileIdle&quot; value=&quot;true&quot; /&gt;    &lt;!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true --&gt;    &lt;property name=&quot;blockWhenExhausted&quot; value=&quot;false&quot; /&gt;&lt;/bean&gt;&lt;!-- redis单机 通过连接池 --&gt;&lt;bean id=&quot;jedisPool&quot; class=&quot;redis.clients.jedis.JedisPool&quot; destroy-method=&quot;close&quot;&gt;    &lt;constructor-arg name=&quot;poolConfig&quot; ref=&quot;jedisPoolConfig&quot;/&gt;    &lt;constructor-arg name=&quot;host&quot; value=&quot;192.168.25.145&quot;/&gt;    &lt;constructor-arg name=&quot;port&quot; value=&quot;6379&quot;/&gt;&lt;/bean&gt;&lt;/beans&gt;</code></pre><p>测试代码：</p><pre><code>private ApplicationContext applicationContext;@Beforepublic void init() {    applicationContext = new ClassPathXmlApplicationContext(            &quot;classpath:applicationContext.xml&quot;);}@Testpublic void testJedisPool() {JedisPool pool = (JedisPool) applicationContext.getBean(&quot;jedisPool&quot;);        try  {        Jedis jedis = pool.getResource();        jedis.set(&quot;name&quot;, &quot;lisi&quot;);        String name = jedis.get(&quot;name&quot;);        System.out.println(name);    }catch(Exception ex){        ex.printStackTrace();    }finally{        if(jedis != null){            //关闭连接            jedis.close();        }    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;jedis&quot;&gt;&lt;a href=&quot;#jedis&quot; class=&quot;headerlink&quot; title=&quot;jedis&quot;&gt;&lt;/a&gt;jedis&lt;/h2&gt;&lt;h3 id=&quot;jedis介绍&quot;&gt;&lt;a href=&quot;#jedis介绍&quot; class=&quot;headerlink&quot; title=
-      
-    
-    </summary>
-    
-      <category term="spring-redis" scheme="http://yoursite.com/categories/spring-redis/"/>
-    
-    
-      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
-    
-      <category term="spring" scheme="http://yoursite.com/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
     <title>redis基础篇</title>
     <link href="http://yoursite.com/2018/12/12/redis1/"/>
     <id>http://yoursite.com/2018/12/12/redis1/</id>
@@ -595,39 +626,6 @@
       <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
       <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>redis高级篇</title>
-    <link href="http://yoursite.com/2018/12/12/redis3/"/>
-    <id>http://yoursite.com/2018/12/12/redis3/</id>
-    <published>2018-12-12T10:15:42.000Z</published>
-    <updated>2018-12-13T07:45:05.677Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>Redis的高性能是由于其将所有数据都存储在了内存中<br>为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬盘中，<br>这一过程就是持久化。<br>Redis支持两种方式的持久化，一种是RDB方式，一种是AOF方式。可以单独使用其中一种或将二者结合使用。</p><h3 id="RDB持久化"><a href="#RDB持久化" class="headerlink" title="RDB持久化"></a>RDB持久化</h3><p>RDB方式的持久化是通过快照（snapshotting）完成的，当符合一定条件时Redis会自动将内存中的数据进行快照并持久化到硬盘。<br>RDB是Redis默认采用的持久化方式，在redis.conf配置文件中默认有此下配置：</p><p>save 900 1<br>save 300 10<br>save 60 10000</p><p>save 开头的一行就是持久化配置，可以配置多个条件（每行配置一个条件），每个条件之间是“或”的关系，“save 900 1”表示15分钟（900秒钟）内至少1个键被更改则进行快照，“save 300 10”表示5分钟（300秒）内至少10个键被更改则进行快照。</p><p>在redis.conf中：<br>配置dir指定rdb快照文件的位置<br>配置dbfilenam指定rdb快照文件的名称</p><p>Redis启动后会读取RDB快照文件，将数据从硬盘载入到内存。根据数据量大小与结构和服务器性能不同，这个时间也不同。通常将记录一千万个字符串类型键、大小为1GB的快照文件载入到内存中需要花费20～30秒钟。</p><p>问题总结：<br>通过RDB方式实现持久化，一旦Redis异常退出，就会丢失最后一次快照以后更改的所有数据。这就需要开发者根据具体的应用场合，通过组合设置自动快照条件的方式来将可能发生的数据损失控制在能够接受的范围。如果数据很重要以至于无法承受任何损失，则可以考虑使用AOF方式进行持久化。</p><h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>默认情况下Redis没有开启AOF（append only file）方式的持久化，可以通过appendonly参数开启：<br>appendonly yes<br>开启AOF持久化后每执行一条会更改Redis中的数据的命令，Redis就会将该命令写入硬<br>盘中的AOF文件。AOF文件的保存位置和RDB文件的位置相同，都是通过dir参数设置的，默认的文件名是appendonly.aof，可以通过appendfilename参数修改：appendfilename appendonly.aof</p><h2 id="主从复制（了解）"><a href="#主从复制（了解）" class="headerlink" title="主从复制（了解）"></a>主从复制（了解）</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>持久化保证了即使redis服务重启也会丢失数据，因为redis服务重启后会将硬盘上持久化的数据恢复到内存中，但是当redis服务器的硬盘损坏了可能会导致数据丢失，如果通过redis的主从复制机制就可以避免这种单点故障，如下图：</p><p>说明：<br>主redis中的数据有两个副本（replication）即从redis1和从redis2，即使一台redis服务器宕机其它两台redis服务也可以继续提供服务。<br>主redis中的数据和从redis上的数据保持实时同步，当主redis写入数据时通过主从复制机制会复制到两个从redis服务上。<br>只有一个主redis，可以有多个从redis。<br>主从复制不会阻塞master，在同步数据时，master 可以继续处理client 请求<br>一个redis可以即是主又是从，如下图：</p><h3 id="主从配置"><a href="#主从配置" class="headerlink" title="主从配置"></a>主从配置</h3><h4 id="主redis配置"><a href="#主redis配置" class="headerlink" title="主redis配置"></a>主redis配置</h4><p>无需特殊配置。</p><h4 id="从redis配置"><a href="#从redis配置" class="headerlink" title="从redis配置"></a>从redis配置</h4><p>修改从redis服务器上的redis.conf文件，添加slaveof 主redisip  主redis端口</p><p>上边的配置说明当前该从redis服务器所对应的主redis是192.168.101.3，端口是6379</p><h3 id="主从复制过程"><a href="#主从复制过程" class="headerlink" title="主从复制过程"></a>主从复制过程</h3><h4 id="完整复制"><a href="#完整复制" class="headerlink" title="完整复制"></a>完整复制</h4><p>在redis2.8版本之前主从复制过程如下图：</p><p>复制过程说明：</p><p>1、slave 服务启动，slave 会建立和master 的连接，发送sync 命令。<br>2、master启动一个后台进程将数据库快照保存到RDB文件中<br>注意：此时如果生成RDB文件过程中存在写数据操作会导致RDB文件和当前主redis数据不一致，所以此时master 主进程会开始收集写命令并缓存起来。<br>3、master 就发送RDB文件给slave<br>4、slave 将文件保存到磁盘上，然后加载到内存恢复<br>5、master把缓存的命令转发给slave<br>注意：后续master 收到的写命令都会通过开始建立的连接发送给slave。<br>当master 和slave 的连接断开时slave 可以自动重新建立连接。如果master 同时收到多个slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有slave。</p><p>完整复制的问题：</p><p>在redis2.8之前从redis每次同步都会从主redis中复制全部的数据，如果从redis是新创建的从主redis中复制全部的数据这是没有问题的，但是，如果当从redis停止运行，再启动时可能只有少部分数据和主redis不同步，此时启动redis仍然会从主redis复制全部数据，这样的性能肯定没有只复制那一小部分不同步的数据高。</p><h4 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h4><p>部分复制说明：<br>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master的runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步），主机验证 runid 和 offset 是否有效， runid 相当于主机身份验证码，用来验证从机上一次连接的主机，如果runid验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据offset同步部分数据。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;持久化&quot;&gt;&lt;a href=&quot;#持久化&quot; class=&quot;headerlink&quot; title=&quot;持久化&quot;&gt;&lt;/a&gt;持久化&lt;/h2&gt;&lt;p&gt;Redis的高性能是由于其将所有数据都存储在了内存中&lt;br&gt;为了使Redis在重启之后仍能保证数据不丢失，需要将数据从内存中同步到硬
-      
-    
-    </summary>
-    
-      <category term="redis" scheme="http://yoursite.com/categories/redis/"/>
-    
-    
-      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="非关系型数据库" scheme="http://yoursite.com/tags/%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="缓存数据库" scheme="http://yoursite.com/tags/%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-      <category term="redis" scheme="http://yoursite.com/tags/redis/"/>
-    
-      <category term="持久化" scheme="http://yoursite.com/tags/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
     
   </entry>
   

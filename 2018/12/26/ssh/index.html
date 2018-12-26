@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="oracle,oracle sql,oracle 命令,">
+  <meta name="keywords" content="spring,spring整合hibernate,spring整合structs2,">
 
 
 
@@ -101,18 +101,20 @@
 
 
 
-<meta name="description" content="一.ORACLE支持五种类型的完整性约束1.NOT NULL (非空)防止NULL值进入指定的列,在单列基础上定义,默认情况下,ORACLE允许在任何列中有NULL值. 2.CHECK (检查)检查在约束中指定的条件是否得到了满足. 3.UNIQUE (唯一)保证在指定的列中没有重复值.在该表中每一个值或者每一组值都将是唯一的. 4.PRIMARY KEY (主键)用来唯一的标识出表的每一行,并且">
-<meta name="keywords" content="oracle,oracle sql,oracle 命令">
+<meta name="description" content="一.技术分析之SSH三大框架需要的jar包1. Struts2框架     * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包     * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Sp">
+<meta name="keywords" content="spring,spring整合hibernate,spring整合structs2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="oracle基本命令">
-<meta property="og:url" content="http://yoursite.com/2018/12/13/oracle-sql/index.html">
+<meta property="og:title" content="SSH整合(spring整合hibernate&#x2F;spring整合structs2)">
+<meta property="og:url" content="http://yoursite.com/2018/12/26/ssh/index.html">
 <meta property="og:site_name" content="Blog of MYH">
-<meta property="og:description" content="一.ORACLE支持五种类型的完整性约束1.NOT NULL (非空)防止NULL值进入指定的列,在单列基础上定义,默认情况下,ORACLE允许在任何列中有NULL值. 2.CHECK (检查)检查在约束中指定的条件是否得到了满足. 3.UNIQUE (唯一)保证在指定的列中没有重复值.在该表中每一个值或者每一组值都将是唯一的. 4.PRIMARY KEY (主键)用来唯一的标识出表的每一行,并且">
+<meta property="og:description" content="一.技术分析之SSH三大框架需要的jar包1. Struts2框架     * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包     * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Sp">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-14T11:55:28.561Z">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/ssh1.png">
+<meta property="og:updated_time" content="2018-12-26T12:53:26.747Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="oracle基本命令">
-<meta name="twitter:description" content="一.ORACLE支持五种类型的完整性约束1.NOT NULL (非空)防止NULL值进入指定的列,在单列基础上定义,默认情况下,ORACLE允许在任何列中有NULL值. 2.CHECK (检查)检查在约束中指定的条件是否得到了满足. 3.UNIQUE (唯一)保证在指定的列中没有重复值.在该表中每一个值或者每一组值都将是唯一的. 4.PRIMARY KEY (主键)用来唯一的标识出表的每一行,并且">
+<meta name="twitter:title" content="SSH整合(spring整合hibernate&#x2F;spring整合structs2)">
+<meta name="twitter:description" content="一.技术分析之SSH三大框架需要的jar包1. Struts2框架     * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包     * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Sp">
+<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/ssh1.png">
 
 
 
@@ -142,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/13/oracle-sql/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/26/ssh/">
 
 
 
 
 
-  <title>oracle基本命令 | Blog of MYH</title>
+  <title>SSH整合(spring整合hibernate/spring整合structs2) | Blog of MYH</title>
   
 
 
@@ -317,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/13/oracle-sql/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/26/ssh/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="YuHang Ma">
@@ -334,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">oracle基本命令</h1>
+          <h1 class="post-title" itemprop="name headline">SSH整合(spring整合hibernate/spring整合structs2)</h1>
         
 
         <div class="post-meta">
@@ -351,8 +353,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-13T16:00:00+08:00">
-                2018-12-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-26T21:00:00+08:00">
+                2018-12-26
               </time>
             
 
@@ -374,8 +376,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/oracle/" itemprop="url" rel="index">
-                    <span itemprop="name">oracle</span>
+                  <a href="/categories/SSH/" itemprop="url" rel="index">
+                    <span itemprop="name">SSH</span>
                   </a>
                 </span>
 
@@ -392,8 +394,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/13/oracle-sql/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/13/oracle-sql/" itemprop="commentCount"></span>
+                <a href="/2018/12/26/ssh/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/26/ssh/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -401,7 +403,7 @@
 
           
           
-             <span id="/2018/12/13/oracle-sql/" class="leancloud_visitors" data-flag-title="oracle基本命令">
+             <span id="/2018/12/26/ssh/" class="leancloud_visitors" data-flag-title="SSH整合(spring整合hibernate/spring整合structs2)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -427,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.4k字
+                  1.7k字
                 </span>
               
 
@@ -443,7 +445,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  10分钟
+                  7分钟
                 </span>
               
             </div>
@@ -464,62 +466,180 @@
       
 
       
-        <h3 id="一-ORACLE支持五种类型的完整性约束"><a href="#一-ORACLE支持五种类型的完整性约束" class="headerlink" title="一.ORACLE支持五种类型的完整性约束"></a>一.ORACLE支持五种类型的完整性约束</h3><h4 id="1-NOT-NULL-非空"><a href="#1-NOT-NULL-非空" class="headerlink" title="1.NOT NULL (非空)"></a>1.NOT NULL (非空)</h4><p>防止NULL值进入指定的列,在单列基础上定义,默认情况下,ORACLE允许在任何列中有NULL值.</p>
-<h4 id="2-CHECK-检查"><a href="#2-CHECK-检查" class="headerlink" title="2.CHECK (检查)"></a>2.CHECK (检查)</h4><p>检查在约束中指定的条件是否得到了满足.</p>
-<h4 id="3-UNIQUE-唯一"><a href="#3-UNIQUE-唯一" class="headerlink" title="3.UNIQUE (唯一)"></a>3.UNIQUE (唯一)</h4><p>保证在指定的列中没有重复值.在该表中每一个值或者每一组值都将是唯一的.</p>
-<h4 id="4-PRIMARY-KEY-主键"><a href="#4-PRIMARY-KEY-主键" class="headerlink" title="4.PRIMARY KEY (主键)"></a>4.PRIMARY KEY (主键)</h4><p>用来唯一的标识出表的每一行,并且防止出现NULL值,一个表只能有一个主键约束.</p>
-<h4 id="5-POREIGN-KEY-外部键"><a href="#5-POREIGN-KEY-外部键" class="headerlink" title="5.POREIGN KEY (外部键)"></a>5.POREIGN KEY (外部键)</h4><p>通过使用公共列在表之间建立一种父子(parent-child)关系,在表上定义的外部键可以指向主键或者其他表的唯一键.ORACLE支持五种类型的完整性约束</p>
-<h3 id="二-基本命令"><a href="#二-基本命令" class="headerlink" title="二.基本命令"></a>二.基本命令</h3><h4 id="创建表空间"><a href="#创建表空间" class="headerlink" title="创建表空间"></a>创建表空间</h4><p>create tablespace schooltbs datafile ‘D:\oracle\datasource\schooltbs.dbf’ size 10M autoextend on;</p>
-<h4 id="删除表空间"><a href="#删除表空间" class="headerlink" title="删除表空间"></a>删除表空间</h4><p>drop tablespace schooltbs[including contents and datafiles];</p>
-<h4 id="查询表空间基本信息"><a href="#查询表空间基本信息" class="headerlink" title="查询表空间基本信息"></a>查询表空间基本信息</h4><p>select *||tablespace_name from DBA_TABLESPACES;</p>
-<h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><p>create user  lihua identified by lihua default tablespace schooltbs temporary tablespace temp;</p>
-<h4 id="更改用户"><a href="#更改用户" class="headerlink" title="更改用户"></a>更改用户</h4><p>alter user lihua identified by 123 default tablespace users;</p>
-<h4 id="锁定用户"><a href="#锁定用户" class="headerlink" title="锁定用户"></a>锁定用户</h4><p>alter user lihua account lock|unlock;</p>
-<h4 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h4><p>drop user lihua cascade;–删除用户模式</p>
-<h4 id="oracle数据库中的角色"><a href="#oracle数据库中的角色" class="headerlink" title="oracle数据库中的角色"></a>oracle数据库中的角色</h4><p>connect,dba,select_catalog_role,delete_catalog_role,execute_catalog_role,exp_full_database,imp_full_database,resource</p>
-<h4 id="授予连接服务器的角色"><a href="#授予连接服务器的角色" class="headerlink" title="授予连接服务器的角色"></a>授予连接服务器的角色</h4><p>grant connect to lihua;</p>
-<h4 id="授予使用表空间的角色"><a href="#授予使用表空间的角色" class="headerlink" title="授予使用表空间的角色"></a>授予使用表空间的角色</h4><p> grant resource to lihua with grant option;–该用户也有授权的权限</p>
-<h4 id="授予操作表的权限"><a href="#授予操作表的权限" class="headerlink" title="授予操作表的权限"></a>授予操作表的权限</h4><p>grant select,insert on user_tbl to scott;–当前用户 grant delete,update on lihua.user_tbl to scott;–系统管理员</p>
-<h4 id="修改表的结构-alter"><a href="#修改表的结构-alter" class="headerlink" title="修改表的结构(alter)"></a>修改表的结构(alter)</h4><p>Alter table  表名 add(列的名称,列的类型);</p>
-<h3 id="三-基本查询"><a href="#三-基本查询" class="headerlink" title="三.基本查询"></a>三.基本查询</h3><h4 id="设置每行显示多少字符"><a href="#设置每行显示多少字符" class="headerlink" title="设置每行显示多少字符"></a>设置每行显示多少字符</h4><p>set linesize  300;</p>
-<h4 id="设置每页显示多少条记录"><a href="#设置每页显示多少条记录" class="headerlink" title="设置每页显示多少条记录"></a>设置每页显示多少条记录</h4><p>set pagesize 30;</p>
-<h4 id="用户名的切换"><a href="#用户名的切换" class="headerlink" title="用户名的切换"></a>用户名的切换</h4><p>conn system/tiger</p>
-<h4 id="Conn-sys-change-on-install-as-sysdba-注意超级用户-在后面加as-sysdba"><a href="#Conn-sys-change-on-install-as-sysdba-注意超级用户-在后面加as-sysdba" class="headerlink" title="Conn sys/change_on_install as sysdba(注意超级用户 在后面加as sysdba)"></a>Conn sys/change_on_install as sysdba(注意超级用户 在后面加as sysdba)</h4><h4 id="在超级用户下查找普通用户的表是查不到的"><a href="#在超级用户下查找普通用户的表是查不到的" class="headerlink" title="在超级用户下查找普通用户的表是查不到的"></a>在超级用户下查找普通用户的表是查不到的</h4><p>必须这样查找  如 select * from scott.emp(普通用户下的emp表)</p>
-<h4 id="查看当前是那个用户身份登录"><a href="#查看当前是那个用户身份登录" class="headerlink" title="查看当前是那个用户身份登录:"></a>查看当前是那个用户身份登录:</h4><p>show user;</p>
-<h4 id="查看有多少张表"><a href="#查看有多少张表" class="headerlink" title="查看有多少张表:"></a>查看有多少张表:</h4><p>select * from tab;(注意不同用户下的表是不同的)</p>
-<h4 id="查看表的结构"><a href="#查看表的结构" class="headerlink" title="查看表的结构:"></a>查看表的结构:</h4><p>desc emp(emp为表名)</p>
-<h4 id="取出重复的列-DISTINCT"><a href="#取出重复的列-DISTINCT" class="headerlink" title="取出重复的列(DISTINCT):"></a>取出重复的列(DISTINCT):</h4><p>如 SELECT DISTINCT  JOB EMP(去掉job的重复的值)</p>
-<h4 id="字符串的链接操作用"><a href="#字符串的链接操作用" class="headerlink" title="字符串的链接操作用:"></a>字符串的链接操作用:</h4><p>||</p>
-<h4 id="查询有奖金的员工"><a href="#查询有奖金的员工" class="headerlink" title="查询有奖金的员工:"></a>查询有奖金的员工:</h4><p>select* from emp where comm is not null;</p>
-<h4 id="查询没有奖金的员工信息"><a href="#查询没有奖金的员工信息" class="headerlink" title="查询没有奖金的员工信息:"></a>查询没有奖金的员工信息:</h4><p>select * from emp where comm is null;</p>
-<h4 id="两个条件以上就得用and-如查询工资大雨1500和有奖金的员"><a href="#两个条件以上就得用and-如查询工资大雨1500和有奖金的员" class="headerlink" title="两个条件以上就得用and 如查询工资大雨1500和有奖金的员"></a>两个条件以上就得用and 如查询工资大雨1500和有奖金的员</h4><p> select * from emp where                                                                                                           sal&gt;1500  and comm is not null;</p>
-<h4 id="表示两个条件有一个满足就可就用-or-如查询工资大于1500或者没有奖金的员工信息"><a href="#表示两个条件有一个满足就可就用-or-如查询工资大于1500或者没有奖金的员工信息" class="headerlink" title="表示两个条件有一个满足就可就用:or 如查询工资大于1500或者没有奖金的员工信息"></a>表示两个条件有一个满足就可就用:or 如查询工资大于1500或者没有奖金的员工信息</h4><p>Select * from emp where sal&gt;1500 or comm is not null;</p>
-<h4 id="取反可以用not-如-查询员工工资不大于1500和有奖金的员工信息-如"><a href="#取反可以用not-如-查询员工工资不大于1500和有奖金的员工信息-如" class="headerlink" title="取反可以用not 如 查询员工工资不大于1500和有奖金的员工信息 如:"></a>取反可以用not 如 查询员工工资不大于1500和有奖金的员工信息 如:</h4><p> Select * from emp where not (sal&gt;1500  or comm is not null);</p>
-<h4 id="在什么什么之间用between—-and—-如查询工资在1500和3000之间的员工信息"><a href="#在什么什么之间用between—-and—-如查询工资在1500和3000之间的员工信息" class="headerlink" title="在什么什么之间用between—-and—-如查询工资在1500和3000之间的员工信息:"></a>在什么什么之间用between—-and—-如查询工资在1500和3000之间的员工信息:</h4><p>Select * from emp  where sal  between 1500 and 3000;</p>
-<h4 id="查询员工编号是2323-4555-2222的员工具体信息-如"><a href="#查询员工编号是2323-4555-2222的员工具体信息-如" class="headerlink" title="查询员工编号是2323, 4555, 2222的员工具体信息: 如"></a>查询员工编号是2323, 4555, 2222的员工具体信息: 如</h4><p>Select * from emp where empno in(2323,4555,2222);</p>
-<h4 id="模糊查询-like-一般结合”-”和”“使用其中-表示可以匹配任意长度的内容-”“表示匹配一个长度放入内容-如-查询员工姓名中第二哥字母是M的员工信息"><a href="#模糊查询-like-一般结合”-”和”“使用其中-表示可以匹配任意长度的内容-”“表示匹配一个长度放入内容-如-查询员工姓名中第二哥字母是M的员工信息" class="headerlink" title="模糊查询  like 一般结合”%”和”“使用其中%:表示可以匹配任意长度的内容,”“表示匹配一个长度放入内容  如:  查询员工姓名中第二哥字母是M的员工信息:"></a>模糊查询  like 一般结合”%”和”<em>“使用其中%:表示可以匹配任意长度的内容,”</em>“表示匹配一个长度放入内容  如:  查询员工姓名中第二哥字母是M的员工信息:</h4><p>Select <em> from emp where ename LIKE ‘_M%’;<br>又如姓名中包含M的员工  Select </em> from emp where ename LIKE  ‘%M%’;</p>
-<h4 id="oracle中不等于有两种表示方式-“-lt-gt-”和”-”"><a href="#oracle中不等于有两种表示方式-“-lt-gt-”和”-”" class="headerlink" title="oracle中不等于有两种表示方式 “&lt;&gt;”和”!=”"></a>oracle中不等于有两种表示方式 “&lt;&gt;”和”!=”</h4><h4 id="排序用order-by-asc-desc-其中asc-是升序排列-如果不写就默认按升序排列desc是按降序排列-排序语句放在sal语句的最后如-按员工工资进行排序"><a href="#排序用order-by-asc-desc-其中asc-是升序排列-如果不写就默认按升序排列desc是按降序排列-排序语句放在sal语句的最后如-按员工工资进行排序" class="headerlink" title="排序用order by {asc desc}其中asc 是升序排列 如果不写就默认按升序排列desc是按降序排列 排序语句放在sal语句的最后如: 按员工工资进行排序"></a>排序用order by {asc desc}其中asc 是升序排列 如果不写就默认按升序排列desc是按降序排列 排序语句放在sal语句的最后如: 按员工工资进行排序</h4><p>Select <em> from emp order by sal asc(升序)<br>Selecct </em> from emp order by sal desc(降序)<br>Select * from emp where deptno=’10’ order by sal desc,hiredate asc;(查询部门10的员工工资的升序排列如果工资相等就按员工的入职时间排序)</p>
-<h4 id="group-by-用于对查询的结果进行分组统计-显示每个部门的平均工资和最高工资-如"><a href="#group-by-用于对查询的结果进行分组统计-显示每个部门的平均工资和最高工资-如" class="headerlink" title="group by 用于对查询的结果进行分组统计: 显示每个部门的平均工资和最高工资  如:"></a>group by 用于对查询的结果进行分组统计: 显示每个部门的平均工资和最高工资  如:</h4><p>Select avg(sal),max(sal) from emp group by deptno;</p>
-<p>Having  子句用于限制分组显示结果: 显示平均工资大于2000的的部门号和他的平均工资?<br>如:select avg(sal), deptno from emp group by deptno having avg(sal)&gt;2000;</p>
-<h3 id="四-锁和数据库对象"><a href="#四-锁和数据库对象" class="headerlink" title="四.锁和数据库对象"></a>四.锁和数据库对象</h3><h4 id="1-锁"><a href="#1-锁" class="headerlink" title="1.锁"></a>1.锁</h4><p>数据库用来控制共享资源并发访问的机制。 锁的类型：行级锁，表级锁 行级锁：对正在被修改的行进行锁定。行级锁也被称之为排他锁。 在使用下列语句时，Oracle会自动应用行级锁： insert,update,delete,select…… for update select……for update允许用户一次锁定多条记录进行更新。 使用commit or rollback释放锁。 表级锁： lock table user_tbl in mode mode; 表级锁类型： 行共享 row share 行排他 row exclusive 共享 share 共享行排他 share row exclusive 排他 exclusive 死锁：两个或两个以上的事务相互等待对方释放资源，从而形成死锁 2.数据库对象 oracle数据库对象又称模式对象 数据库对象是逻辑结构的集合，最基本的数据库对象是表 数据库对象：<br>表，序列，视图，索引</p>
-<h4 id="2-序列"><a href="#2-序列" class="headerlink" title="2.序列"></a>2.序列</h4><p>序列用于生成唯一，连续序号的对象。 创建语法： create sequence user_id_seq start with 1000 increment by 1 maxvalue 2000 minvalue 1000 nocycle cache 1000;–指定内存中预先分配的序号 访问序列： select user_id_seq.currval from dual; select user_id-seq.nextval from dual;<br>更改删除序列： alter sequence user_id_seq maxvalue 10000;–不能修改其start with 值 drop sequence user_id_seq; 在Hibernate中访问序列：<br>      user_id_seq</p>
-<h4 id="3-视图"><a href="#3-视图" class="headerlink" title="3.视图"></a>3.视图</h4><p>视图以经过定制的方式显示来自一个或多个表的数据 创建视图： create or replace view user_tbl_view (vid,vname,vage) as select id,user_name,age from user_tbl [with check option]|[with read only]; 创建带有错误的视图： create force view user_tbl_force_view as select * from user_table;–此时user_table可以不存在 创建外联接视图： create view user_stu_view as select u.id,u.user_name,u.password,s.ddress from user_tbl u,stu_tbl s where u.s_id(+)=s.id;–哪一方带有(+)，哪一方就是次要的 删除视图： drop user_stu_view;</p>
-<h4 id="4-索引"><a href="#4-索引" class="headerlink" title="4.索引"></a>4.索引</h4><p>索引用于提高SQL语句执行的性能 索引类型： 唯一索引，位图索引，组合索引，基于函数的索引，反向键索引<br>创建标准索引： create index user_id_index on user_tbl(id) tablespace schooltbs; 重建索引： alter index user_id_index rebuild; 删除索引： drop index user_id_index;<br>创建唯一索引： create unique index user_id_index on user_tbl(id); 创建组合索引： create index name_pass_index on user_tbl(user_name,password); 创建反向键索引： create index user_id_index on user_tbl(id) reverse;</p>
-<h3 id="五-使用PL-SQL"><a href="#五-使用PL-SQL" class="headerlink" title="五.使用PL/SQL"></a>五.使用PL/SQL</h3><p>可用于创建存储过程，触发器，程序包，给SQL语句的执行添加程序逻辑。 支持SQL，在PL/SQL中可以使用：<br>数据操纵命令 事务控制命令 游标控制 SQL函数和SQL运算符<br>支持面向对象编程(OOP)<br>可移植性<br>更佳的性能，PL/SQL经过编译执行</p>
-<p>分为三个部分：声明部分，可执行部分和异常处理部分 [declare declarations] begin executable statements [exception handlers] end;<br>打开输出 set serverout on;</p>
-<h4 id="1-根据输入编号获取某学员的成绩–if"><a href="#1-根据输入编号获取某学员的成绩–if" class="headerlink" title="1.根据输入编号获取某学员的成绩–if"></a>1.根据输入编号获取某学员的成绩–if</h4><p>declare<br>score user_tbl.score%type;<br>begin<br>select score into score from user_tbl where id=’&amp;id’;<br>if score&gt;90 then<br>dbms_output.put_line(‘优秀’);<br>elsif score&gt;80 then<br>dbms_output.put_line(‘良好’);<br>elsif score&gt;60 then<br>dbms_output.put_line(‘及格’);<br>else<br>dbms_output.put_line(‘差’);<br>end if;<br>end;</p>
-<h4 id="2-根据学员姓名获取某学员的成绩–if"><a href="#2-根据学员姓名获取某学员的成绩–if" class="headerlink" title="2.根据学员姓名获取某学员的成绩–if"></a>2.根据学员姓名获取某学员的成绩–if</h4><p>declare<br>score user_tbl.score%type;<br>begin<br>select score into score from user_tbl where user_name=’&amp;name’;<br>if score&gt;90 then<br>dbms_output.put_line(‘优秀’);<br>elsif score&gt;80 then<br>dbms_output.put_line(‘良好’);<br>elsif score&gt;60 then<br>dbms_output.put_line(‘及格’);<br>else<br>dbms_output.put_line(‘差’);<br>end if;<br>end;</p>
-<h4 id="3-case的使用"><a href="#3-case的使用" class="headerlink" title="3.case的使用"></a>3.case的使用</h4><p>declare<br>grade user_tbl.grade%type;<br>begin<br>select grade into grade from user_tbl where id=’&amp;id’;<br>case grade<br>when ‘A’ then dbms_output.put_line(‘优异’);<br>when ‘B’ then dbms_output.put_line(‘优秀’);<br>when ‘C’ then dbms_output.put_line(‘良好’);<br>else dbms_output.put_line(‘一般’);<br>end case;<br>end;</p>
-<h4 id="4-基本循环"><a href="#4-基本循环" class="headerlink" title="4.基本循环"></a>4.基本循环</h4><p>declare<br>i number(4):=1;<br>begin<br>loop<br>dbms_output.put_line(‘loop size:’||i);<br>i:=i+1;<br>exit when i&gt;10;<br>end loop;<br>end;</p>
-<h4 id="5-while循环"><a href="#5-while循环" class="headerlink" title="5.while循环"></a>5.while循环</h4><p>declare<br>i number(4):=1;<br>begin<br>while i&lt;=10 loop<br>dbms_output.put_line(‘while loop size=’||i);<br>i:=i+1;<br>end loop;<br>end;</p>
-<h4 id="6-for循环"><a href="#6-for循环" class="headerlink" title="6.for循环"></a>6.for循环</h4><p>declare<br>i number(4):=1;<br>begin<br>for i in 1..10 loop<br>dbms_output.put_line(‘for loop Size:’||i);<br>end loop;<br>end;</p>
-<p>declare<br>i number(2):=1;<br>j number(2):=1;<br>begin<br>for i in reverse 1..9 loop<br>for j in 1..i loop<br>dbms_output.put(j||’x’||i||’=’||j*i||’ ‘);<br>end loop;<br>dbms_output.put_line(‘’);<br>end loop;<br>end;</p>
-<h4 id="7-动态SQL"><a href="#7-动态SQL" class="headerlink" title="7.动态SQL"></a>7.动态SQL</h4><p>declare<br>userId number(2);<br>sql_str varchar2(100);<br>userName user_tbl.user_name%type;<br>begin<br>execute immediate ‘create table testExe(id number,test_name varchar2(20))’;<br>userId:=’&amp;userId’;<br>sql_str:=’select user_name from user_tbl where id=:id’;<br>execute immediate sql_str into userName using userId;<br>dbms_output.put_line(userName);<br>end;<br>(or<br>declare<br> id_param number:=’&amp;id_param’;<br> sql_str varchar2(100);<br> name_param stu_tbl.stu_name%type;<br> begin<br> sql_str:=’select stu_name from stu_tbl where id=:p’;<br> execute immediate sql_str into name_param using id_param;<br> dbms_output.put_line(name_param);<br> end;<br> /<br>)</p>
-<h4 id="8-异常处理"><a href="#8-异常处理" class="headerlink" title="8.异常处理"></a>8.异常处理</h4><p>declare<br>grade number(4);<br>begin<br>grade:=’&amp;grade’;<br>case grade<br>when 1 then dbms_output.put_line(‘好的’);<br>–else dbms_output.put_line(‘不好’);<br>end case;<br>exception<br>when case_not_found then<br>dbms_output.put_line(‘输入类型不匹配！’);<br>end;</p>
-<h4 id="9-系统异常"><a href="#9-系统异常" class="headerlink" title="9.系统异常"></a>9.系统异常</h4><p>declare<br>rowD user_tbl%rowtype;<br>begin<br>select <em> into rowD from user_tbl;<br>dbms_output.put_line(rowD.id||’’||rowD.user_name||’ ‘||rowD.password);<br>exception<br>when too_many_rows then<br>dbms_output.put_line(‘不能将多行赋予一个属性！’);<br>end;<br>or<br>declare<br>rowD user_tbl%rowtype;<br>begin<br>select </em> into rowD from user_tbl where id=5;<br>dbms_output.put_line(rowD.id||’ ‘||rowD.user_name||’ ‘||rowD.password);<br>exception<br>when too_many_rows then<br>dbms_output.put_line(‘不能将多行赋予一个属性！’);<br>when no_data_found then<br>dbms_output.put_line(‘没有您要查找的数据！’);<br>end;</p>
-<h4 id="10-自定义错误"><a href="#10-自定义错误" class="headerlink" title="10.自定义错误"></a>10.自定义错误</h4><p>declare<br>invalidError exception;<br>category varchar2(20);<br>begin<br>category:=’&amp;category’;<br>if category not in(‘附件’,’顶盘’,’备件’) then<br>raise invalidError;<br>else<br>dbms_output.put_line(‘您输入的类别是：’||category);<br>end if;<br>exception<br>when invalidError then<br>dbms_output.put_line(‘无法识别的类别！’);<br>end;</p>
-<h4 id="11-引发应用程序异常"><a href="#11-引发应用程序异常" class="headerlink" title="11.引发应用程序异常"></a>11.引发应用程序异常</h4><p>declare<br>app_exception exception;<br>grade user_tbl.grade%type;<br>begin<br>select grade into grade from user_tbl where id=&id;<br>if grade=’A’ then<br>raise app_exception;<br>else<br>dbms_output.put_line(‘查询的等级为：’||grade);<br>end if;<br>exception<br>when app_exception then<br>raise_application_error(-20001,’未知的等级！’);<br>end;</p>
+        <p><img src="http://pjpn7mq4k.bkt.clouddn.com/ssh1.png" alt=""></p>
+<hr>
+<h3 id="一-技术分析之SSH三大框架需要的jar包"><a href="#一-技术分析之SSH三大框架需要的jar包" class="headerlink" title="一.技术分析之SSH三大框架需要的jar包"></a>一.技术分析之SSH三大框架需要的jar包</h3><pre><code>1. Struts2框架
+    * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包
+    * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Spring的插件包
 
+2. Hibernate框架
+    * hibernate-release-5.0.7.Final\lib\required\*.jar            -- Hibernate框架需要的jar包
+    * slf4j-api-1.6.1.jar                                        -- 日志接口
+    * slf4j-log4j12-1.7.2.jar                                    -- 日志实现
+    * mysql-connector-java-5.1.7-bin.jar                        -- MySQL的驱动包
+
+3. Spring框架
+    * IOC核心包
+    * AOP核心包
+    * JDBC模板和事务核心包
+    * Spring整合JUnit测试包
+    * Spring整合Hibernate核心包
+    * Spring整合Struts2核心包
+</code></pre><h3 id="二-SSH三大框架需要的配置文件"><a href="#二-SSH三大框架需要的配置文件" class="headerlink" title="二.SSH三大框架需要的配置文件"></a>二.SSH三大框架需要的配置文件</h3><pre><code>1. Struts2框架
+    * 在web.xml中配置核心的过滤器
+        &lt;filter&gt;
+            &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+            &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+        &lt;/filter&gt;
+
+        &lt;filter-mapping&gt;
+            &lt;filter-name&gt;struts2&lt;/filter-name&gt;
+            &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+        &lt;/filter-mapping&gt;
+
+    * 在src目录下创建struts.xml，用来配置Action
+
+2. Hibernate框架
+    * 在src目录创建hibernate.cfg.xml配置文件
+    * 在JavaBean所在的包下映射的配置文件
+
+3. Spring框架
+    * 在web.xml配置整合WEB的监听器
+        &lt;listener&gt;
+            &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+        &lt;/listener&gt;
+        &lt;context-param&gt;
+            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+            &lt;param-value&gt;classpath:applicationContext.xml&lt;/param-value&gt;
+        &lt;/context-param&gt;
+
+    * 在src目录下创建applicationContext.xml
+    * 在src目录下log4j.proerties
+</code></pre><h2 id="三-Spring框架整合Struts2框架"><a href="#三-Spring框架整合Struts2框架" class="headerlink" title="三.Spring框架整合Struts2框架"></a>三.Spring框架整合Struts2框架</h2><pre><code>1. 导入CRM项目的UI页面，找到添加客户的页面，修改form表单，访问Action
+2. 编写CustomerAction接收请求，在struts.xml中完成Action的配置
+    &lt;package name=&quot;crm&quot; extends=&quot;struts-default&quot; namespace=&quot;/&quot;&gt;
+        &lt;action name=&quot;customer_*&quot; class=&quot;com.itheima.web.action.CustomerAction&quot; method=&quot;{1}&quot;&gt;
+
+        &lt;/action&gt;
+    &lt;/package&gt;
+
+3. 在Action中获取到service（开发不会使用，因为麻烦）
+    * 可以通过 WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext()); 来获取，但是这种方式编写代码太麻烦了！！
+
+4. Spring整合Struts2框架的第一种方式（Action由Struts2框架来创建）
+    * 因为导入的struts2-spring-plugin-2.3.24.jar 包自带一个配置文件 struts-plugin.xml ，该配置文件中有如下代码
+        * &lt;constant name=&quot;struts.objectFactory&quot; value=&quot;spring&quot; /&gt;    开启一个常量，如果该常量开启，那么下面的常量就可以使用
+        * struts.objectFactory.spring.autoWire = name，该常量是可以让Action的类来自动装配Bean对象！！
+
+5. Spring整合Struts2框架的第二种方式（Action由Spring框架来创建）（推荐大家来使用的）
+    * 把具体的Action类配置文件applicatonContext.xml的配置文件中，但是注意：struts.xml需要做修改
+    * applicationContext.xml
+        * &lt;bean id=&quot;customerAction&quot; class=&quot;com.itheima.web.action.CustomerAction&quot; scope=&quot;prototype&quot;&gt;
+
+    * struts.xml中的修改，把全路径修改成ID值
+        * &lt;action name=&quot;customer_*&quot; class=&quot;customerAction&quot; method=&quot;{1}&quot;&gt;
+
+    * 第二种方式需要有两个注意的地方
+        * Spring框架默认生成CustomerAction是单例的，而Struts2框架是多例的。所以需要配置 scope=&quot;prototype&quot;
+        * CustomerService现在必须自己手动注入了
+</code></pre><h3 id="四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）"><a href="#四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）" class="headerlink" title="四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）"></a>四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）</h3><pre><code>1. 编写CustomerDaoImpl的代码，加入配置并且在CustomerServiceImpl中完成注入
+2. 编写映射的配置文件，并且在hibernate.cfg.xml的配置文件中引入映射的配置文件
+
+3. 在applicationContext.xml的配置文件，配置加载hibernate.cfg.xml的配置
+    &lt;bean id=&quot;sessionFactory&quot; class=&quot;org.springframework.orm.hibernate5.LocalSessionFactoryBean&quot;&gt;
+        &lt;property name=&quot;configLocation&quot; value=&quot;classpath:hibernate.cfg.xml&quot;/&gt;
+    &lt;/bean&gt;
+
+4. 在CustomerDaoImpl中想完成数据的添加，Spring框架提供了一个HibernateDaoSupport的工具类，以后DAO都可以继承该类！！
+    public class CustomerDaoImpl extends HibernateDaoSupport implements CustomerDao {
+        public void save(Customer c) {
+            System.out.println(&quot;持久层...&quot;);
+            this.getHibernateTemplate().save(c);
+        }
+    }
+
+    &lt;bean id=&quot;customerDao&quot; class=&quot;com.itheima.dao.CustomerDaoImpl&quot;&gt;
+        &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;/&gt;
+    &lt;/bean&gt;
+
+5. 开启事务的配置
+    * 先配置事务管理器，注意现在使用的是Hibernate框架，所以需要使用Hibernate框架的事务管理器
+        &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate5.HibernateTransactionManager&quot;&gt;
+            &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot;/&gt;
+        &lt;/bean&gt;
+
+    * 开启注解事务
+        &lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;/&gt;
+
+    * 在Service类中添加事务注解
+        @Transactional
+</code></pre><h3 id="五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）"><a href="#五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）" class="headerlink" title="五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）"></a>五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）</h3><pre><code>1. Hibernate配置文件中
+    * 数据库连接基本参数（4大参数）
+    * Hibernate相关的属性
+    * 连接池
+    * 映射文件
+
+2. 开始进行配置
+    * 先配置连接池相关的信息
+        &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+            &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;
+            &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql:///xxx&quot;/&gt;
+            &lt;property name=&quot;user&quot; value=&quot;root&quot;/&gt;
+            &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;
+        &lt;/bean&gt;
+
+    * 修改 LocalSessionFactoryBean 的属性配置，因为已经没有了hibernate.cfg.xml的配置文件，所以需要修改该配置，注入连接池
+        &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate5.HibernateTransactionManager&quot;&gt;
+            &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+        &lt;/bean&gt;
+
+    * 继续在 LocalSessionFactoryBean 中配置，使用hibernateProperties属性继续来配置其他的属性，注意值是properties属性文件
+        &lt;!-- 配置其他的属性 --&gt;
+        &lt;property name=&quot;hibernateProperties&quot;&gt;
+            &lt;props&gt;
+                &lt;prop key=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/prop&gt;
+                &lt;prop key=&quot;hibernate.show_sql&quot;&gt;true&lt;/prop&gt;
+                &lt;prop key=&quot;hibernate.format_sql&quot;&gt;true&lt;/prop&gt;
+                &lt;prop key=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/prop&gt;
+            &lt;/props&gt;
+        &lt;/property&gt;
+        &lt;!-- 配置映射 --&gt;
+        &lt;property name=&quot;mappingResources&quot;&gt;
+            &lt;list&gt;
+                &lt;value&gt;com/itheima/domain/Customer.hbm.xml&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+</code></pre><h2 id="六-技术分析之Hibernate的模板的常用的方法"><a href="#六-技术分析之Hibernate的模板的常用的方法" class="headerlink" title="六.技术分析之Hibernate的模板的常用的方法"></a>六.技术分析之Hibernate的模板的常用的方法</h2><pre><code>1. 增删改的操作:
+    * 添加:
+        * save(Object obj);
+    * 修改:
+        * update(Object obj);
+    * 删除:
+        * delete(Object obj);
+
+2. 查询的操作:
+    * 查询一条记录:
+        * Object get(Class c,Serializable id);
+        * Object load(Class c,Serializable id);
+
+3. 查询多条记录:
+    * List find(String hql,Object... args);
+</code></pre><h2 id="七-延迟加载问题"><a href="#七-延迟加载问题" class="headerlink" title="七.延迟加载问题"></a>七.延迟加载问题</h2><pre><code>1. 使用延迟加载的时候，再WEB层查询对象的时候程序会抛出异常！
+    * 原因是延迟加载还没有发生SQL语句，在业务层session对象就已经销毁了，所以查询到的JavaBean对象已经变成了托管态对象！
+
+    * 注意：一定要先删除javassist-3.11.0.GA.jar包（jar包冲突了）
+
+2. 解决办法非常简单，Spring框架提供了一个过滤器，让session对象在WEB层就创建，在WEB层销毁。只需要配置该过滤器即可
+    * 但是：要注意需要在struts2的核心过滤器之前进行配置
+        &lt;filter&gt;
+            &lt;filter-name&gt;OpenSessionInViewFilter&lt;/filter-name&gt;
+            &lt;filter-class&gt;org.springframework.orm.hibernate5.support.OpenSessionInViewFilter&lt;/filter-class&gt;
+        &lt;/filter&gt;
+        &lt;filter-mapping&gt;
+            &lt;filter-name&gt;OpenSessionInViewFilter&lt;/filter-name&gt;
+            &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+        &lt;/filter-mapping&gt;
+</code></pre>
       
     </div>
     
@@ -583,11 +703,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/oracle/" rel="tag"><i class="fa fa-tag"></i> oracle</a>
+            <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i> spring</a>
           
-            <a href="/tags/oracle-sql/" rel="tag"><i class="fa fa-tag"></i> oracle sql</a>
+            <a href="/tags/spring整合hibernate/" rel="tag"><i class="fa fa-tag"></i> spring整合hibernate</a>
           
-            <a href="/tags/oracle-命令/" rel="tag"><i class="fa fa-tag"></i> oracle 命令</a>
+            <a href="/tags/spring整合structs2/" rel="tag"><i class="fa fa-tag"></i> spring整合structs2</a>
           
         </div>
       
@@ -600,8 +720,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/13/oracle-function/" rel="next" title="oracle函数">
-                <i class="fa fa-chevron-left"></i> oracle函数
+              <a href="/2018/12/25/spring3/" rel="next" title="spring高级篇(AOP[注解方式]/spring AOP/Spring框架的JDBC模板/Spring的事务管理)">
+                <i class="fa fa-chevron-left"></i> spring高级篇(AOP[注解方式]/spring AOP/Spring框架的JDBC模板/Spring的事务管理)
               </a>
             
           </div>
@@ -609,10 +729,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/16/oracle-index/" rel="prev" title="oracle索引">
-                oracle索引 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -818,7 +934,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-ORACLE支持五种类型的完整性约束"><span class="nav-number">1.</span> <span class="nav-text">一.ORACLE支持五种类型的完整性约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-NOT-NULL-非空"><span class="nav-number">1.1.</span> <span class="nav-text">1.NOT NULL (非空)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-CHECK-检查"><span class="nav-number">1.2.</span> <span class="nav-text">2.CHECK (检查)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-UNIQUE-唯一"><span class="nav-number">1.3.</span> <span class="nav-text">3.UNIQUE (唯一)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-PRIMARY-KEY-主键"><span class="nav-number">1.4.</span> <span class="nav-text">4.PRIMARY KEY (主键)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-POREIGN-KEY-外部键"><span class="nav-number">1.5.</span> <span class="nav-text">5.POREIGN KEY (外部键)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-基本命令"><span class="nav-number">2.</span> <span class="nav-text">二.基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表空间"><span class="nav-number">2.1.</span> <span class="nav-text">创建表空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除表空间"><span class="nav-number">2.2.</span> <span class="nav-text">删除表空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询表空间基本信息"><span class="nav-number">2.3.</span> <span class="nav-text">查询表空间基本信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用户"><span class="nav-number">2.4.</span> <span class="nav-text">创建用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更改用户"><span class="nav-number">2.5.</span> <span class="nav-text">更改用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁定用户"><span class="nav-number">2.6.</span> <span class="nav-text">锁定用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除用户"><span class="nav-number">2.7.</span> <span class="nav-text">删除用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#oracle数据库中的角色"><span class="nav-number">2.8.</span> <span class="nav-text">oracle数据库中的角色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授予连接服务器的角色"><span class="nav-number">2.9.</span> <span class="nav-text">授予连接服务器的角色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授予使用表空间的角色"><span class="nav-number">2.10.</span> <span class="nav-text">授予使用表空间的角色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授予操作表的权限"><span class="nav-number">2.11.</span> <span class="nav-text">授予操作表的权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改表的结构-alter"><span class="nav-number">2.12.</span> <span class="nav-text">修改表的结构(alter)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-基本查询"><span class="nav-number">3.</span> <span class="nav-text">三.基本查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设置每行显示多少字符"><span class="nav-number">3.1.</span> <span class="nav-text">设置每行显示多少字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置每页显示多少条记录"><span class="nav-number">3.2.</span> <span class="nav-text">设置每页显示多少条记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户名的切换"><span class="nav-number">3.3.</span> <span class="nav-text">用户名的切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conn-sys-change-on-install-as-sysdba-注意超级用户-在后面加as-sysdba"><span class="nav-number">3.4.</span> <span class="nav-text">Conn sys/change_on_install as sysdba(注意超级用户 在后面加as sysdba)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在超级用户下查找普通用户的表是查不到的"><span class="nav-number">3.5.</span> <span class="nav-text">在超级用户下查找普通用户的表是查不到的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看当前是那个用户身份登录"><span class="nav-number">3.6.</span> <span class="nav-text">查看当前是那个用户身份登录:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看有多少张表"><span class="nav-number">3.7.</span> <span class="nav-text">查看有多少张表:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看表的结构"><span class="nav-number">3.8.</span> <span class="nav-text">查看表的结构:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取出重复的列-DISTINCT"><span class="nav-number">3.9.</span> <span class="nav-text">取出重复的列(DISTINCT):</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串的链接操作用"><span class="nav-number">3.10.</span> <span class="nav-text">字符串的链接操作用:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询有奖金的员工"><span class="nav-number">3.11.</span> <span class="nav-text">查询有奖金的员工:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询没有奖金的员工信息"><span class="nav-number">3.12.</span> <span class="nav-text">查询没有奖金的员工信息:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两个条件以上就得用and-如查询工资大雨1500和有奖金的员"><span class="nav-number">3.13.</span> <span class="nav-text">两个条件以上就得用and 如查询工资大雨1500和有奖金的员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表示两个条件有一个满足就可就用-or-如查询工资大于1500或者没有奖金的员工信息"><span class="nav-number">3.14.</span> <span class="nav-text">表示两个条件有一个满足就可就用:or 如查询工资大于1500或者没有奖金的员工信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#取反可以用not-如-查询员工工资不大于1500和有奖金的员工信息-如"><span class="nav-number">3.15.</span> <span class="nav-text">取反可以用not 如 查询员工工资不大于1500和有奖金的员工信息 如:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在什么什么之间用between—-and—-如查询工资在1500和3000之间的员工信息"><span class="nav-number">3.16.</span> <span class="nav-text">在什么什么之间用between—-and—-如查询工资在1500和3000之间的员工信息:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询员工编号是2323-4555-2222的员工具体信息-如"><span class="nav-number">3.17.</span> <span class="nav-text">查询员工编号是2323, 4555, 2222的员工具体信息: 如</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模糊查询-like-一般结合”-”和”“使用其中-表示可以匹配任意长度的内容-”“表示匹配一个长度放入内容-如-查询员工姓名中第二哥字母是M的员工信息"><span class="nav-number">3.18.</span> <span class="nav-text">模糊查询  like 一般结合”%”和”“使用其中%:表示可以匹配任意长度的内容,”“表示匹配一个长度放入内容  如:  查询员工姓名中第二哥字母是M的员工信息:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#oracle中不等于有两种表示方式-“-lt-gt-”和”-”"><span class="nav-number">3.19.</span> <span class="nav-text">oracle中不等于有两种表示方式 “&lt;&gt;”和”!=”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排序用order-by-asc-desc-其中asc-是升序排列-如果不写就默认按升序排列desc是按降序排列-排序语句放在sal语句的最后如-按员工工资进行排序"><span class="nav-number">3.20.</span> <span class="nav-text">排序用order by {asc desc}其中asc 是升序排列 如果不写就默认按升序排列desc是按降序排列 排序语句放在sal语句的最后如: 按员工工资进行排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#group-by-用于对查询的结果进行分组统计-显示每个部门的平均工资和最高工资-如"><span class="nav-number">3.21.</span> <span class="nav-text">group by 用于对查询的结果进行分组统计: 显示每个部门的平均工资和最高工资  如:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-锁和数据库对象"><span class="nav-number">4.</span> <span class="nav-text">四.锁和数据库对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-锁"><span class="nav-number">4.1.</span> <span class="nav-text">1.锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-序列"><span class="nav-number">4.2.</span> <span class="nav-text">2.序列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-视图"><span class="nav-number">4.3.</span> <span class="nav-text">3.视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-索引"><span class="nav-number">4.4.</span> <span class="nav-text">4.索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-使用PL-SQL"><span class="nav-number">5.</span> <span class="nav-text">五.使用PL/SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-根据输入编号获取某学员的成绩–if"><span class="nav-number">5.1.</span> <span class="nav-text">1.根据输入编号获取某学员的成绩–if</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-根据学员姓名获取某学员的成绩–if"><span class="nav-number">5.2.</span> <span class="nav-text">2.根据学员姓名获取某学员的成绩–if</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-case的使用"><span class="nav-number">5.3.</span> <span class="nav-text">3.case的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-基本循环"><span class="nav-number">5.4.</span> <span class="nav-text">4.基本循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-while循环"><span class="nav-number">5.5.</span> <span class="nav-text">5.while循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-for循环"><span class="nav-number">5.6.</span> <span class="nav-text">6.for循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-动态SQL"><span class="nav-number">5.7.</span> <span class="nav-text">7.动态SQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-异常处理"><span class="nav-number">5.8.</span> <span class="nav-text">8.异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-系统异常"><span class="nav-number">5.9.</span> <span class="nav-text">9.系统异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-自定义错误"><span class="nav-number">5.10.</span> <span class="nav-text">10.自定义错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-引发应用程序异常"><span class="nav-number">5.11.</span> <span class="nav-text">11.引发应用程序异常</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-技术分析之SSH三大框架需要的jar包"><span class="nav-number">1.</span> <span class="nav-text">一.技术分析之SSH三大框架需要的jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-SSH三大框架需要的配置文件"><span class="nav-number">2.</span> <span class="nav-text">二.SSH三大框架需要的配置文件</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#三-Spring框架整合Struts2框架"><span class="nav-number"></span> <span class="nav-text">三.Spring框架整合Struts2框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）"><span class="nav-number">1.</span> <span class="nav-text">四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）"><span class="nav-number">2.</span> <span class="nav-text">五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六-技术分析之Hibernate的模板的常用的方法"><span class="nav-number"></span> <span class="nav-text">六.技术分析之Hibernate的模板的常用的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七-延迟加载问题"><span class="nav-number"></span> <span class="nav-text">七.延迟加载问题</span></a></li></div>
             
 
           </div>
