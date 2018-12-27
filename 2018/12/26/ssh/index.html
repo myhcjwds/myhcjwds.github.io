@@ -104,15 +104,15 @@
 <meta name="description" content="一.技术分析之SSH三大框架需要的jar包1. Struts2框架     * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包     * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Sp">
 <meta name="keywords" content="spring,spring整合hibernate,spring整合structs2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSH整合(spring整合hibernate&#x2F;spring整合structs2)">
+<meta property="og:title" content="SSH整合讲解(spring整合hibernate&#x2F;spring整合structs2)">
 <meta property="og:url" content="http://yoursite.com/2018/12/26/ssh/index.html">
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="一.技术分析之SSH三大框架需要的jar包1. Struts2框架     * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包     * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Sp">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/ssh1.png">
-<meta property="og:updated_time" content="2018-12-27T03:26:47.386Z">
+<meta property="og:updated_time" content="2018-12-27T03:29:09.869Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SSH整合(spring整合hibernate&#x2F;spring整合structs2)">
+<meta name="twitter:title" content="SSH整合讲解(spring整合hibernate&#x2F;spring整合structs2)">
 <meta name="twitter:description" content="一.技术分析之SSH三大框架需要的jar包1. Struts2框架     * struts-2.3.24\apps\struts2-blank\WEB-INF\lib\*.jar        -- Struts2需要的所有jar包     * struts2-spring-plugin-2.3.24.jar                            ---Struts2整合Sp">
 <meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/ssh1.png">
 
@@ -150,7 +150,7 @@
 
 
 
-  <title>SSH整合(spring整合hibernate/spring整合structs2) | Blog of MYH</title>
+  <title>SSH整合讲解(spring整合hibernate/spring整合structs2) | Blog of MYH</title>
   
 
 
@@ -336,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SSH整合(spring整合hibernate/spring整合structs2)</h1>
+          <h1 class="post-title" itemprop="name headline">SSH整合讲解(spring整合hibernate/spring整合structs2)</h1>
         
 
         <div class="post-meta">
@@ -403,7 +403,7 @@
 
           
           
-             <span id="/2018/12/26/ssh/" class="leancloud_visitors" data-flag-title="SSH整合(spring整合hibernate/spring整合structs2)">
+             <span id="/2018/12/26/ssh/" class="leancloud_visitors" data-flag-title="SSH整合讲解(spring整合hibernate/spring整合structs2)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -609,7 +609,7 @@
                 &lt;value&gt;com/itheima/domain/Customer.hbm.xml&lt;/value&gt;
             &lt;/list&gt;
         &lt;/property&gt;
-</code></pre><h2 id="六-技术分析之Hibernate的模板的常用的方法"><a href="#六-技术分析之Hibernate的模板的常用的方法" class="headerlink" title="六.技术分析之Hibernate的模板的常用的方法"></a>六.技术分析之Hibernate的模板的常用的方法</h2><pre><code>1. 增删改的操作:
+</code></pre><h3 id="六-技术分析之Hibernate的模板的常用的方法"><a href="#六-技术分析之Hibernate的模板的常用的方法" class="headerlink" title="六.技术分析之Hibernate的模板的常用的方法"></a>六.技术分析之Hibernate的模板的常用的方法</h3><pre><code>1. 增删改的操作:
     * 添加:
         * save(Object obj);
     * 修改:
@@ -624,7 +624,7 @@
 
 3. 查询多条记录:
     * List find(String hql,Object... args);
-</code></pre><h2 id="七-延迟加载问题"><a href="#七-延迟加载问题" class="headerlink" title="七.延迟加载问题"></a>七.延迟加载问题</h2><pre><code>1. 使用延迟加载的时候，再WEB层查询对象的时候程序会抛出异常！
+</code></pre><h3 id="七-延迟加载问题"><a href="#七-延迟加载问题" class="headerlink" title="七.延迟加载问题"></a>七.延迟加载问题</h3><pre><code>1. 使用延迟加载的时候，再WEB层查询对象的时候程序会抛出异常！
     * 原因是延迟加载还没有发生SQL语句，在业务层session对象就已经销毁了，所以查询到的JavaBean对象已经变成了托管态对象！
 
     * 注意：一定要先删除javassist-3.11.0.GA.jar包（jar包冲突了）
@@ -934,7 +934,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-技术分析之SSH三大框架需要的jar包"><span class="nav-number">1.</span> <span class="nav-text">一.技术分析之SSH三大框架需要的jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-SSH三大框架需要的配置文件"><span class="nav-number">2.</span> <span class="nav-text">二.SSH三大框架需要的配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-Spring框架整合Struts2框架"><span class="nav-number">3.</span> <span class="nav-text">三.Spring框架整合Struts2框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）"><span class="nav-number">4.</span> <span class="nav-text">四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）"><span class="nav-number">5.</span> <span class="nav-text">五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#六-技术分析之Hibernate的模板的常用的方法"><span class="nav-number"></span> <span class="nav-text">六.技术分析之Hibernate的模板的常用的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七-延迟加载问题"><span class="nav-number"></span> <span class="nav-text">七.延迟加载问题</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-技术分析之SSH三大框架需要的jar包"><span class="nav-number">1.</span> <span class="nav-text">一.技术分析之SSH三大框架需要的jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-SSH三大框架需要的配置文件"><span class="nav-number">2.</span> <span class="nav-text">二.SSH三大框架需要的配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-Spring框架整合Struts2框架"><span class="nav-number">3.</span> <span class="nav-text">三.Spring框架整合Struts2框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-Spring框架整合Hibernate框架（带有hibernate-cfg-xml的配置文件。强调：不能加绑定当前线程的配置）"><span class="nav-number">4.</span> <span class="nav-text">四.Spring框架整合Hibernate框架（带有hibernate.cfg.xml的配置文件。强调：不能加绑定当前线程的配置）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-技术分析之Spring框架整合Hibernate框架（不带有hibernate-cfg-xml的配置文件）"><span class="nav-number">5.</span> <span class="nav-text">五.技术分析之Spring框架整合Hibernate框架（不带有hibernate.cfg.xml的配置文件）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-技术分析之Hibernate的模板的常用的方法"><span class="nav-number">6.</span> <span class="nav-text">六.技术分析之Hibernate的模板的常用的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-延迟加载问题"><span class="nav-number">7.</span> <span class="nav-text">七.延迟加载问题</span></a></li></ol></div>
             
 
           </div>
