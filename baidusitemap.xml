@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2017/12/28/mybatis1/</loc>
+    <lastmod>2018-12-28T12:34:30.959Z</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2018/12/28/ssh-file/</loc>
     <lastmod>2018-12-28T07:48:59.732Z</lastmod>
   </url>  <url>
