@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="mybatis,">
+  <meta name="keywords" content="spring,mybatis,">
 
 
 
@@ -101,22 +101,21 @@
 
 
 
-<meta name="description" content="课程计划 1、输入映射和输出映射     a)输入参数映射     b)返回值映射 2、动态sql     a)If     b)Where     c)Foreach     d)Sql片段 3、关联查询     a)一对一关联     b)一对多关联 一.输入映射和输出映射Mapper.xml映射文件中定义了操作数据库的sql，每个sql是一个statement，映射文件是mybatis的核心">
-<meta name="keywords" content="mybatis">
+<meta name="description" content="本篇内容 1.Mybatis的逆向工程 2.spring整合mybatis 一.Mybatis的逆向工程使用官方网站的mapper自动生成工具mybatis-generator-core-1.3.2来生成po类和mapper映射文件。 作用:mybatis官方提供逆向工程,可以使用它通过数据库中的表来自动生成Mapper接口和映射文件(单表增删改查)和Po类. 导入的jar包有:  1.第一步：m">
+<meta name="keywords" content="spring,mybatis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mybatis高级篇(输入输出映射&#x2F;动态sql&#x2F;关联查询)">
-<meta property="og:url" content="http://yoursite.com/2017/12/28/mybatis2/index.html">
+<meta property="og:title" content="Mybatis完善篇（逆向工程&#x2F;spring整合mybatis）">
+<meta property="og:url" content="http://yoursite.com/2017/12/28/mybatis-3/index.html">
 <meta property="og:site_name" content="Blog of MYH">
-<meta property="og:description" content="课程计划 1、输入映射和输出映射     a)输入参数映射     b)返回值映射 2、动态sql     a)If     b)Where     c)Foreach     d)Sql片段 3、关联查询     a)一对一关联     b)一对多关联 一.输入映射和输出映射Mapper.xml映射文件中定义了操作数据库的sql，每个sql是一个statement，映射文件是mybatis的核心">
+<meta property="og:description" content="本篇内容 1.Mybatis的逆向工程 2.spring整合mybatis 一.Mybatis的逆向工程使用官方网站的mapper自动生成工具mybatis-generator-core-1.3.2来生成po类和mapper映射文件。 作用:mybatis官方提供逆向工程,可以使用它通过数据库中的表来自动生成Mapper接口和映射文件(单表增删改查)和Po类. 导入的jar包有:  1.第一步：m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis4.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis5.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis6.png">
-<meta property="og:updated_time" content="2019-01-03T11:23:05.200Z">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis7.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis8.png">
+<meta property="og:updated_time" content="2019-01-04T12:12:29.406Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mybatis高级篇(输入输出映射&#x2F;动态sql&#x2F;关联查询)">
-<meta name="twitter:description" content="课程计划 1、输入映射和输出映射     a)输入参数映射     b)返回值映射 2、动态sql     a)If     b)Where     c)Foreach     d)Sql片段 3、关联查询     a)一对一关联     b)一对多关联 一.输入映射和输出映射Mapper.xml映射文件中定义了操作数据库的sql，每个sql是一个statement，映射文件是mybatis的核心">
-<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis4.png">
+<meta name="twitter:title" content="Mybatis完善篇（逆向工程&#x2F;spring整合mybatis）">
+<meta name="twitter:description" content="本篇内容 1.Mybatis的逆向工程 2.spring整合mybatis 一.Mybatis的逆向工程使用官方网站的mapper自动生成工具mybatis-generator-core-1.3.2来生成po类和mapper映射文件。 作用:mybatis官方提供逆向工程,可以使用它通过数据库中的表来自动生成Mapper接口和映射文件(单表增删改查)和Po类. 导入的jar包有:  1.第一步：m">
+<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis7.png">
 
 
 
@@ -146,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/28/mybatis2/">
+  <link rel="canonical" href="http://yoursite.com/2017/12/28/mybatis-3/">
 
 
 
 
 
-  <title>Mybatis高级篇(输入输出映射/动态sql/关联查询) | Blog of MYH</title>
+  <title>Mybatis完善篇（逆向工程/spring整合mybatis） | Blog of MYH</title>
   
 
 
@@ -321,7 +320,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/mybatis2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/mybatis-3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="YuHang Ma">
@@ -338,7 +337,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mybatis高级篇(输入输出映射/动态sql/关联查询)</h1>
+          <h1 class="post-title" itemprop="name headline">Mybatis完善篇（逆向工程/spring整合mybatis）</h1>
         
 
         <div class="post-meta">
@@ -396,8 +395,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/28/mybatis2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/12/28/mybatis2/" itemprop="commentCount"></span>
+                <a href="/2017/12/28/mybatis-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/12/28/mybatis-3/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -405,7 +404,7 @@
 
           
           
-             <span id="/2017/12/28/mybatis2/" class="leancloud_visitors" data-flag-title="Mybatis高级篇(输入输出映射/动态sql/关联查询)">
+             <span id="/2017/12/28/mybatis-3/" class="leancloud_visitors" data-flag-title="Mybatis完善篇（逆向工程/spring整合mybatis）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -431,7 +430,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3k字
+                  2.5k字
                 </span>
               
 
@@ -447,7 +446,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  14分钟
+                  12分钟
                 </span>
               
             </div>
@@ -468,405 +467,305 @@
       
 
       
-        <p><strong>课程计划</strong></p>
-<pre><code>1、输入映射和输出映射
-    a)输入参数映射
-    b)返回值映射
-2、动态sql
-    a)If
-    b)Where
-    c)Foreach
-    d)Sql片段
-3、关联查询
-    a)一对一关联
-    b)一对多关联
-</code></pre><h2 id="一-输入映射和输出映射"><a href="#一-输入映射和输出映射" class="headerlink" title="一.输入映射和输出映射"></a>一.输入映射和输出映射</h2><p>Mapper.xml映射文件中定义了操作数据库的sql，每个sql是一个statement，映射文件是mybatis的核心。</p>
-<h3 id="1-parameterType-输入类型"><a href="#1-parameterType-输入类型" class="headerlink" title="1.parameterType(输入类型)"></a>1.parameterType(输入类型)</h3><h4 id="1-传递简单类型"><a href="#1-传递简单类型" class="headerlink" title="1)传递简单类型"></a>1)传递简单类型</h4><p>参考基础篇内容。</p>
-<h4 id="2-传递pojo对象"><a href="#2-传递pojo对象" class="headerlink" title="2)传递pojo对象"></a>2)传递pojo对象</h4><p>Mybatis使用ognl表达式解析对象字段的值，#{}或者${}括号中的值为pojo属性名称。</p>
-<h4 id="3-传递pojo包装对象"><a href="#3-传递pojo包装对象" class="headerlink" title="3)传递pojo包装对象"></a>3)传递pojo包装对象</h4><p>开发中通过pojo传递查询条件 ，查询条件是综合的查询条件，不仅包括用户查询条件还包括其它的查询条件（比如将用户购买商品信息也作为查询条件），这时可以使用包装对象传递输入参数。<br>Pojo类中包含pojo。</p>
-<p>需求：根据用户名查询用户信息，查询条件放到QueryVo的user属性中。</p>
-<pre><code>1.QueryVo
-public class QueryVo {
+        <p><strong>本篇内容</strong></p>
+<pre><code>1.Mybatis的逆向工程
+2.spring整合mybatis
+</code></pre><h2 id="一-Mybatis的逆向工程"><a href="#一-Mybatis的逆向工程" class="headerlink" title="一.Mybatis的逆向工程"></a>一.Mybatis的逆向工程</h2><p>使用官方网站的mapper自动生成工具mybatis-generator-core-1.3.2来生成po类和mapper映射文件。</p>
+<p>作用:mybatis官方提供逆向工程,可以使用它通过数据库中的表来自动生成Mapper接口和映射文件(单表增删改查)和Po类.</p>
+<p>导入的jar包有:</p>
+<p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis7.png" alt=""></p>
+<h3 id="1-第一步：mapper生成配置文件："><a href="#1-第一步：mapper生成配置文件：" class="headerlink" title="1.第一步：mapper生成配置文件："></a>1.第一步：mapper生成配置文件：</h3><p>在generatorConfig.xml中配置mapper生成的详细信息，注意改下几点：</p>
+<pre><code>1、添加要生成的数据库表
+2、po文件所在包路径
+3、mapper文件所在包路径
+</code></pre><p>配置文件如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE generatorConfiguration
+  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+  &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
 
-private User user;
+&lt;generatorConfiguration&gt;
+    &lt;context id=&quot;testTables&quot; targetRuntime=&quot;MyBatis3&quot;&gt;
+        &lt;commentGenerator&gt;
+            &lt;!-- 是否去除自动生成的注释 true：是 ： false:否 --&gt;
+            &lt;property name=&quot;suppressAllComments&quot; value=&quot;true&quot; /&gt;
+        &lt;/commentGenerator&gt;
+        &lt;!--数据库连接的信息：驱动类、连接地址、用户名、密码 --&gt;
+        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot;
+            connectionURL=&quot;jdbc:mysql://localhost:3306/mybatis&quot; userId=&quot;root&quot;
+            password=&quot;admin&quot;&gt;
+        &lt;/jdbcConnection&gt;
+        &lt;!-- &lt;jdbcConnection driverClass=&quot;oracle.jdbc.OracleDriver&quot;
+            connectionURL=&quot;jdbc:oracle:thin:@127.0.0.1:1521:yycg&quot; 
+            userId=&quot;yycg&quot;
+            password=&quot;yycg&quot;&gt;
+        &lt;/jdbcConnection&gt; --&gt;
 
-public User getUser() {
-    return user;
-}
+        &lt;!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+            NUMERIC 类型解析为java.math.BigDecimal --&gt;
+        &lt;javaTypeResolver&gt;
+            &lt;property name=&quot;forceBigDecimals&quot; value=&quot;false&quot; /&gt;
+        &lt;/javaTypeResolver&gt;
 
-public void setUser(User user) {
-    this.user = user;
-}
+        &lt;!-- targetProject:生成PO类的位置 --&gt;
+        &lt;javaModelGenerator targetPackage=&quot;cn.itcast.ssm.po&quot;
+            targetProject=&quot;.\src&quot;&gt;
+            &lt;!-- enableSubPackages:是否让schema作为包的后缀 --&gt;
+            &lt;property name=&quot;enableSubPackages&quot; value=&quot;false&quot; /&gt;
+            &lt;!-- 从数据库返回的值被清理前后的空格 --&gt;
+            &lt;property name=&quot;trimStrings&quot; value=&quot;true&quot; /&gt;
+        &lt;/javaModelGenerator&gt;
+        &lt;!-- targetProject:mapper映射文件生成的位置 --&gt;
+        &lt;sqlMapGenerator targetPackage=&quot;cn.itcast.ssm.mapper&quot; 
+            targetProject=&quot;.\src&quot;&gt;
+            &lt;!-- enableSubPackages:是否让schema作为包的后缀 --&gt;
+            &lt;property name=&quot;enableSubPackages&quot; value=&quot;false&quot; /&gt;
+        &lt;/sqlMapGenerator&gt;
+        &lt;!-- targetPackage：mapper接口生成的位置 --&gt;
+        &lt;javaClientGenerator type=&quot;XMLMAPPER&quot;
+            targetPackage=&quot;cn.itcast.ssm.mapper&quot; 
+            targetProject=&quot;.\src&quot;&gt;
+            &lt;!-- enableSubPackages:是否让schema作为包的后缀 --&gt;
+            &lt;property name=&quot;enableSubPackages&quot; value=&quot;false&quot; /&gt;
+        &lt;/javaClientGenerator&gt;
+        &lt;!-- 指定数据库表 --&gt;
+        &lt;table tableName=&quot;items&quot;&gt;&lt;/table&gt;
+        &lt;table tableName=&quot;orders&quot;&gt;&lt;/table&gt;
+        &lt;table tableName=&quot;orderdetail&quot;&gt;&lt;/table&gt;
+        &lt;table tableName=&quot;user&quot;&gt;&lt;/table&gt;
+        &lt;!-- &lt;table schema=&quot;&quot; tableName=&quot;sys_user&quot;&gt;&lt;/table&gt;
+        &lt;table schema=&quot;&quot; tableName=&quot;sys_role&quot;&gt;&lt;/table&gt;
+        &lt;table schema=&quot;&quot; tableName=&quot;sys_permission&quot;&gt;&lt;/table&gt;
+        &lt;table schema=&quot;&quot; tableName=&quot;sys_user_role&quot;&gt;&lt;/table&gt;
+        &lt;table schema=&quot;&quot; tableName=&quot;sys_role_permission&quot;&gt;&lt;/table&gt; --&gt;
 
-
-}
-
-2.Sql语句
-SELECT * FROM user where username like &apos;%刘%&apos;
-
-3.Mapper文件
-&lt;!-- 使用包装类型查询用户 
-    使用ognl从对象中取属性值，如果是包装对象可以使用.操作符来取内容部的属性
---&gt;
-&lt;select id=&quot;findUserByQueryVo&quot; parameterType=&quot;queryvo&quot; resultType=&quot;user&quot;&gt;
-    SELECT * FROM user where username like &apos;%${user.username}%&apos;
-&lt;/select&gt;
-
-4.接口
-
-5.测试方法
-@Test
-public void testFindUserByQueryVo() throws Exception {
-    SqlSession sqlSession = sessionFactory.openSession();
-    //获得mapper的代理对象
-    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-    //创建QueryVo对象
-    QueryVo queryVo = new QueryVo();
-    //创建user对象
-    User user = new User();
-    user.setUsername(&quot;刘&quot;);
-    queryVo.setUser(user);
-    //根据queryvo查询用户
-    List&lt;User&gt; list = userMapper.findUserByQueryVo(queryVo);
-    System.out.println(list);
-    sqlSession.close();
-}
-</code></pre><h3 id="2-resultType-输出类型"><a href="#2-resultType-输出类型" class="headerlink" title="2.resultType(输出类型)"></a>2.resultType(输出类型)</h3><h4 id="1-输出简单类型"><a href="#1-输出简单类型" class="headerlink" title="1)输出简单类型"></a>1)输出简单类型</h4><p>参考getnow输出日期类型，看下边的例子输出整型：</p>
-<p>Mapper.xml文件</p>
-<pre><code>&lt;!-- 获取用户列表总数 --&gt;
-&lt;select id=&quot;findUserCount&quot; resultType=&quot;int&quot;&gt;
-   select count(1) from user
-&lt;/select&gt;
-</code></pre><p>Mapper接口</p>
-<pre><code>public int findUserCount() throws Exception;
-</code></pre><p>调用：</p>
-<pre><code>Public void testFindUserCount() throws Exception{
-    //获取session
-    SqlSession session = sqlSessionFactory.openSession();
-    //获取mapper接口实例
-    UserMapper userMapper = session.getMapper(UserMapper.class);
-
-    //传递Hashmap对象查询用户列表
-    int count = userMapper.findUserCount();
-
-    //关闭session
-    session.close();
-}
-</code></pre><p>输出简单类型必须查询出来的结果集有一条记录，最终将第一个字段的值转换为输出类型。<br>使用session的selectOne可查询单条记录。</p>
-<h4 id="2-输出pojo对象"><a href="#2-输出pojo对象" class="headerlink" title="2)输出pojo对象"></a>2)输出pojo对象</h4><pre><code>参考基础篇内容
-</code></pre><h4 id="3）输出pojo列表"><a href="#3）输出pojo列表" class="headerlink" title="3）输出pojo列表"></a>3）输出pojo列表</h4><pre><code>参考初级篇内容。
-</code></pre><h3 id="3-resultMap"><a href="#3-resultMap" class="headerlink" title="3.resultMap"></a>3.resultMap</h3><pre><code>resultType可以指定pojo将查询结果映射为pojo，但需要pojo的属性名和sql查询的列名一致方可映射成功。
-如果sql查询字段名和pojo的属性名不一致，可以通过resultMap将字段名和属性名作一个对应关系 ，resultMap实质上还需要将查询结果映射到pojo对象中。
-resultMap可以实现将查询结果映射为复杂类型的pojo，比如在查询结果映射对象中包括pojo和list实现一对一查询和一对多查询。
-</code></pre><h4 id="1-Mapper-xml定义"><a href="#1-Mapper-xml定义" class="headerlink" title="1).Mapper.xml定义"></a>1).Mapper.xml定义</h4><p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis4.png" alt=""></p>
-<p>使用resultMap指定上边定义的personmap。</p>
-<h4 id="2-定义resultMap"><a href="#2-定义resultMap" class="headerlink" title="2).定义resultMap"></a>2).定义resultMap</h4><p>由于上边的mapper.xml中sql查询列和Users.java类属性不一致，需要定义resultMap：userListResultMap将sql查询列和Users.java类属性对应起来</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis5.png" alt=""></p>
-<pre><code>&lt;id /&gt;：此属性表示查询结果集的唯一标识，非常重要。如果是多个字段为复合唯一约束则定义多个&lt;id /&gt;。
-Property：表示User类的属性。
-Column：表示sql查询出来的字段名。
-Column和property放在一块儿表示将sql查询出来的字段映射到指定的pojo类属性上。
-
-&lt;result /&gt;：普通结果，即pojo的属性。
-</code></pre><h4 id="3-Mapper接口定义"><a href="#3-Mapper接口定义" class="headerlink" title="3)Mapper接口定义"></a>3)Mapper接口定义</h4><pre><code>public List&lt;User&gt; findUserListResultMap() throws Exception;
-</code></pre><h2 id="二-动态sql"><a href="#二-动态sql" class="headerlink" title="二.动态sql"></a>二.动态sql</h2><pre><code>通过mybatis提供的各种标签方法实现动态拼接sql。
-</code></pre><h3 id="1-If"><a href="#1-If" class="headerlink" title="1.If"></a>1.If</h3><pre><code>&lt;!-- 传递pojo综合查询用户信息 --&gt;
-&lt;select id=&quot;findUserList&quot; parameterType=&quot;user&quot; resultType=&quot;user&quot;&gt;
-    select * from user 
-    where 1=1 
-    &lt;if test=&quot;id!=null&quot;&gt;
-    and id=#{id}
-    &lt;/if&gt;
-    &lt;if test=&quot;username!=null and username!=&apos;&apos;&quot;&gt;
-    and username like &apos;%${username}%&apos;
-    &lt;/if&gt;
-&lt;/select&gt;
-
-注意要做不等于空字符串校验。
-</code></pre><h3 id="2-Where"><a href="#2-Where" class="headerlink" title="2.Where"></a>2.Where</h3><pre><code>上边的sql也可以改为：
-
-&lt;select id=&quot;findUserList&quot; parameterType=&quot;user&quot; resultType=&quot;user&quot;&gt;
-    select * from user 
-    &lt;where&gt;
-    &lt;if test=&quot;id!=null and id!=&apos;&apos;&quot;&gt;
-    and id=#{id}
-    &lt;/if&gt;
-    &lt;if test=&quot;username!=null and username!=&apos;&apos;&quot;&gt;
-    and username like &apos;%${username}%&apos;
-    &lt;/if&gt;
-    &lt;/where&gt;
-&lt;/select&gt;
-
-&lt;where /&gt;可以自动处理第一个and。
-</code></pre><h3 id="3-foreach"><a href="#3-foreach" class="headerlink" title="3.foreach"></a>3.foreach</h3><pre><code>向sql传递数组或List，mybatis使用foreach解析，如下：
-
-需求
-传入多个id查询用户信息，用下边两个sql实现：
-
-SELECT * FROM USERS WHERE username LIKE &apos;%张%&apos; AND (id =10 OR id =89 OR id=16)
-SELECT * FROM USERS WHERE username LIKE &apos;%张%&apos;  id IN (10,89,16)
-
-在pojo中定义list属性ids存储多个用户id，并添加getter/setter方法
-
-
-mapper.xml
-
-&lt;if test=&quot;ids!=null and ids.size&gt;0&quot;&gt;
-        &lt;foreach collection=&quot;ids&quot; open=&quot; and id in(&quot; close=&quot;)&quot; item=&quot;id&quot; separator=&quot;,&quot; &gt;
-            #{id}
-        &lt;/foreach&gt;
-&lt;/if&gt;
-
-
-测试代码：
-
-List&lt;Integer&gt; ids = new ArrayList&lt;Integer&gt;();
-    ids.add(1);//查询id为1的用户
-    ids.add(10); //查询id为10的用户
-    queryVo.setIds(ids);
-    List&lt;User&gt; list = userMapper.findUserList(queryVo);
-</code></pre><h3 id="4-Sql片段"><a href="#4-Sql片段" class="headerlink" title="4.Sql片段"></a>4.Sql片段</h3><p>Sql中可将重复的sql提取出来，使用时用include引用即可，最终达到sql重用的目的，如下：</p>
-<pre><code>&lt;!-- 传递pojo综合查询用户信息 --&gt;
-&lt;select id=&quot;findUserList&quot; parameterType=&quot;user&quot; resultType=&quot;user&quot;&gt;
-    select * from user 
-    &lt;where&gt;
-    &lt;if test=&quot;id!=null and id!=&apos;&apos;&quot;&gt;
-    and id=#{id}
-    &lt;/if&gt;
-    &lt;if test=&quot;username!=null and username!=&apos;&apos;&quot;&gt;
-    and username like &apos;%${username}%&apos;
-    &lt;/if&gt;
-    &lt;/where&gt;
-&lt;/select&gt;
-</code></pre><p>将where条件抽取出来：</p>
-<pre><code>&lt;sql id=&quot;query_user_where&quot;&gt;
-&lt;if test=&quot;id!=null and id!=&apos;&apos;&quot;&gt;
-    and id=#{id}
-&lt;/if&gt;
-&lt;if test=&quot;username!=null and username!=&apos;&apos;&quot;&gt;
-    and username like &apos;%${username}%&apos;
-&lt;/if&gt;
-&lt;/sql&gt;
-</code></pre><p>使用include引用：</p>
-<pre><code>&lt;select id=&quot;findUserList&quot; parameterType=&quot;user&quot; resultType=&quot;user&quot;&gt;
-    select * from user 
-    &lt;where&gt;
-    &lt;include refid=&quot;query_user_where&quot;/&gt;
-    &lt;/where&gt;
-&lt;/select&gt;
-</code></pre><p>注意：如果引用其它mapper.xml的sql片段，则在引用时需要加上namespace，如下：</p>
-<p>&lt;include refid=”namespace.sql片段”/&gt;</p>
-<h2 id="三-关联查询-一对一-一对多"><a href="#三-关联查询-一对一-一对多" class="headerlink" title="三.关联查询(一对一/一对多)"></a>三.关联查询(一对一/一对多)</h2><h3 id="1-商品订单数据模型"><a href="#1-商品订单数据模型" class="headerlink" title="1.商品订单数据模型"></a>1.商品订单数据模型</h3><p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis6.png" alt=""></p>
-<h3 id="2-一对一查询"><a href="#2-一对一查询" class="headerlink" title="2.一对一查询"></a>2.一对一查询</h3><pre><code>案例：查询所有订单信息，关联查询下单用户信息。
-</code></pre><p>注意：因为一个订单信息只会是一个人下的订单，所以从查询订单信息出发关联查询用户信息为一对一查询。如果从用户信息出发查询用户下的订单信息则为一对多查询，因为一个用户可以下多个订单。</p>
-<h4 id="1-方法一："><a href="#1-方法一：" class="headerlink" title="1)方法一："></a>1)方法一：</h4><pre><code>使用resultType，定义订单信息po类，此po类中包括了订单信息和用户信息：
-
-1.Sql语句：
-
-SELECT 
-  orders.*,
-  user.username,
-  userss.address
-FROM
-  orders,
-  user 
-WHERE orders.user_id = user.id
-
-
-2.定义po类
-Po类中应该包括上边sql查询出来的所有字段，如下：
-
-public class OrdersCustom extends Orders {
-
-    private String username;// 用户名称
-    private String address;// 用户地址
-get/set。。。。
-
-OrdersCustom类继承Orders类后OrdersCustom类包括了Orders类的所有字段，只需要定义用户的信息字段即可。
-
-3.Mapper.xml
-
-&lt;!-- 查询所有订单信息 --&gt;
-    &lt;select id=&quot;findOrdersList&quot; resultType=&quot;cn.itcast.mybatis.po.OrdersCustom&quot;&gt;
-    SELECT
-    orders.*,
-    user.username,
-    user.address
-    FROM
-    orders,    user
-    WHERE orders.user_id = user.id 
-    &lt;/select&gt;
-
-4.Mapper接口：
-public List&lt;OrdersCustom&gt; findOrdersList() throws Exception;
-
-5.测试：
-
-Public void testfindOrdersList()throws Exception{
-        //获取session
-        SqlSession session = sqlSessionFactory.openSession();
-        //获限mapper接口实例
-        UserMapper userMapper = session.getMapper(UserMapper.class);
-        //查询订单信息
-        List&lt;OrdersCustom&gt; list = userMapper.findOrdersList();
-        System.out.println(list);
-        //关闭session
-        session.close();
+        &lt;!-- 有些表的字段需要指定java类型
+         &lt;table schema=&quot;&quot; tableName=&quot;&quot;&gt;
+            &lt;columnOverride column=&quot;&quot; javaType=&quot;&quot; /&gt;
+        &lt;/table&gt; --&gt;
+    &lt;/context&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre><h3 id="2-第二步：使用java类生成mapper文件："><a href="#2-第二步：使用java类生成mapper文件：" class="headerlink" title="2.第二步：使用java类生成mapper文件："></a>2.第二步：使用java类生成mapper文件：</h3><pre><code>Public void generator() throws Exception{
+        List&lt;String&gt; warnings = new ArrayList&lt;String&gt;();
+        boolean overwrite = true;
+        File configFile = new File(&quot;generatorConfig.xml&quot;); 
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(configFile);
+        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config,
+                callback, warnings);
+        myBatisGenerator.generate(null);
     }
-
-6.小结：
-    定义专门的po类作为输出类型，其中定义了sql查询结果集所有的字段。此方法较为简单，企业中使用普遍。
-</code></pre><h4 id="2）方法二："><a href="#2）方法二：" class="headerlink" title="2）方法二："></a>2）方法二：</h4><p>使用resultMap，定义专门的resultMap用于映射一对一查询结果。</p>
-<pre><code>1.Sql语句：
-
-SELECT 
-  orders.*,
-  user.username,
-  user.address
-FROM
-  orders,
-  user 
-WHERE orders.user_id = user.id
-
-2.定义po类
-    在Orders类中加入User属性，user属性中用于存储关联查询的用户信息，因为订单关联查询用户是一对一关系，所以这里使用单个User对象存储关联查询的用户信息。
-private User user;
-get
-set
-
-3.Mapper.xml
-&lt;!-- 查询订单关联用户信息使用resultmap --&gt;
-    &lt;resultMap type=&quot;cn.itheima.po.Orders&quot; id=&quot;orderUserResultMap&quot;&gt;
-        &lt;id column=&quot;id&quot; property=&quot;id&quot;/&gt;
-        &lt;result column=&quot;user_id&quot; property=&quot;userId&quot;/&gt;
-        &lt;result column=&quot;number&quot; property=&quot;number&quot;/&gt;
-        &lt;result column=&quot;createtime&quot; property=&quot;createtime&quot;/&gt;
-        &lt;result column=&quot;note&quot; property=&quot;note&quot;/&gt;
-        &lt;!-- 一对一关联映射 --&gt;
-        &lt;!-- 
-        property:Orders对象的user属性
-        javaType：user属性对应 的类型
-         --&gt;
-        &lt;association property=&quot;user&quot; javaType=&quot;cn.itcast.po.User&quot;&gt;
-            &lt;!-- column:user表的主键对应的列  property：user对象中id属性--&gt;
-            &lt;id column=&quot;user_id&quot; property=&quot;id&quot;/&gt;
-            &lt;result column=&quot;username&quot; property=&quot;username&quot;/&gt;
-            &lt;result column=&quot;address&quot; property=&quot;address&quot;/&gt;
-        &lt;/association&gt;
-    &lt;/resultMap&gt;
-    &lt;select id=&quot;findOrdersWithUserResultMap&quot; resultMap=&quot;orderUserResultMap&quot;&gt;
-        SELECT
-            o.id,
-            o.user_id,
-            o.number,
-            o.createtime,
-            o.note,
-            u.username,
-            u.address
-        FROM
-            orders o
-        JOIN `user` u ON u.id = o.user_id
-    &lt;/select&gt;
-
-这里resultMap指定orderUserResultMap。
-
-association：表示进行关联查询单条记录
-property：表示关联查询的结果存储在cn.itcast.mybatis.po.Orders的user属性中
-javaType：表示关联查询的结果类型
-&lt;id property=&quot;id&quot; column=&quot;user_id&quot;/&gt;：查询结果的user_id列对应关联对象的id属性，这里是&lt;id /&gt;表示user_id是关联查询对象的唯一标识。
-&lt;result property=&quot;username&quot; column=&quot;username&quot;/&gt;：查询结果的username列对应关联对象的username属性。
-
-4.Mapper接口：
-public List&lt;Orders&gt; findOrdersListResultMap() throws Exception;
-
-5.测试：
-
-Public void testfindOrdersListResultMap()throws Exception{
-        //获取session
-        SqlSession session = sqlSessionFactory.openSession();
-        //获限mapper接口实例
-        UserMapper userMapper = session.getMapper(UserMapper.class);
-        //查询订单信息
-        List&lt;Orders&gt; list = userMapper.findOrdersList2();
-        System.out.println(list);
-        //关闭session
-        session.close();
-    }
-
-6.小结：
-使用association完成关联查询，将关联查询信息映射到pojo对象中。
-</code></pre><h3 id="3-一对多查询"><a href="#3-一对多查询" class="headerlink" title="3.一对多查询"></a>3.一对多查询</h3><pre><code>案例：查询所有用户信息及用户关联的订单信息。
-</code></pre><p>用户信息和订单信息为一对多关系。</p>
-<p>使用resultMap实现如下：</p>
-<pre><code>1.Sql语句：
-
-SELECT
-u.*, o.id oid,
-o.number,
-o.createtime,
-o.note
-FROM
-    `user` u
-LEFT JOIN orders o ON u.id = o.user_id
-
-2.定义po类
-
-在User类中加入List&lt;Orders&gt; orders属性
-
-private List&lt;Orders&gt; orders;
-get
-set
-
-3.Mapper.xml
-&lt;resultMap type=&quot;cn.itheima.po.user&quot; id=&quot;userOrderResultMap&quot;&gt;
-        &lt;!-- 用户信息映射 --&gt;
-        &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
-        &lt;result property=&quot;username&quot; column=&quot;username&quot;/&gt;
-        &lt;result property=&quot;birthday&quot; column=&quot;birthday&quot;/&gt;
-        &lt;result property=&quot;sex&quot; column=&quot;sex&quot;/&gt;
-        &lt;result property=&quot;address&quot; column=&quot;address&quot;/&gt;
-        &lt;!-- 一对多关联映射 --&gt;
-        &lt;collection property=&quot;orders&quot; ofType=&quot;cn.itheima.po.Orders&quot;&gt;
-            &lt;id property=&quot;id&quot; column=&quot;oid&quot;/&gt;    
-              &lt;!--用户id已经在user对象中存在，此处可以不设置--&gt;
-            &lt;!-- &lt;result property=&quot;userId&quot; column=&quot;id&quot;/&gt; --&gt;
-            &lt;result property=&quot;number&quot; column=&quot;number&quot;/&gt;
-            &lt;result property=&quot;createtime&quot; column=&quot;createtime&quot;/&gt;
-            &lt;result property=&quot;note&quot; column=&quot;note&quot;/&gt;
-        &lt;/collection&gt;
-    &lt;/resultMap&gt;
-    &lt;select id=&quot;getUserOrderList&quot; resultMap=&quot;userOrderResultMap&quot;&gt;
-        SELECT
-        u.*, o.id oid,
-        o.number,
-        o.createtime,
-        o.note
-        FROM
-        `user` u
-        LEFT JOIN orders o ON u.id = o.user_id
-    &lt;/select&gt;
-
-
-collection部分定义了用户关联的订单信息。表示关联查询结果集
-property=&quot;orders&quot;：关联查询的结果集存储在User对象的上哪个属性。
-ofType=&quot;orders&quot;：指定关联查询的结果集中的对象类型即List中的对象类型。此处可以使用别名，也可以使用全限定名。
-&lt;id /&gt;及&lt;result/&gt;的意义同一对一查询。
-
-4.Mapper接口：
-List&lt;User&gt; getUserOrderList();
-
-5.测试
-@Test
-    public void getUserOrderList() {
-        SqlSession session = sqlSessionFactory.openSession();
-        UserMapper userMapper = session.getMapper(UserMapper.class);
-        List&lt;User&gt; result = userMapper.getUserOrderList();
-        for (User user : result) {
-            System.out.println(user);
+    Public static void main(String[] args) throws Exception {
+        try {
+            GeneratorSqlmap generatorSqlmap = new GeneratorSqlmap();
+            generatorSqlmap.generator();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        session.close();
+}
+</code></pre><h3 id="3-第三步：拷贝生成的mapper文件到工程中指定的目录中"><a href="#3-第三步：拷贝生成的mapper文件到工程中指定的目录中" class="headerlink" title="3.第三步：拷贝生成的mapper文件到工程中指定的目录中"></a>3.第三步：拷贝生成的mapper文件到工程中指定的目录中</h3><h4 id="1-Mapper-xml"><a href="#1-Mapper-xml" class="headerlink" title="1)Mapper.xml"></a>1)Mapper.xml</h4><pre><code>Mapper.xml的文件拷贝至mapper目录内
+</code></pre><h4 id="2-Mapper-java"><a href="#2-Mapper-java" class="headerlink" title="2)Mapper.java"></a>2)Mapper.java</h4><pre><code>Mapper.java的文件拷贝至mapper 目录内
+</code></pre><p>注意：mapper xml文件和mapper.java文件在一个目录内且文件名相同。</p>
+<h3 id="4-第四步Mapper接口测试"><a href="#4-第四步Mapper接口测试" class="headerlink" title="4.第四步Mapper接口测试"></a>4.第四步Mapper接口测试</h3><pre><code>学会使用mapper自动生成的增、删、改、查方法。
+
+//删除符合条件的记录
+int deleteByExample(UserExample example);
+
+//根据主键删除
+int deleteByPrimaryKey(String id);
+
+//插入对象所有字段
+int insert(User record);
+
+//插入对象不为空的字段
+int insertSelective(User record);
+
+//自定义查询条件查询结果集
+List&lt;User&gt; selectByExample(UserExample example);
+
+//根据主键查询
+UserselectByPrimaryKey(String id);
+
+//根据主键将对象中不为空的值更新至数据库
+int updateByPrimaryKeySelective(User record);
+
+//根据主键将对象中所有字段的值更新至数据库
+int updateByPrimaryKey(User record);
+</code></pre><h3 id="5-逆向工程注意事项"><a href="#5-逆向工程注意事项" class="headerlink" title="5.逆向工程注意事项"></a>5.逆向工程注意事项</h3><h4 id="1-Mapper文件内容不覆盖而是追加"><a href="#1-Mapper文件内容不覆盖而是追加" class="headerlink" title="1)Mapper文件内容不覆盖而是追加"></a>1)Mapper文件内容不覆盖而是追加</h4><pre><code>XXXMapper.xml文件已经存在时，
+如果进行重新生成则mapper.xml文件内容不被覆盖而是进行内容追加，结果导致mybatis解析失败。
+
+解决方法：删除原来已经生成的mapper xml文件再进行生成。
+Mybatis自动生成的po及mapper.java文件不是内容而是直接覆盖没有此问题。
+</code></pre><h4 id="2-Table-schema问题"><a href="#2-Table-schema问题" class="headerlink" title="2)Table schema问题"></a>2)Table schema问题</h4><p>下边是关于针对oracle数据库表生成代码的schema问题：</p>
+<p>Schma即数据库模式，oracle中一个用户对应一个schema，可以理解为用户就是schema。<br>当Oralce数据库存在多个schema可以访问相同的表名时，使用mybatis生成该表的mapper.xml将会出现mapper.xml内容重复的问题，结果导致mybatis解析错误。</p>
+<pre><code>解决方法：在table中填写schema，如下：
+&lt;table schema=&quot;XXXX&quot; tableName=&quot; &quot; &gt;
+XXXX即为一个schema的名称，生成后将mapper.xml的schema前缀批量去掉，
+如果不去掉当oracle用户变更了sql语句将查询失败。
+快捷操作方式：mapper.xml文件中批量替换：“from XXXX.”为空
+
+Oracle查询对象的schema可从dba_objects中查询，如下：
+select * from dba_objects
+</code></pre><h2 id="二-spring整合mybatis"><a href="#二-spring整合mybatis" class="headerlink" title="二.spring整合mybatis"></a>二.spring整合mybatis</h2><h3 id="1-整合思路"><a href="#1-整合思路" class="headerlink" title="1.整合思路"></a>1.整合思路</h3><pre><code>1、SqlSessionFactory对象应该放到spring容器中作为单例存在。
+2、传统dao的开发方式中，应该从spring容器中获得sqlsession对象。
+3、Mapper代理形式中，应该从spring容器中直接获得mapper的代理对象。
+4、数据库的连接以及数据库连接池事务管理都交给spring容器来完成。
+</code></pre><h3 id="2-整合需要的jar包"><a href="#2-整合需要的jar包" class="headerlink" title="2.整合需要的jar包"></a>2.整合需要的jar包</h3><pre><code>1、spring的jar包
+2、Mybatis的jar包
+3、Spring+mybatis的整合包。
+4、Mysql的数据库驱动jar包。
+5、数据库连接池的jar包。
+</code></pre><h3 id="3-整合的步骤"><a href="#3-整合的步骤" class="headerlink" title="3.整合的步骤"></a>3.整合的步骤</h3><pre><code>第一步：创建一个java工程。
+第二步：导入jar包。（上面提到的jar包）
+第三步：mybatis的配置文件sqlmapConfig.xml
+第四步：编写Spring的配置文件
+1、数据库连接及连接池
+2、事务管理（暂时可以不配置）
+3、sqlsessionFactory对象，配置到spring容器中
+4、mapeer代理对象或者是dao实现类配置到spring容器中。
+第五步：编写dao或者mapper文件
+第六步：测试。
+</code></pre><h4 id="1-SqlMapConfig-xml"><a href="#1-SqlMapConfig-xml" class="headerlink" title="1)SqlMapConfig.xml"></a>1)SqlMapConfig.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+    &lt;typeAliases&gt;
+        &lt;package name=&quot;cn.itcast.mybatis.pojo&quot;/&gt;
+    &lt;/typeAliases&gt;
+    &lt;mappers&gt;
+        &lt;mapper resource=&quot;sqlmap/User.xml&quot;/&gt;
+    &lt;/mappers&gt;
+&lt;/configuration&gt;
+</code></pre><h4 id="2-applicationContext-xml"><a href="#2-applicationContext-xml" class="headerlink" title="2)applicationContext.xml"></a>2)applicationContext.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+xmlns:context=&quot;http://www.springframework.org/schema/context&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot; xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd&quot;&gt;
+
+&lt;!-- 加载配置文件 --&gt;
+&lt;context:property-placeholder location=&quot;classpath:db.properties&quot; /&gt;
+&lt;!-- 数据库连接池 --&gt;
+&lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;
+    destroy-method=&quot;close&quot;&gt;
+    &lt;property name=&quot;driverClassName&quot; value=&quot;${jdbc.driver}&quot; /&gt;
+    &lt;property name=&quot;url&quot; value=&quot;${jdbc.url}&quot; /&gt;
+    &lt;property name=&quot;username&quot; value=&quot;${jdbc.username}&quot; /&gt;
+    &lt;property name=&quot;password&quot; value=&quot;${jdbc.password}&quot; /&gt;
+    &lt;property name=&quot;maxActive&quot; value=&quot;10&quot; /&gt;
+    &lt;property name=&quot;maxIdle&quot; value=&quot;5&quot; /&gt;
+&lt;/bean&gt;
+&lt;!-- mapper配置 --&gt;
+&lt;!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中的 --&gt;
+&lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;
+    &lt;!-- 数据库连接池 --&gt;
+    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot; /&gt;
+    &lt;!-- 加载mybatis的全局配置文件 --&gt;
+    &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis/SqlMapConfig.xml&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;/beans&gt;
+</code></pre><h4 id="3-db-properties"><a href="#3-db-properties" class="headerlink" title="3)db.properties"></a>3)db.properties</h4><pre><code>jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf-8
+jdbc.username=root
+jdbc.password=root
+</code></pre><h3 id="4-Dao的开发"><a href="#4-Dao的开发" class="headerlink" title="4.Dao的开发"></a>4.Dao的开发</h3><pre><code>三种dao的实现方式：
+1、传统dao的开发方式
+2、使用mapper代理形式开发方式
+3、使用扫描包配置mapper代理。
+</code></pre><h4 id="1-传统dao的开发方式"><a href="#1-传统dao的开发方式" class="headerlink" title="1)传统dao的开发方式"></a>1)传统dao的开发方式</h4><pre><code>接口+实现类来完成。需要dao实现类需要继承SqlsessionDaoSupport类
+
+1.Dao实现类
+
+public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
+
+    @Override
+    public User findUserById(int id) throws Exception {
+        SqlSession session = getSqlSession();
+        User user = session.selectOne(&quot;test.findUserById&quot;, id);
+        //不能关闭SqlSession，让spring容器来完成
+        //session.close();
+        return user;
     }
-</code></pre>
+
+    @Override
+    public void insertUser(User user) throws Exception {
+        SqlSession session = getSqlSession();
+        session.insert(&quot;test.insertUser&quot;, user);
+        session.commit();
+        //session.close();
+    }
+
+}
+
+
+2.配置dao
+
+把dao实现类配置到spring容器中
+&lt;!-- 配置UserDao实现类 --&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.itcast.dao.UserDaoImpl&quot;&gt;
+        &lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot;/&gt;
+    &lt;/bean&gt;
+
+3.测试方法
+
+初始化:
+private ApplicationContext applicationContext;
+@Before
+public void setUp() throws Exception{
+    String configLocation = &quot;classpath:spring/ApplicationContext.xml&quot;;
+    //初始化spring运行环境
+    applicationContext = new ClassPathXmlApplicationContext(configLocation);
+}
+
+测试:
+@Test
+public void testFindUserById() throws Exception {
+    UserDao userDao = (UserDao) applicationContext.getBean(&quot;userDao&quot;);
+    User user = userDao.findUserById(1);
+    System.out.println(user);
+}
+</code></pre><h4 id="2-Mapper代理形式开发dao"><a href="#2-Mapper代理形式开发dao" class="headerlink" title="2)Mapper代理形式开发dao"></a>2)Mapper代理形式开发dao</h4><pre><code>1.开发mapper接口
+开发mapper文件
+
+
+2.配置mapper代理
+&lt;!-- 配置mapper代理对象 --&gt;
+    &lt;bean class=&quot;org.mybatis.spring.mapper.MapperFactoryBean&quot;&gt;
+        &lt;property name=&quot;mapperInterface&quot; value=&quot;cn.itcast.mybatis.mapper.UserMapper&quot;/&gt;
+        &lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+3.测试方法
+public class UserMapperTest {
+
+    private ApplicationContext applicationContext;
+    @Before
+    public void setUp() throws Exception {
+        applicationContext = new ClassPathXmlApplicationContext(&quot;classpath:spring/applicationContext.xml&quot;);
+    }
+
+    @Test
+    public void testGetUserById() {
+        UserMapper userMapper = applicationContext.getBean(UserMapper.class);
+        User user = userMapper.getUserById(1);
+        System.out.println(user);
+    }
+
+}
+</code></pre><h4 id="3-扫描包形式配置mapper"><a href="#3-扫描包形式配置mapper" class="headerlink" title="3.扫描包形式配置mapper"></a>3.扫描包形式配置mapper</h4><pre><code>&lt;!-- 使用扫描包的形式来创建mapper代理对象 --&gt;
+&lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;
+    &lt;property name=&quot;basePackage&quot; value=&quot;cn.itcast.mybatis.mapper&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;
+
+每个mapper代理对象的id就是类名，首字母小写
+</code></pre><p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis8.png" alt=""></p>
+
       
     </div>
     
@@ -930,6 +829,8 @@ List&lt;User&gt; getUserOrderList();
       
         <div class="post-tags">
           
+            <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i> spring</a>
+          
             <a href="/tags/mybatis/" rel="tag"><i class="fa fa-tag"></i> mybatis</a>
           
         </div>
@@ -943,8 +844,8 @@ List&lt;User&gt; getUserOrderList();
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/28/hibernate-mybatis/" rel="next" title="Hibernate与Mybatis总结篇">
-                <i class="fa fa-chevron-left"></i> Hibernate与Mybatis总结篇
+              <a href="/2017/12/28/mybatis-2/" rel="next" title="Mybatis高级篇(输入输出映射/动态sql/关联查询)">
+                <i class="fa fa-chevron-left"></i> Mybatis高级篇(输入输出映射/动态sql/关联查询)
               </a>
             
           </div>
@@ -953,8 +854,8 @@ List&lt;User&gt; getUserOrderList();
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/28/mybatis3/" rel="prev" title="Mybatis完善篇（逆向工程/spring整合mybatis）">
-                Mybatis完善篇（逆向工程/spring整合mybatis） <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/12/springboot-redis/" rel="prev" title="springboot-redis.md">
+                springboot-redis.md <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1161,7 +1062,7 @@ List&lt;User&gt; getUserOrderList();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-输入映射和输出映射"><span class="nav-number">1.</span> <span class="nav-text">一.输入映射和输出映射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-parameterType-输入类型"><span class="nav-number">1.1.</span> <span class="nav-text">1.parameterType(输入类型)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-传递简单类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">1)传递简单类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-传递pojo对象"><span class="nav-number">1.1.2.</span> <span class="nav-text">2)传递pojo对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-传递pojo包装对象"><span class="nav-number">1.1.3.</span> <span class="nav-text">3)传递pojo包装对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-resultType-输出类型"><span class="nav-number">1.2.</span> <span class="nav-text">2.resultType(输出类型)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-输出简单类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">1)输出简单类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-输出pojo对象"><span class="nav-number">1.2.2.</span> <span class="nav-text">2)输出pojo对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3）输出pojo列表"><span class="nav-number">1.2.3.</span> <span class="nav-text">3）输出pojo列表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-resultMap"><span class="nav-number">1.3.</span> <span class="nav-text">3.resultMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mapper-xml定义"><span class="nav-number">1.3.1.</span> <span class="nav-text">1).Mapper.xml定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-定义resultMap"><span class="nav-number">1.3.2.</span> <span class="nav-text">2).定义resultMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Mapper接口定义"><span class="nav-number">1.3.3.</span> <span class="nav-text">3)Mapper接口定义</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-动态sql"><span class="nav-number">2.</span> <span class="nav-text">二.动态sql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-If"><span class="nav-number">2.1.</span> <span class="nav-text">1.If</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Where"><span class="nav-number">2.2.</span> <span class="nav-text">2.Where</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-foreach"><span class="nav-number">2.3.</span> <span class="nav-text">3.foreach</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Sql片段"><span class="nav-number">2.4.</span> <span class="nav-text">4.Sql片段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-关联查询-一对一-一对多"><span class="nav-number">3.</span> <span class="nav-text">三.关联查询(一对一/一对多)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-商品订单数据模型"><span class="nav-number">3.1.</span> <span class="nav-text">1.商品订单数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-一对一查询"><span class="nav-number">3.2.</span> <span class="nav-text">2.一对一查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-方法一："><span class="nav-number">3.2.1.</span> <span class="nav-text">1)方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2）方法二："><span class="nav-number">3.2.2.</span> <span class="nav-text">2）方法二：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-一对多查询"><span class="nav-number">3.3.</span> <span class="nav-text">3.一对多查询</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Mybatis的逆向工程"><span class="nav-number">1.</span> <span class="nav-text">一.Mybatis的逆向工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-第一步：mapper生成配置文件："><span class="nav-number">1.1.</span> <span class="nav-text">1.第一步：mapper生成配置文件：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-第二步：使用java类生成mapper文件："><span class="nav-number">1.2.</span> <span class="nav-text">2.第二步：使用java类生成mapper文件：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-第三步：拷贝生成的mapper文件到工程中指定的目录中"><span class="nav-number">1.3.</span> <span class="nav-text">3.第三步：拷贝生成的mapper文件到工程中指定的目录中</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mapper-xml"><span class="nav-number">1.3.1.</span> <span class="nav-text">1)Mapper.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Mapper-java"><span class="nav-number">1.3.2.</span> <span class="nav-text">2)Mapper.java</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-第四步Mapper接口测试"><span class="nav-number">1.4.</span> <span class="nav-text">4.第四步Mapper接口测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-逆向工程注意事项"><span class="nav-number">1.5.</span> <span class="nav-text">5.逆向工程注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mapper文件内容不覆盖而是追加"><span class="nav-number">1.5.1.</span> <span class="nav-text">1)Mapper文件内容不覆盖而是追加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Table-schema问题"><span class="nav-number">1.5.2.</span> <span class="nav-text">2)Table schema问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-spring整合mybatis"><span class="nav-number">2.</span> <span class="nav-text">二.spring整合mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-整合思路"><span class="nav-number">2.1.</span> <span class="nav-text">1.整合思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-整合需要的jar包"><span class="nav-number">2.2.</span> <span class="nav-text">2.整合需要的jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-整合的步骤"><span class="nav-number">2.3.</span> <span class="nav-text">3.整合的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SqlMapConfig-xml"><span class="nav-number">2.3.1.</span> <span class="nav-text">1)SqlMapConfig.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-applicationContext-xml"><span class="nav-number">2.3.2.</span> <span class="nav-text">2)applicationContext.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-db-properties"><span class="nav-number">2.3.3.</span> <span class="nav-text">3)db.properties</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Dao的开发"><span class="nav-number">2.4.</span> <span class="nav-text">4.Dao的开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-传统dao的开发方式"><span class="nav-number">2.4.1.</span> <span class="nav-text">1)传统dao的开发方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Mapper代理形式开发dao"><span class="nav-number">2.4.2.</span> <span class="nav-text">2)Mapper代理形式开发dao</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-扫描包形式配置mapper"><span class="nav-number">2.4.3.</span> <span class="nav-text">3.扫描包形式配置mapper</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
