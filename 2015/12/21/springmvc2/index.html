@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="springmvc,springmvc高级篇,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog of MYH" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="本篇内容 1、高级参数绑定     a)数组类型的参数绑定     b)List类型的绑定 2、@RequestMapping注解的使用 3、Controller方法返回值 4、Springmvc中异常处理 5、图片上传处理 6、Json数据交互 7、Springmvc实现Restful 8、拦截器 一.高级参数绑定1.绑定数组1)需求在商品列表页面选中多个商品，然后删除。 2)需求分析此功能要求">
+<meta name="keywords" content="springmvc,springmvc高级篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springmvc高级篇(springmvc高级参数绑定&#x2F;springmvc自带各种组件及其应用)">
+<meta property="og:url" content="http://yoursite.com/2015/12/21/springmvc2/index.html">
+<meta property="og:site_name" content="Blog of MYH">
+<meta property="og:description" content="本篇内容 1、高级参数绑定     a)数组类型的参数绑定     b)List类型的绑定 2、@RequestMapping注解的使用 3、Controller方法返回值 4、Springmvc中异常处理 5、图片上传处理 6、Json数据交互 7、Springmvc实现Restful 8、拦截器 一.高级参数绑定1.绑定数组1)需求在商品列表页面选中多个商品，然后删除。 2)需求分析此功能要求">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc5.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc6.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc7.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc8.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc9.png">
+<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc10.png">
+<meta property="og:updated_time" content="2019-01-05T11:09:39.514Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springmvc高级篇(springmvc高级参数绑定&#x2F;springmvc自带各种组件及其应用)">
+<meta name="twitter:description" content="本篇内容 1、高级参数绑定     a)数组类型的参数绑定     b)List类型的绑定 2、@RequestMapping注解的使用 3、Controller方法返回值 4、Springmvc中异常处理 5、图片上传处理 6、Json数据交互 7、Springmvc实现Restful 8、拦截器 一.高级参数绑定1.绑定数组1)需求在商品列表页面选中多个商品，然后删除。 2)需求分析此功能要求">
+<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"bounceRightIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/12/21/springmvc2/">
+
+
+
+
+
+  <title>springmvc高级篇(springmvc高级参数绑定/springmvc自带各种组件及其应用) | Blog of MYH</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/myhcjwds" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog of MYH</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/21/springmvc2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YuHang Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/myhcjwds.gif#头像">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog of MYH">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">springmvc高级篇(springmvc高级参数绑定/springmvc自带各种组件及其应用)</h1>
+        
+
+        <div class="post-meta">
+		
+  <i class="fa fa-thumb-tack"></i>
+  <font color="7D26CD">置顶</font>
+  <span class="post-meta-divider">|</span>
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-21T21:00:00+08:00">
+                2015-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/springmvc/" itemprop="url" rel="index">
+                    <span itemprop="name">springmvc</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/12/21/springmvc2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2015/12/21/springmvc2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/12/21/springmvc2/" class="leancloud_visitors" data-flag-title="springmvc高级篇(springmvc高级参数绑定/springmvc自带各种组件及其应用)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.9k字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  22分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>本篇内容</strong></p>
+<pre><code>1、高级参数绑定
+    a)数组类型的参数绑定
+    b)List类型的绑定
+2、@RequestMapping注解的使用
+3、Controller方法返回值
+4、Springmvc中异常处理
+5、图片上传处理
+6、Json数据交互
+7、Springmvc实现Restful
+8、拦截器
+</code></pre><h2 id="一-高级参数绑定"><a href="#一-高级参数绑定" class="headerlink" title="一.高级参数绑定"></a>一.高级参数绑定</h2><h3 id="1-绑定数组"><a href="#1-绑定数组" class="headerlink" title="1.绑定数组"></a>1.绑定数组</h3><h4 id="1-需求"><a href="#1-需求" class="headerlink" title="1)需求"></a>1)需求</h4><p>在商品列表页面选中多个商品，然后删除。</p>
+<h4 id="2-需求分析"><a href="#2-需求分析" class="headerlink" title="2)需求分析"></a>2)需求分析</h4><p>此功能要求商品列表页面中的每个商品前有一个checkbook，选中多个商品后点击删除按钮把商品id传递给Controller，根据商品id删除商品信息。</p>
+<h4 id="3-Jsp中实现："><a href="#3-Jsp中实现：" class="headerlink" title="3)Jsp中实现："></a>3)Jsp中实现：</h4><pre><code>&lt;c:forEach items=&quot;${itemList }&quot; var=&quot;item&quot;&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;input name=&quot;ids&quot; value=&quot;${item.id}&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;${item.name }&lt;/td&gt;
+    &lt;td&gt;${item.price }&lt;/td&gt;
+    &lt;td&gt;&lt;fmt:formatDate value=&quot;${item.createtime}&quot; pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;/&gt;&lt;/td&gt;
+    &lt;td&gt;${item.detail }&lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;${pageContext.request.contextPath }/itemEdit.action?id=${item.id}&quot;&gt;修改&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/c:forEach&gt;
+</code></pre><p>生成html代码如下：<br>页面选中多个checkbox向controller方法传递<br>    <table width="100%" border="1"><br>    <tr><br>        <td>商品名称</td><br>        <td>商品价格</td><br>        <td>生产日期</td><br>        <td>商品描述</td><br>        <td>操作</td><br>    </tr><br>    <tr><br>        <td><input name="ids" value="1" type="checkbox"></td><br>        <td>台式机</td><br>        <td>3000.0</td><br>        <td>2016-02-03 13:22:53</td><br>        <td></td><br>        <td><a href="/springmvc-web/itemEdit.action?id=1">修改</a></td><br>    </tr><br>    <tr><br>        <td><input name="ids" value="2" type="checkbox"></td><br>        <td>笔记本</td><br>        <td>6000.0</td><br>        <td>2015-02-09 13:22:57</td><br>        <td></td><br>        <td><a href="/springmvc-web/itemEdit.action?id=2">修改</a></td><br>    </tr><br>    <tr><br>        <td><input name="ids" value="3" type="checkbox"></td><br>        <td>背包</td><br>        <td>200.0</td><br>        <td>2015-02-06 13:23:02</td><br>        <td></td><br>        <td><a href="/springmvc-web/itemEdit.action?id=3">修改</a></td><br>    </tr><br>    </table></p>
+<h4 id="4-Controller"><a href="#4-Controller" class="headerlink" title="4.Controller"></a>4.Controller</h4><p>Controller方法中可以用String[]接收，或者pojo的String[]属性接收。两种方式任选其一即可。<br>定义如下：</p>
+<pre><code>@RequestMapping(&quot;/queryitem&quot;)
+    public String queryItem(QueryVo queryVo, String[] ids) {
+        System.out.println(queryVo.getItems().getName());
+        System.out.println(queryVo.getItems().getPrice());
+        System.out.println(ids.toString());
+        return null;
+    }
+</code></pre><p>或者：</p>
+<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc5.png" alt=""></p>
+<p>查看结果：</p>
+<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc6.png" alt=""></p>
+<h3 id="2-将表单的数据绑定到List"><a href="#2-将表单的数据绑定到List" class="headerlink" title="2.将表单的数据绑定到List"></a>2.将表单的数据绑定到List</h3><h4 id="1-需求-1"><a href="#1-需求-1" class="headerlink" title="1)需求"></a>1)需求</h4><p>实现商品数据的批量修改。</p>
+<h4 id="2-需求分析-1"><a href="#2-需求分析-1" class="headerlink" title="2)需求分析"></a>2)需求分析</h4><p>要想实现商品数据的批量修改，需要在商品列表中可以对商品信息进行修改，并且可以批量提交修改后的商品数据。</p>
+<h4 id="3-接收商品列表的pojo"><a href="#3-接收商品列表的pojo" class="headerlink" title="3)接收商品列表的pojo"></a>3)接收商品列表的pojo</h4><p>List中存放对象，并将定义的List放在包装类中，使用包装pojo对象接收。</p>
+<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc7.png" alt=""></p>
+<h4 id="4-Jsp改造"><a href="#4-Jsp改造" class="headerlink" title="4)Jsp改造"></a>4)Jsp改造</h4><p>页面定义如下：</p>
+<pre><code>&lt;tr&gt;
+&lt;td&gt;
+&lt;input type=&quot;text&quot; name=&quot; itemsList[0].id&quot; value=&quot;${item.id}&quot;/&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;input type=&quot;text&quot; name=&quot; itemsList[0].name&quot; value=&quot;${item.name }&quot;/&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;input type=&quot;text&quot; name=&quot; itemsList[0].price&quot; value=&quot;${item.price}&quot;/&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;input type=&quot;text&quot; name=&quot; itemsList[1].id&quot; value=&quot;${item.id}&quot;/&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;input type=&quot;text&quot; name=&quot; itemsList[1].name&quot; value=&quot;${item.name }&quot;/&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;input type=&quot;text&quot; name=&quot; itemsList[1].price&quot; value=&quot;${item.price}&quot;/&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+</code></pre><p>Name属性必须是包装pojo的list属性+下标+元素属性。Jsp做如下改造：</p>
+<pre><code>&lt;c:forEach items=&quot;${itemList }&quot; var=&quot;item&quot;&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;input name=&quot;ids&quot; value=&quot;${item.id}&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;
+        &lt;input name=&quot;id&quot; value=&quot;${item.id}&quot; type=&quot;hidden&quot;&gt;
+        &lt;input name=&quot;name&quot; value=&quot;${item.name }&quot; type=&quot;text&quot;&gt;
+    &lt;/td&gt;
+    &lt;td&gt;&lt;input name=&quot;name&quot; value=&quot;${item.price }&quot; type=&quot;text&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input name=&quot;name&quot; value=&quot;&lt;fmt:formatDate value=&quot;${item.createtime}&quot; pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;/&gt;&quot; type=&quot;text&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input name=&quot;name&quot; value=&quot;${item.detail }&quot; type=&quot;text&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;${pageContext.request.contextPath }/itemEdit.action?id=${item.id}&quot;&gt;修改&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/c:forEach&gt;
+</code></pre><p><strong>varStatus</strong>属性常用参数总结下：</p>
+<p>${status.index}      输出行号，从0开始。</p>
+<p>${status.count}      输出行号，从1开始。</p>
+<p>${status.current}   当前这次迭代的（集合中的）项</p>
+<p>${status.first}  判断当前项是否为集合中的第一项，返回值为true或false</p>
+<p>${status.last}   判断当前项是否为集合中的最后一项，返回值为true或false</p>
+<p>begin、end、step分别表示：起始序号，结束序号，跳跃步伐。</p>
+<h4 id="5-Contrller"><a href="#5-Contrller" class="headerlink" title="5)Contrller"></a>5)Contrller</h4><pre><code>@RequestMapping(&quot;/queryitem&quot;)
+    public String queryItem(QueryVo queryVo, String[] ids) {
+        System.out.println(queryVo.getItems().getName());
+        System.out.println(queryVo.getItems().getPrice());
+        System.out.println(ids.toString());
+        return null;
+    }
+</code></pre><p>注意：接收List类型的数据必须是pojo的属性，方法的形参为List类型无法正确接收到数据。</p>
+<h2 id="二-RequestMapping"><a href="#二-RequestMapping" class="headerlink" title="二.@RequestMapping"></a>二.@RequestMapping</h2><p>通过RequestMapping注解可以定义不同的处理器映射规则。</p>
+<h3 id="1-URL路径映射"><a href="#1-URL路径映射" class="headerlink" title="1.URL路径映射"></a>1.URL路径映射</h3><p>@RequestMapping(value=”/item”)或@RequestMapping(“/item）</p>
+<p>value的值是数组，可以将多个url映射到同一个方法</p>
+<h3 id="2-窄化请求映射"><a href="#2-窄化请求映射" class="headerlink" title="2.窄化请求映射"></a>2.窄化请求映射</h3><p>在class上添加@RequestMapping(url)指定通用请求前缀， 限制此类下的所有方法请求url必须以请求前缀开头，通过此方法对url进行分类管理。</p>
+<p>如下：</p>
+<pre><code>@RequestMapping放在类名上边，设置请求前缀 
+@Controller
+@RequestMapping(&quot;/item&quot;)
+</code></pre><p>方法名上边设置请求映射url：</p>
+<pre><code>@RequestMapping放在方法名上边，如下：
+@RequestMapping(&quot;/queryItem &quot;)
+</code></pre><p>访问地址为：/item/queryItem</p>
+<h3 id="3-请求方法限定"><a href="#3-请求方法限定" class="headerlink" title="3.请求方法限定"></a>3.请求方法限定</h3><p>限定GET方法<br>@RequestMapping(method = RequestMethod.GET)</p>
+<p>如果通过Post访问则报错：<br>HTTP Status 405 - Request method ‘POST’ not supported</p>
+<p>例如：<br>@RequestMapping(value=”/editItem”,method=RequestMethod.GET)</p>
+<p>限定POST方法<br>@RequestMapping(method = RequestMethod.POST)</p>
+<p>如果通过Post访问则报错：<br>HTTP Status 405 - Request method ‘GET’ not supported</p>
+<p>GET和POST都可以</p>
+<p>@RequestMapping(method={RequestMethod.GET,RequestMethod.POST})</p>
+<h2 id="三-controller方法返回值"><a href="#三-controller方法返回值" class="headerlink" title="三.controller方法返回值"></a>三.controller方法返回值</h2><h3 id="1-返回ModelAndView"><a href="#1-返回ModelAndView" class="headerlink" title="1.返回ModelAndView"></a>1.返回ModelAndView</h3><p>controller方法中定义ModelAndView对象并返回，对象中可添加model数据、指定view。</p>
+<h3 id="2-返回void"><a href="#2-返回void" class="headerlink" title="2.返回void"></a>2.返回void</h3><p>在controller方法形参上可以定义request和response，使用request或response指定响应结果：</p>
+<h4 id="1-使用request转向页面，如下："><a href="#1-使用request转向页面，如下：" class="headerlink" title="1)使用request转向页面，如下："></a>1)使用request转向页面，如下：</h4><pre><code>request.getRequestDispatcher(&quot;页面路径&quot;).forward(request, response);
+</code></pre><h4 id="2-也可以通过response页面重定向："><a href="#2-也可以通过response页面重定向：" class="headerlink" title="2)也可以通过response页面重定向："></a>2)也可以通过response页面重定向：</h4><pre><code>response.sendRedirect(&quot;url&quot;)
+</code></pre><h4 id="3-也可以通过response指定响应结果，例如响应json数据如下："><a href="#3-也可以通过response指定响应结果，例如响应json数据如下：" class="headerlink" title="3)也可以通过response指定响应结果，例如响应json数据如下："></a>3)也可以通过response指定响应结果，例如响应json数据如下：</h4><pre><code>response.setCharacterEncoding(&quot;utf-8&quot;);
+response.setContentType(&quot;application/json;charset=utf-8&quot;);
+response.getWriter().write(&quot;json串&quot;);
+</code></pre><h3 id="3-返回字符串"><a href="#3-返回字符串" class="headerlink" title="3.返回字符串"></a>3.返回字符串</h3><h4 id="1-逻辑视图名"><a href="#1-逻辑视图名" class="headerlink" title="1)逻辑视图名"></a>1)逻辑视图名</h4><p>controller方法返回字符串可以指定逻辑视图名，通过视图解析器解析为物理视图地址。</p>
+<pre><code>//指定逻辑视图名，经过视图解析器解析为jsp物理路径：/WEB-INF/jsp/item/editItem.jsp
+return &quot;item/editItem&quot;;
+</code></pre><h4 id="2-Redirect重定向"><a href="#2-Redirect重定向" class="headerlink" title="2)Redirect重定向"></a>2)Redirect重定向</h4><p>Contrller方法返回结果重定向到一个url地址，如下商品修改提交后重定向到商品查询方法，参数无法带到商品查询方法中。</p>
+<pre><code>//重定向到queryItem.action地址,request无法带过去
+return &quot;redirect:queryItem.action&quot;;
+</code></pre><p>redirect方式相当于“response.sendRedirect()”，转发后浏览器的地址栏变为转发后的地址，因为转发即执行了一个新的request和response。<br>由于新发起一个request原来的参数在转发时就不能传递到下一个url，如果要传参数可以/item/queryItem.action后边加参数，如下：<br>/item/queryItem?…&amp;…..</p>
+<h4 id="3-forward转发"><a href="#3-forward转发" class="headerlink" title="3)forward转发"></a>3)forward转发</h4><p>controller方法执行后继续执行另一个controller方法，如下商品修改提交后转向到商品修改页面，修改商品的id参数可以带到商品修改方法中。</p>
+<pre><code>//结果转发到editItem.action，request可以带过去
+return &quot;forward:editItem.action&quot;;
+</code></pre><p>forward方式相当于“request.getRequestDispatcher().forward(request,response)”，转发后浏览器地址栏还是原来的地址。转发并没有执行新的request和response，而是和转发前的请求共用一个request和response。所以转发前请求的参数在转发后仍然可以读取到。</p>
+<h2 id="四-异常处理器"><a href="#四-异常处理器" class="headerlink" title="四.异常处理器"></a>四.异常处理器</h2><p>springmvc在处理请求过程中出现异常信息交由异常处理器进行处理，自定义异常处理器可以实现一个系统的异常处理逻辑。</p>
+<h3 id="1-异常处理思路"><a href="#1-异常处理思路" class="headerlink" title="1.异常处理思路"></a>1.异常处理思路</h3><p>系统中异常包括两类：预期异常和运行时异常RuntimeException</p>
+<p>前者通过捕获异常从而获取异常信息，后者主要通过规范代码开发、测试通过手段减少运行时异常的发生。<br>系统的dao、service、controller出现都通过throws Exception向上抛出，最后由springmvc前端控制器交由异常处理器进行异常处理，如下图：</p>
+<h3 id="2-自定义异常类"><a href="#2-自定义异常类" class="headerlink" title="2.自定义异常类"></a>2.自定义异常类</h3><p>为了区别不同的异常通常根据异常类型自定义异常类，这里我们创建一个自定义系统异常，如果controller、service、dao抛出此类异常说明是系统预期处理的异常信息。</p>
+<pre><code>public class CustomException extends Exception {
+
+/** serialVersionUID*/
+private static final long serialVersionUID = -5212079010855161498L;
+
+public CustomException(String message){
+    super(message);
+    this.message = message;
+}
+
+//异常信息
+private String message;
+
+public String getMessage() {
+    return message;
+}
+
+public void setMessage(String message) {
+    this.message = message;
+}
+}
+</code></pre><h3 id="3-自定义异常处理器"><a href="#3-自定义异常处理器" class="headerlink" title="3.自定义异常处理器"></a>3.自定义异常处理器</h3><pre><code>public class CustomExceptionResolver implements HandlerExceptionResolver {
+
+@Override
+public ModelAndView resolveException(HttpServletRequest request,
+        HttpServletResponse response, Object handler, Exception ex) {
+
+    ex.printStackTrace();
+
+    CustomException customException = null;
+
+    //如果抛出的是系统自定义异常则直接转换
+    if(ex instanceof CustomException){
+        customException = (CustomException)ex;
+    }else{
+        //如果抛出的不是系统自定义异常则重新构造一个系统错误异常。
+        customException = new CustomException(&quot;系统错误，请与系统管理 员联系！&quot;);
+    }
+
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.addObject(&quot;message&quot;, customException.getMessage());
+    modelAndView.setViewName(&quot;error&quot;);
+
+    return modelAndView;
+}
+
+}
+</code></pre><p>取异常堆栈：</p>
+<pre><code>   try {
+
+} catch (Exception e) {
+    StringWriter s = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(s);
+    e.printStackTrace(printWriter);
+    s.toString();
+}
+</code></pre><h3 id="4-错误页面"><a href="#4-错误页面" class="headerlink" title="4.错误页面"></a>4.错误页面</h3><pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;
+    pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot; %&gt;
+&lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/fmt&quot;  prefix=&quot;fmt&quot;%&gt; 
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;错误页面&lt;/title&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+您的操作出现错误如下：&lt;br/&gt;
+${message }
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre><h3 id="5-异常处理器配置"><a href="#5-异常处理器配置" class="headerlink" title="5.异常处理器配置"></a>5.异常处理器配置</h3><p>在springmvc.xml中添加：</p>
+<pre><code>&lt;!-- 异常处理器 --&gt;
+    &lt;bean id=&quot;handlerExceptionResolver&quot; class=&quot;cn.itcast.ssm.controller.exceptionResolver.CustomExceptionResolver&quot;/&gt;
+</code></pre><h3 id="6-异常测试"><a href="#6-异常测试" class="headerlink" title="6.异常测试"></a>6.异常测试</h3><pre><code>修改商品信息，id输入错误提示商品信息不存在。
+
+修改controller方法“editItem”，调用service查询商品信息，如果商品信息为空则抛出异常：
+// 调用service查询商品信息
+        Items item = itemService.findItemById(id);
+
+        if(item == null){
+            throw new CustomException(&quot;商品信息不存在!&quot;);
+        }
+
+
+
+在service中抛出异常方法同上。
+</code></pre><h2 id="五-上传图片"><a href="#五-上传图片" class="headerlink" title="五.上传图片"></a>五.上传图片</h2><h3 id="1-配置虚拟目录"><a href="#1-配置虚拟目录" class="headerlink" title="1.配置虚拟目录"></a>1.配置虚拟目录</h3><p>在tomcat上配置图片虚拟目录，在tomcat下conf/server.xml中添加：</p>
+<context docbase="F:\develop\upload\temp" path="/pic" reloadable="false">
+
+<p>访问<a href="http://localhost:8080/pic即可访问F:\develop\upload\temp下的图片。" target="_blank" rel="noopener">http://localhost:8080/pic即可访问F:\develop\upload\temp下的图片。</a></p>
+<p>也可以通过eclipse配置：</p>
+<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc8.png" alt=""></p>
+<h3 id="2-jar包"><a href="#2-jar包" class="headerlink" title="2.jar包"></a>2.jar包</h3><p>CommonsMultipartResolver解析器依赖commons-fileupload和commons-io，加入jar包</p>
+<h3 id="3-配置解析器"><a href="#3-配置解析器" class="headerlink" title="3.配置解析器"></a>3.配置解析器</h3><pre><code>&lt;!-- 文件上传 --&gt;
+    &lt;bean id=&quot;multipartResolver&quot;
+        class=&quot;org.springframework.web.multipart.commons.CommonsMultipartResolver&quot;&gt;
+        &lt;!-- 设置上传文件的最大尺寸为5MB --&gt;
+        &lt;property name=&quot;maxUploadSize&quot;&gt;
+            &lt;value&gt;5242880&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre><h3 id="4-图片上传"><a href="#4-图片上传" class="headerlink" title="4.图片上传"></a>4.图片上传</h3><h4 id="controller："><a href="#controller：" class="headerlink" title="controller："></a>controller：</h4><pre><code>//商品修改提交
+@RequestMapping(&quot;/editItemSubmit&quot;)
+public String editItemSubmit(Items items, MultipartFile pictureFile)throws Exception{
+
+    //原始文件名称
+    String pictureFile_name =  pictureFile.getOriginalFilename();
+    //新文件名称
+    String newFileName = UUID.randomUUID().toString()+pictureFile_name.substring(pictureFile_name.lastIndexOf(&quot;.&quot;));
+
+    //上传图片
+    File uploadPic = new java.io.File(&quot;F:/develop/upload/temp/&quot;+newFileName);
+
+    if(!uploadPic.exists()){
+        uploadPic.mkdirs();
+    }
+    //向磁盘写文件
+    pictureFile.transferTo(uploadPic);
+</code></pre><p>…..</p>
+<h4 id="页面："><a href="#页面：" class="headerlink" title="页面："></a>页面：</h4><pre><code>form添加enctype=&quot;multipart/form-data&quot;：
+&lt;form id=&quot;itemForm&quot;
+action=&quot;${pageContext.request.contextPath }/item/editItemSubmit.action&quot;
+        method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;pic&quot; value=&quot;${item.pic }&quot; /&gt;
+
+
+file的name与controller形参一致：
+&lt;tr&gt;
+    &lt;td&gt;商品图片&lt;/td&gt;
+    &lt;td&gt;&lt;c:if test=&quot;${item.pic !=null}&quot;&gt;
+            &lt;img src=&quot;/pic/${item.pic}&quot; width=100 height=100 /&gt;
+            &lt;br /&gt;
+        &lt;/c:if&gt; &lt;input type=&quot;file&quot; name=&quot;pictureFile&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+</code></pre><h2 id="六-json数据交互"><a href="#六-json数据交互" class="headerlink" title="六.json数据交互"></a>六.json数据交互</h2><h3 id="1-RequestBody"><a href="#1-RequestBody" class="headerlink" title="1.@RequestBody"></a>1.@RequestBody</h3><p>作用：</p>
+<p>@RequestBody注解用于读取http请求的内容(字符串)，通过springmvc提供的HttpMessageConverter接口将读到的内容转换为json、xml等格式的数据并绑定到controller方法的参数上。</p>
+<pre><code>List.action?id=1&amp;name=zhangsan&amp;age=12
+</code></pre><p>本例子应用：</p>
+<p>@RequestBody注解实现接收http请求的json数据，将json数据转换为java对象</p>
+<h3 id="2-ResponseBody"><a href="#2-ResponseBody" class="headerlink" title="2.@ResponseBody"></a>2.@ResponseBody</h3><p>作用：</p>
+<p>该注解用于将Controller的方法返回的对象，通过HttpMessageConverter接口转换为指定格式的数据</p>
+<p>如：json,xml等，通过Response响应给客户端</p>
+<p>本例子应用：</p>
+<p>@ResponseBody注解实现将controller方法返回对象转换为json响应给客户端</p>
+<h3 id="3-请求json，响应json实现："><a href="#3-请求json，响应json实现：" class="headerlink" title="3.请求json，响应json实现："></a>3.请求json，响应json实现：</h3><h4 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1)环境准备"></a>1)环境准备</h4><p>Springmvc默认用MappingJacksonHttpMessageConverter对json数据进行转换，需要加入jackson的包，</p>
+<h4 id="2-配置json转换器"><a href="#2-配置json转换器" class="headerlink" title="2)配置json转换器"></a>2)配置json转换器</h4><p>在注解适配器中加入messageConverters</p>
+<pre><code>&lt;!--注解适配器 --&gt;
+&lt;bean class=&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter&quot;&gt;
+    &lt;property name=&quot;messageConverters&quot;&gt;
+    &lt;list&gt;
+    &lt;bean class=&quot;org.springframework.http.converter.json.MappingJacksonHttpMessageConverter&quot;&gt;&lt;/bean&gt;
+    &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><p>注意：如果使用&lt;mvc:annotation-driven /&gt; 则不用定义上边的内容。</p>
+<h4 id="3-controller编写"><a href="#3-controller编写" class="headerlink" title="3)controller编写"></a>3)controller编写</h4><pre><code>// 商品修改提交json信息，响应json信息
+@RequestMapping(&quot;/editItemSubmit_RequestJson&quot;)
+public @ResponseBody Items editItemSubmit_RequestJson(@RequestBody Items items) throws Exception {
+    System.out.println(items);
+    //itemService.saveItem(items);
+    return items;
+
+}
+</code></pre><h4 id="4-页面js方法编写："><a href="#4-页面js方法编写：" class="headerlink" title="4)页面js方法编写："></a>4)页面js方法编写：</h4><p>引入 js：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; 
+src=&quot;${pageContext.request.contextPath }/js/jquery-1.4.4.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>//请求json响应json</p>
+<pre><code>function request_json(){
+    $.ajax({
+        type:&quot;post&quot;,
+        url:&quot;${pageContext.request.contextPath }/item/editItemSubmit_RequestJson.action&quot;,
+        contentType:&quot;application/json;charset=utf-8&quot;,
+        data:&apos;{&quot;name&quot;:&quot;测试商品&quot;,&quot;price&quot;:99.9}&apos;,
+        success:function(data){
+            alert(data);
+        }
+    });
+}
+</code></pre><h4 id="5-测试结果："><a href="#5-测试结果：" class="headerlink" title="5)测试结果："></a>5)测试结果：</h4><p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc9.png" alt=""></p>
+<p>从上图可以看出请求的数据是json格式</p>
+<h2 id="七-RESTful支持"><a href="#七-RESTful支持" class="headerlink" title="七.RESTful支持"></a>七.RESTful支持</h2><h3 id="1-什么是restful？"><a href="#1-什么是restful？" class="headerlink" title="1.什么是restful？"></a>1.什么是restful？</h3><p>Restful就是一个资源定位及资源操作的风格。不是标准也不是协议，只是一种风格，是对http协议的诠释。</p>
+<p>资源定位：互联网所有的事物都是资源，要求url中没有动词，只有名词。没有参数</p>
+<p>Url格式：<a href="http://blog.csdn.net/beat_the_world/article/details/45621673" target="_blank" rel="noopener">http://blog.csdn.net/beat_the_world/article/details/45621673</a></p>
+<p>资源操作：使用put、delete、post、get，使用不同方法对资源进行操作。分别对应添加、删除、修改、查询。一般使用时还是post和get。Put和Delete几乎不使用。</p>
+<h3 id="2-需求"><a href="#2-需求" class="headerlink" title="2.需求"></a>2.需求</h3><p>RESTful方式实现商品信息查询，返回json数据</p>
+<h3 id="3-添加DispatcherServlet的rest配置"><a href="#3-添加DispatcherServlet的rest配置" class="headerlink" title="3.添加DispatcherServlet的rest配置"></a>3.添加DispatcherServlet的rest配置</h3><pre><code>&lt;servlet&gt;
+    &lt;servlet-name&gt;springmvc-servlet-rest&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+        &lt;param-value&gt;classpath:spring/springmvc.xml&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;springmvc-servlet-rest&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre><h3 id="4-URL-模板模式映射"><a href="#4-URL-模板模式映射" class="headerlink" title="4.URL 模板模式映射"></a>4.URL 模板模式映射</h3><p>@RequestMapping(value=”/ viewItems/{id}”)：{×××}占位符，请求的URL可以是“/viewItems/1”或“/viewItems/2”，通过在方法中使用@PathVariable获取{×××}中的×××变量。</p>
+<p>@PathVariable用于将请求URL中的模板变量映射到功能处理方法的参数上。</p>
+<pre><code>@RequestMapping(&quot;/viewItems/{id}&quot;) 
+public @ResponseBody viewItems(@PathVariable(&quot;id&quot;) String id,Model model) throws Exception{
+    //方法中使用@PathVariable获取useried的值，使用model传回页面
+    //调用 service查询商品信息
+    ItemsCustom itemsCustom = itemsService.findItemsById(id);
+    return itemsCustom;
+}
+</code></pre><p>如果RequestMapping中表示为”/viewItems/{id}”，id和形参名称一致，@PathVariable不用指定名称。</p>
+<p>商品查询的controller方法也改为rest实现：</p>
+<pre><code>// 查询商品列表
+@RequestMapping(&quot;/queryItem&quot;)
+public ModelAndView queryItem() throws Exception {
+    // 商品列表
+    List&lt;Items&gt; itemsList = itemService.findItemsList(null);
+
+    // 创建modelAndView准备填充数据、设置视图
+    ModelAndView modelAndView = new ModelAndView();
+
+    // 填充数据
+    modelAndView.addObject(&quot;itemsList&quot;, itemsList);
+    // 视图
+    modelAndView.setViewName(&quot;item/itemsList&quot;);
+
+    return modelAndView;
+}
+</code></pre><h3 id="5-静态资源访问mvc-resources"><a href="#5-静态资源访问mvc-resources" class="headerlink" title="5.静态资源访问mvc:resources"></a>5.静态资源访问<a href="mvc:resources" target="_blank" rel="noopener">mvc:resources</a></h3><p>如果在DispatcherServlet中设置url-pattern为 /则必须对静态资源进行访问处理。</p>
+<p>spring mvc 的&lt;mvc:resources mapping=”” location=””&gt;实现对静态资源进行映射访问。</p>
+<p>如下是对js文件访问配置：</p>
+<pre><code>&lt;mvc:resources location=&quot;/js/&quot; mapping=&quot;/js/**&quot;/&gt;
+</code></pre><h2 id="八-拦截器"><a href="#八-拦截器" class="headerlink" title="八.拦截器"></a>八.拦截器</h2><h3 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h3><p>Spring Web MVC 的处理器拦截器类似于Servlet 开发中的过滤器Filter，用于对处理器进行预处理和后处理。</p>
+<h3 id="2-拦截器定义"><a href="#2-拦截器定义" class="headerlink" title="2.拦截器定义"></a>2.拦截器定义</h3><p>实现HandlerInterceptor接口，如下：</p>
+<pre><code>Public class HandlerInterceptor1 implements HandlerInterceptor{
+
+/**
+ * controller执行前调用此方法
+ * 返回true表示继续执行，返回false中止执行
+ * 这里可以加入登录校验、权限拦截等
+ */
+@Override
+Public boolean preHandle(HttpServletRequest request,
+        HttpServletResponse response, Object handler) throws Exception {
+    // TODO Auto-generated method stub
+    Return false;
+}
+/**
+ * controller执行后但未返回视图前调用此方法
+ * 这里可在返回用户前对模型数据进行加工处理，比如这里加入公用信息以便页面显示
+ */
+@Override
+Public void postHandle(HttpServletRequest request,
+        HttpServletResponse response, Object handler,
+        ModelAndView modelAndView) throws Exception {
+    // TODO Auto-generated method stub
+
+}
+/**
+ * controller执行后且视图返回后调用此方法
+ * 这里可得到执行controller时的异常信息
+ * 这里可记录操作日志，资源清理等
+ */
+@Override
+Public void afterCompletion(HttpServletRequest request,
+        HttpServletResponse response, Object handler, Exception ex)
+        throws Exception {
+    // TODO Auto-generated method stub
+
+}
+
+}
+</code></pre><h3 id="3-拦截器配置"><a href="#3-拦截器配置" class="headerlink" title="3.拦截器配置"></a>3.拦截器配置</h3><h4 id="1-针对某种mapping配置拦截器"><a href="#1-针对某种mapping配置拦截器" class="headerlink" title="1)针对某种mapping配置拦截器"></a>1)针对某种mapping配置拦截器</h4><pre><code>&lt;bean
+class=&quot;org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping&quot;&gt;
+&lt;property name=&quot;interceptors&quot;&gt;
+    &lt;list&gt;
+        &lt;ref bean=&quot;handlerInterceptor1&quot;/&gt;
+        &lt;ref bean=&quot;handlerInterceptor2&quot;/&gt;
+    &lt;/list&gt;
+&lt;/property&gt;
+&lt;/bean&gt;
+&lt;bean id=&quot;handlerInterceptor1&quot; class=&quot;springmvc.intercapter.HandlerInterceptor1&quot;/&gt;
+&lt;bean id=&quot;handlerInterceptor2&quot; class=&quot;springmvc.intercapter.HandlerInterceptor2&quot;/&gt;
+</code></pre><h4 id="2-针对所有mapping配置全局拦截器"><a href="#2-针对所有mapping配置全局拦截器" class="headerlink" title="2)针对所有mapping配置全局拦截器"></a>2)针对所有mapping配置全局拦截器</h4><pre><code>&lt;!--拦截器 --&gt;
+&lt;mvc:interceptors&gt;
+&lt;!--多个拦截器,顺序执行 --&gt;
+&lt;mvc:interceptor&gt;
+    &lt;mvc:mapping path=&quot;/**&quot;/&gt;
+    &lt;bean class=&quot;cn.itcast.springmvc.filter.HandlerInterceptor1&quot;&gt;&lt;/bean&gt;
+&lt;/mvc:interceptor&gt;
+&lt;mvc:interceptor&gt;
+    &lt;mvc:mapping path=&quot;/**&quot;/&gt;
+    &lt;bean class=&quot;cn.itcast.springmvc.filter.HandlerInterceptor2&quot;&gt;&lt;/bean&gt;
+&lt;/mvc:interceptor&gt;
+&lt;/mvc:interceptors&gt;
+</code></pre><h3 id="4-正常流程测试"><a href="#4-正常流程测试" class="headerlink" title="4.正常流程测试"></a>4.正常流程测试</h3><h4 id="1-代码："><a href="#1-代码：" class="headerlink" title="1)代码："></a>1)代码：</h4><p>定义两个拦截器分别为：HandlerInterceptor1和HandlerInteptor2，每个拦截器的preHandler方法都返回true。</p>
+<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc10.png" alt=""></p>
+<h4 id="2-运行流程"><a href="#2-运行流程" class="headerlink" title="2)运行流程"></a>2)运行流程</h4><pre><code>HandlerInterceptor1..preHandle..
+HandlerInterceptor2..preHandle..
+
+HandlerInterceptor2..postHandle..
+HandlerInterceptor1..postHandle..
+
+HandlerInterceptor2..afterCompletion..
+HandlerInterceptor1..afterCompletion..
+</code></pre><h3 id="5-中断流程测试"><a href="#5-中断流程测试" class="headerlink" title="5.中断流程测试"></a>5.中断流程测试</h3><h4 id="1-代码：-1"><a href="#1-代码：-1" class="headerlink" title="1)代码："></a>1)代码：</h4><p>定义两个拦截器分别为：HandlerInterceptor1和HandlerInteptor2。</p>
+<h4 id="2-运行流程-1"><a href="#2-运行流程-1" class="headerlink" title="2)运行流程"></a>2)运行流程</h4><p>HandlerInterceptor1的preHandler方法返回false，HandlerInterceptor2返回true，运行流程如下：</p>
+<p>HandlerInterceptor1..preHandle..</p>
+<p>从日志看出第一个拦截器的preHandler方法返回false后第一个拦截器只执行了preHandler方法，其它两个方法没有执行，第二个拦截器的所有方法不执行，且controller也不执行了。</p>
+<p>HandlerInterceptor1的preHandler方法返回true，HandlerInterceptor2返回false，运行流程如下：</p>
+<pre><code>HandlerInterceptor1..preHandle..
+HandlerInterceptor2..preHandle..
+HandlerInterceptor1..afterCompletion..
+</code></pre><p>从日志看出第二个拦截器的preHandler方法返回false后第一个拦截器的postHandler没有执行，第二个拦截器的postHandler和afterCompletion没有执行，且controller也不执行了。</p>
+<p>总结：</p>
+<p>preHandle按拦截器定义顺序调用</p>
+<p>postHandler按拦截器定义逆序调用</p>
+<p>afterCompletion按拦截器定义逆序调用</p>
+<p>postHandler在拦截器链内所有拦截器返成功调用</p>
+<p>afterCompletion只有preHandle返回true才调用</p>
+<h3 id="6-拦截器应用"><a href="#6-拦截器应用" class="headerlink" title="6.拦截器应用"></a>6.拦截器应用</h3><h4 id="1-处理流程"><a href="#1-处理流程" class="headerlink" title="1)处理流程"></a>1)处理流程</h4><pre><code>1、有一个登录页面，需要写一个controller访问页面
+2、登录页面有一提交表单的动作。需要在controller中处理。
+a)判断用户名密码是否正确
+b)如果正确 想session中写入用户信息
+c)返回登录成功，或者跳转到商品列表
+3、拦截器。
+a)拦截用户请求，判断用户是否登录
+b)如果用户已经登录。放行
+c)如果用户未登录，跳转到登录页面。
+</code></pre><h4 id="2-用户身份认证"><a href="#2-用户身份认证" class="headerlink" title="2)用户身份认证"></a>2)用户身份认证</h4><pre><code>Public class LoginInterceptor implements HandlerInterceptor{
+
+@Override
+Public boolean preHandle(HttpServletRequest request,
+        HttpServletResponse response, Object handler) throws Exception {
+
+    //如果是登录页面则放行
+    if(request.getRequestURI().indexOf(&quot;login.action&quot;)&gt;=0){
+        return true;
+    }
+    HttpSession session = request.getSession();
+    //如果用户已登录也放行
+    if(session.getAttribute(&quot;user&quot;)!=null){
+        return true;
+    }
+    //用户没有登录挑战到登录页面
+    request.getRequestDispatcher(&quot;/WEB-INF/jsp/login.jsp&quot;).forward(request, response);
+
+    return false;
+}
+}
+</code></pre><h4 id="3-用户登陆controller"><a href="#3-用户登陆controller" class="headerlink" title="3)用户登陆controller"></a>3)用户登陆controller</h4><p>//登陆页面</p>
+<pre><code>@RequestMapping(&quot;/login&quot;)
+public String login(Model model)throws Exception{
+
+    return &quot;login&quot;;
+}
+
+//登陆提交
+//userid：用户账号，pwd：密码
+@RequestMapping(&quot;/loginsubmit&quot;)
+public String loginsubmit(HttpSession session,String userid,String pwd)throws Exception{
+
+    //向session记录用户身份信息
+    session.setAttribute(&quot;activeUser&quot;, userid);
+
+    return &quot;redirect:item/queryItem.action&quot;;
+}
+
+//退出
+@RequestMapping(&quot;/logout&quot;)
+public String logout(HttpSession session)throws Exception{
+
+    //session过期
+    session.invalidate();
+
+    return &quot;redirect:item/queryItem.action&quot;;
+}
+</code></pre></context>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢您！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt="YuHang Ma 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.png" alt="YuHang Ma 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+	<div>
+	
+	<div>
+      
+        
+      
+</div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+            -------------本文结束
+            <i class="fa fa-paw"></i>
+            感谢您的阅读-------------
+        </div>
+    
+</div>
+  
+</div>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/springmvc/" rel="tag"><i class="fa fa-tag"></i> springmvc</a>
+          
+            <a href="/tags/springmvc高级篇/" rel="tag"><i class="fa fa-tag"></i> springmvc高级篇</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/21/springmvc1/" rel="prev" title="springmvc基础篇(springmvc以及SSM架构讲解/基础参数绑定以及传递)">
+                springmvc基础篇(springmvc以及SSM架构讲解/基础参数绑定以及传递) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/myhcjwds.gif#头像" alt="YuHang Ma">
+            
+              <p class="site-author-name" itemprop="name">YuHang Ma</p>
+              <p class="site-description motion-element" itemprop="description">在每天重复的习惯里,不断地遇见美好！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/myhcjwds" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1172105815@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐浏览
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/myhcjwds/" title="博主GitHub" target="_blank">博主GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://tool.oschina.net/codeformat/json" title="代码格式化" target="_blank">代码格式化</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://translate.google.cn/" title="google翻译" target="_blank">google翻译</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ip138.com/ips1388.asp" title="ip查询" target="_blank">ip查询</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://61.163.231.194:8080/Lab2.0/" title="软件实验系统" target="_blank">软件实验系统</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://222.139.215.217/jwweb/" title="南工教务系统" target="_blank">南工教务系统</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://nyist.fanya.chaoxing.com/portal" title="网络教学平台" target="_blank">网络教学平台</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://zealot.top/" title="Hexo-next配置" target="_blank">Hexo-next配置</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://leancloud.cn/" title="leancloud" target="_blank">leancloud</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-高级参数绑定"><span class="nav-number">1.</span> <span class="nav-text">一.高级参数绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-绑定数组"><span class="nav-number">1.1.</span> <span class="nav-text">1.绑定数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-需求"><span class="nav-number">1.1.1.</span> <span class="nav-text">1)需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-需求分析"><span class="nav-number">1.1.2.</span> <span class="nav-text">2)需求分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Jsp中实现："><span class="nav-number">1.1.3.</span> <span class="nav-text">3)Jsp中实现：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Controller"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-将表单的数据绑定到List"><span class="nav-number">1.2.</span> <span class="nav-text">2.将表单的数据绑定到List</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-需求-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">1)需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-需求分析-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">2)需求分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-接收商品列表的pojo"><span class="nav-number">1.2.3.</span> <span class="nav-text">3)接收商品列表的pojo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Jsp改造"><span class="nav-number">1.2.4.</span> <span class="nav-text">4)Jsp改造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Contrller"><span class="nav-number">1.2.5.</span> <span class="nav-text">5)Contrller</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-RequestMapping"><span class="nav-number">2.</span> <span class="nav-text">二.@RequestMapping</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-URL路径映射"><span class="nav-number">2.1.</span> <span class="nav-text">1.URL路径映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-窄化请求映射"><span class="nav-number">2.2.</span> <span class="nav-text">2.窄化请求映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-请求方法限定"><span class="nav-number">2.3.</span> <span class="nav-text">3.请求方法限定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-controller方法返回值"><span class="nav-number">3.</span> <span class="nav-text">三.controller方法返回值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-返回ModelAndView"><span class="nav-number">3.1.</span> <span class="nav-text">1.返回ModelAndView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-返回void"><span class="nav-number">3.2.</span> <span class="nav-text">2.返回void</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-使用request转向页面，如下："><span class="nav-number">3.2.1.</span> <span class="nav-text">1)使用request转向页面，如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-也可以通过response页面重定向："><span class="nav-number">3.2.2.</span> <span class="nav-text">2)也可以通过response页面重定向：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-也可以通过response指定响应结果，例如响应json数据如下："><span class="nav-number">3.2.3.</span> <span class="nav-text">3)也可以通过response指定响应结果，例如响应json数据如下：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-返回字符串"><span class="nav-number">3.3.</span> <span class="nav-text">3.返回字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-逻辑视图名"><span class="nav-number">3.3.1.</span> <span class="nav-text">1)逻辑视图名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Redirect重定向"><span class="nav-number">3.3.2.</span> <span class="nav-text">2)Redirect重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-forward转发"><span class="nav-number">3.3.3.</span> <span class="nav-text">3)forward转发</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-异常处理器"><span class="nav-number">4.</span> <span class="nav-text">四.异常处理器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-异常处理思路"><span class="nav-number">4.1.</span> <span class="nav-text">1.异常处理思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-自定义异常类"><span class="nav-number">4.2.</span> <span class="nav-text">2.自定义异常类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-自定义异常处理器"><span class="nav-number">4.3.</span> <span class="nav-text">3.自定义异常处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-错误页面"><span class="nav-number">4.4.</span> <span class="nav-text">4.错误页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-异常处理器配置"><span class="nav-number">4.5.</span> <span class="nav-text">5.异常处理器配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-异常测试"><span class="nav-number">4.6.</span> <span class="nav-text">6.异常测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五-上传图片"><span class="nav-number">5.</span> <span class="nav-text">五.上传图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置虚拟目录"><span class="nav-number">5.1.</span> <span class="nav-text">1.配置虚拟目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-jar包"><span class="nav-number">5.2.</span> <span class="nav-text">2.jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-配置解析器"><span class="nav-number">5.3.</span> <span class="nav-text">3.配置解析器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-图片上传"><span class="nav-number">5.4.</span> <span class="nav-text">4.图片上传</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#controller："><span class="nav-number">5.4.1.</span> <span class="nav-text">controller：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#页面："><span class="nav-number">5.4.2.</span> <span class="nav-text">页面：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六-json数据交互"><span class="nav-number">6.</span> <span class="nav-text">六.json数据交互</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RequestBody"><span class="nav-number">6.1.</span> <span class="nav-text">1.@RequestBody</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ResponseBody"><span class="nav-number">6.2.</span> <span class="nav-text">2.@ResponseBody</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-请求json，响应json实现："><span class="nav-number">6.3.</span> <span class="nav-text">3.请求json，响应json实现：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-环境准备"><span class="nav-number">6.3.1.</span> <span class="nav-text">1)环境准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-配置json转换器"><span class="nav-number">6.3.2.</span> <span class="nav-text">2)配置json转换器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-controller编写"><span class="nav-number">6.3.3.</span> <span class="nav-text">3)controller编写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-页面js方法编写："><span class="nav-number">6.3.4.</span> <span class="nav-text">4)页面js方法编写：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-测试结果："><span class="nav-number">6.3.5.</span> <span class="nav-text">5)测试结果：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七-RESTful支持"><span class="nav-number">7.</span> <span class="nav-text">七.RESTful支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是restful？"><span class="nav-number">7.1.</span> <span class="nav-text">1.什么是restful？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-需求"><span class="nav-number">7.2.</span> <span class="nav-text">2.需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-添加DispatcherServlet的rest配置"><span class="nav-number">7.3.</span> <span class="nav-text">3.添加DispatcherServlet的rest配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-URL-模板模式映射"><span class="nav-number">7.4.</span> <span class="nav-text">4.URL 模板模式映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-静态资源访问mvc-resources"><span class="nav-number">7.5.</span> <span class="nav-text">5.静态资源访问mvc:resources</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八-拦截器"><span class="nav-number">8.</span> <span class="nav-text">八.拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-定义"><span class="nav-number">8.1.</span> <span class="nav-text">1.定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-拦截器定义"><span class="nav-number">8.2.</span> <span class="nav-text">2.拦截器定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-拦截器配置"><span class="nav-number">8.3.</span> <span class="nav-text">3.拦截器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-针对某种mapping配置拦截器"><span class="nav-number">8.3.1.</span> <span class="nav-text">1)针对某种mapping配置拦截器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-针对所有mapping配置全局拦截器"><span class="nav-number">8.3.2.</span> <span class="nav-text">2)针对所有mapping配置全局拦截器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-正常流程测试"><span class="nav-number">8.4.</span> <span class="nav-text">4.正常流程测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-代码："><span class="nav-number">8.4.1.</span> <span class="nav-text">1)代码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-运行流程"><span class="nav-number">8.4.2.</span> <span class="nav-text">2)运行流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-中断流程测试"><span class="nav-number">8.5.</span> <span class="nav-text">5.中断流程测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-代码：-1"><span class="nav-number">8.5.1.</span> <span class="nav-text">1)代码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-运行流程-1"><span class="nav-number">8.5.2.</span> <span class="nav-text">2)运行流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-拦截器应用"><span class="nav-number">8.6.</span> <span class="nav-text">6.拦截器应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-处理流程"><span class="nav-number">8.6.1.</span> <span class="nav-text">1)处理流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-用户身份认证"><span class="nav-number">8.6.2.</span> <span class="nav-text">2)用户身份认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-用户登陆controller"><span class="nav-number">8.6.3.</span> <span class="nav-text">3)用户登陆controller</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YuHang Ma</span>
+
+  
+</div>
+
+<!-- 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+ -->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'qqNh2nX2qaFE20ytBd0I4PVp-gzGzoHsz',
+        appKey: 'Yg6OFTrCG5ncPfHcvTuiQgMX',
+        placeholder: 'Come on,baby!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("qqNh2nX2qaFE20ytBd0I4PVp-gzGzoHsz", "Yg6OFTrCG5ncPfHcvTuiQgMX");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+<script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
