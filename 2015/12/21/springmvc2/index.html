@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc8.png">
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc9.png">
 <meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc10.png">
-<meta property="og:updated_time" content="2019-01-05T11:09:39.514Z">
+<meta property="og:updated_time" content="2019-01-05T11:16:07.997Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springmvc高级篇(springmvc高级参数绑定&#x2F;springmvc自带各种组件及其应用)">
 <meta name="twitter:description" content="本篇内容 1、高级参数绑定     a)数组类型的参数绑定     b)List类型的绑定 2、@RequestMapping注解的使用 3、Controller方法返回值 4、Springmvc中异常处理 5、图片上传处理 6、Json数据交互 7、Springmvc实现Restful 8、拦截器 一.高级参数绑定1.绑定数组1)需求在商品列表页面选中多个商品，然后删除。 2)需求分析此功能要求">
@@ -434,7 +434,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4.9k字
+                  5.2k字
                 </span>
               
 
@@ -450,7 +450,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  22分钟
+                  24分钟
                 </span>
               
             </div>
@@ -494,8 +494,41 @@
     &lt;td&gt;&lt;a href=&quot;${pageContext.request.contextPath }/itemEdit.action?id=${item.id}&quot;&gt;修改&lt;/a&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/c:forEach&gt;
-</code></pre><p>生成html代码如下：<br>页面选中多个checkbox向controller方法传递<br>    <table width="100%" border="1"><br>    <tr><br>        <td>商品名称</td><br>        <td>商品价格</td><br>        <td>生产日期</td><br>        <td>商品描述</td><br>        <td>操作</td><br>    </tr><br>    <tr><br>        <td><input name="ids" value="1" type="checkbox"></td><br>        <td>台式机</td><br>        <td>3000.0</td><br>        <td>2016-02-03 13:22:53</td><br>        <td></td><br>        <td><a href="/springmvc-web/itemEdit.action?id=1">修改</a></td><br>    </tr><br>    <tr><br>        <td><input name="ids" value="2" type="checkbox"></td><br>        <td>笔记本</td><br>        <td>6000.0</td><br>        <td>2015-02-09 13:22:57</td><br>        <td></td><br>        <td><a href="/springmvc-web/itemEdit.action?id=2">修改</a></td><br>    </tr><br>    <tr><br>        <td><input name="ids" value="3" type="checkbox"></td><br>        <td>背包</td><br>        <td>200.0</td><br>        <td>2015-02-06 13:23:02</td><br>        <td></td><br>        <td><a href="/springmvc-web/itemEdit.action?id=3">修改</a></td><br>    </tr><br>    </table></p>
-<h4 id="4-Controller"><a href="#4-Controller" class="headerlink" title="4.Controller"></a>4.Controller</h4><p>Controller方法中可以用String[]接收，或者pojo的String[]属性接收。两种方式任选其一即可。<br>定义如下：</p>
+</code></pre><p>生成html代码如下：<br>页面选中多个checkbox向controller方法传递</p>
+<pre><code>&lt;table width=&quot;100%&quot; border=1&gt;
+&lt;tr&gt;
+    &lt;td&gt;商品名称&lt;/td&gt;
+    &lt;td&gt;商品价格&lt;/td&gt;
+    &lt;td&gt;生产日期&lt;/td&gt;
+    &lt;td&gt;商品描述&lt;/td&gt;
+    &lt;td&gt;操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;input name=&quot;ids&quot; value=&quot;1&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;台式机&lt;/td&gt;
+    &lt;td&gt;3000.0&lt;/td&gt;
+    &lt;td&gt;2016-02-03 13:22:53&lt;/td&gt;
+    &lt;td&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/springmvc-web/itemEdit.action?id=1&quot;&gt;修改&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;input name=&quot;ids&quot; value=&quot;2&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;笔记本&lt;/td&gt;
+    &lt;td&gt;6000.0&lt;/td&gt;
+    &lt;td&gt;2015-02-09 13:22:57&lt;/td&gt;
+    &lt;td&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/springmvc-web/itemEdit.action?id=2&quot;&gt;修改&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;input name=&quot;ids&quot; value=&quot;3&quot; type=&quot;checkbox&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;背包&lt;/td&gt;
+    &lt;td&gt;200.0&lt;/td&gt;
+    &lt;td&gt;2015-02-06 13:23:02&lt;/td&gt;
+    &lt;td&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;a href=&quot;/springmvc-web/itemEdit.action?id=3&quot;&gt;修改&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre><h4 id="4-Controller"><a href="#4-Controller" class="headerlink" title="4.Controller"></a>4.Controller</h4><p>Controller方法中可以用String[]接收，或者pojo的String[]属性接收。两种方式任选其一即可。<br>定义如下：</p>
 <pre><code>@RequestMapping(&quot;/queryitem&quot;)
     public String queryItem(QueryVo queryVo, String[] ids) {
         System.out.println(queryVo.getItems().getName());
