@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://yoursite.com/2017/12/28/mybatis-1/</loc>
-    <lastmod>2019-01-05T05:20:49.669Z</lastmod>
-  </url>  <url>
     <loc>http://yoursite.com/2017/12/28/mybatis-3/</loc>
-    <lastmod>2019-01-04T12:12:29.406Z</lastmod>
+    <lastmod>2019-01-05T05:24:04.428Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2017/12/28/mybatis-2/</loc>
-    <lastmod>2019-01-04T12:12:05.047Z</lastmod>
+    <lastmod>2019-01-05T05:23:52.085Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2017/12/28/mybatis-1/</loc>
+    <lastmod>2019-01-05T05:20:49.669Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2015/12/21/springmvc1/</loc>
     <lastmod>2019-01-04T12:05:11.735Z</lastmod>
