@@ -109,17 +109,17 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="本篇内容 1、高级参数绑定     a)数组类型的参数绑定     b)List类型的绑定 2、@RequestMapping注解的使用 3、Controller方法返回值 4、Springmvc中异常处理 5、图片上传处理 6、Json数据交互 7、Springmvc实现Restful 8、拦截器 一.高级参数绑定1.绑定数组1)需求在商品列表页面选中多个商品，然后删除。 2)需求分析此功能要求">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc5.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc6.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc7.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc8.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc9.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc10.png">
-<meta property="og:updated_time" content="2019-01-05T11:16:07.997Z">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc5.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc6.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc7.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc8.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc9.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc10.png">
+<meta property="og:updated_time" content="2019-01-14T08:01:50.790Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springmvc高级篇(springmvc高级参数绑定&#x2F;springmvc自带各种组件及其应用)">
 <meta name="twitter:description" content="本篇内容 1、高级参数绑定     a)数组类型的参数绑定     b)List类型的绑定 2、@RequestMapping注解的使用 3、Controller方法返回值 4、Springmvc中异常处理 5、图片上传处理 6、Json数据交互 7、Springmvc实现Restful 8、拦截器 一.高级参数绑定1.绑定数组1)需求在商品列表页面选中多个商品，然后删除。 2)需求分析此功能要求">
-<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc5.png">
+<meta name="twitter:image" content="http://yoursite.com/BlogPic/springmvc5.png">
 
 
 
@@ -537,13 +537,13 @@
         return null;
     }
 </code></pre><p>或者：</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc5.png" alt=""></p>
+<p><img src="/BlogPic/springmvc5.png" alt=""></p>
 <p>查看结果：</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc6.png" alt=""></p>
+<p><img src="/BlogPic/springmvc6.png" alt=""></p>
 <h3 id="2-将表单的数据绑定到List"><a href="#2-将表单的数据绑定到List" class="headerlink" title="2.将表单的数据绑定到List"></a>2.将表单的数据绑定到List</h3><h4 id="1-需求-1"><a href="#1-需求-1" class="headerlink" title="1)需求"></a>1)需求</h4><p>实现商品数据的批量修改。</p>
 <h4 id="2-需求分析-1"><a href="#2-需求分析-1" class="headerlink" title="2)需求分析"></a>2)需求分析</h4><p>要想实现商品数据的批量修改，需要在商品列表中可以对商品信息进行修改，并且可以批量提交修改后的商品数据。</p>
 <h4 id="3-接收商品列表的pojo"><a href="#3-接收商品列表的pojo" class="headerlink" title="3)接收商品列表的pojo"></a>3)接收商品列表的pojo</h4><p>List中存放对象，并将定义的List放在包装类中，使用包装pojo对象接收。</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc7.png" alt=""></p>
+<p><img src="/BlogPic/springmvc7.png" alt=""></p>
 <h4 id="4-Jsp改造"><a href="#4-Jsp改造" class="headerlink" title="4)Jsp改造"></a>4)Jsp改造</h4><p>页面定义如下：</p>
 <pre><code>&lt;tr&gt;
 &lt;td&gt;
@@ -731,7 +731,7 @@ ${message }
 
 <p>访问<a href="http://localhost:8080/pic即可访问F:\develop\upload\temp下的图片。" target="_blank" rel="noopener">http://localhost:8080/pic即可访问F:\develop\upload\temp下的图片。</a></p>
 <p>也可以通过eclipse配置：</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc8.png" alt=""></p>
+<p><img src="/BlogPic/springmvc8.png" alt=""></p>
 <h3 id="2-jar包"><a href="#2-jar包" class="headerlink" title="2.jar包"></a>2.jar包</h3><p>CommonsMultipartResolver解析器依赖commons-fileupload和commons-io，加入jar包</p>
 <h3 id="3-配置解析器"><a href="#3-配置解析器" class="headerlink" title="3.配置解析器"></a>3.配置解析器</h3><pre><code>&lt;!-- 文件上传 --&gt;
     &lt;bean id=&quot;multipartResolver&quot;
@@ -818,7 +818,7 @@ src=&quot;${pageContext.request.contextPath }/js/jquery-1.4.4.min.js&quot;&gt;&l
         }
     });
 }
-</code></pre><h4 id="5-测试结果："><a href="#5-测试结果：" class="headerlink" title="5)测试结果："></a>5)测试结果：</h4><p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc9.png" alt=""></p>
+</code></pre><h4 id="5-测试结果："><a href="#5-测试结果：" class="headerlink" title="5)测试结果："></a>5)测试结果：</h4><p><img src="/BlogPic/springmvc9.png" alt=""></p>
 <p>从上图可以看出请求的数据是json格式</p>
 <h2 id="七-RESTful支持"><a href="#七-RESTful支持" class="headerlink" title="七.RESTful支持"></a>七.RESTful支持</h2><h3 id="1-什么是restful？"><a href="#1-什么是restful？" class="headerlink" title="1.什么是restful？"></a>1.什么是restful？</h3><p>Restful就是一个资源定位及资源操作的风格。不是标准也不是协议，只是一种风格，是对http协议的诠释。</p>
 <p>资源定位：互联网所有的事物都是资源，要求url中没有动词，只有名词。没有参数</p>
@@ -932,7 +932,7 @@ class=&quot;org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping&qu
 &lt;/mvc:interceptor&gt;
 &lt;/mvc:interceptors&gt;
 </code></pre><h3 id="4-正常流程测试"><a href="#4-正常流程测试" class="headerlink" title="4.正常流程测试"></a>4.正常流程测试</h3><h4 id="1-代码："><a href="#1-代码：" class="headerlink" title="1)代码："></a>1)代码：</h4><p>定义两个拦截器分别为：HandlerInterceptor1和HandlerInteptor2，每个拦截器的preHandler方法都返回true。</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc10.png" alt=""></p>
+<p><img src="/BlogPic/springmvc10.png" alt=""></p>
 <h4 id="2-运行流程"><a href="#2-运行流程" class="headerlink" title="2)运行流程"></a>2)运行流程</h4><pre><code>HandlerInterceptor1..preHandle..
 HandlerInterceptor2..preHandle..
 

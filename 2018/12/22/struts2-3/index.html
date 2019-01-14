@@ -109,12 +109,12 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之OGNL表达式1.OGNL表达式概述1. OGNL是Object Graph">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-5.png">
-<meta property="og:updated_time" content="2018-12-21T06:50:51.169Z">
+<meta property="og:image" content="http://yoursite.com/BlogPic/struts2-5.png">
+<meta property="og:updated_time" content="2019-01-14T08:03:34.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="struts2完善篇(OGNL表达式&#x2F;值栈&#x2F;特殊符号[$,#,%])">
 <meta name="twitter:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之OGNL表达式1.OGNL表达式概述1. OGNL是Object Graph">
-<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-5.png">
+<meta name="twitter:image" content="http://yoursite.com/BlogPic/struts2-5.png">
 
 
 
@@ -562,7 +562,7 @@
             * 访问 request、 session、application、 attr、 parameters 对象数据 必须写 # 
 
         &gt; 操作值栈 默认指 操作 root 元素
-</code></pre><p><img src="http://pjpn7mq4k.bkt.clouddn.com/struts2-5.png" alt="">    </p>
+</code></pre><p><img src="/BlogPic/struts2-5.png" alt="">    </p>
 <h3 id="3-技术分析之值栈的创建和ActionContext对象的关系"><a href="#3-技术分析之值栈的创建和ActionContext对象的关系" class="headerlink" title="3.技术分析之值栈的创建和ActionContext对象的关系"></a>3.技术分析之值栈的创建和ActionContext对象的关系</h3><pre><code>问题三 ： 值栈对象的创建，ValueStack 和 ActionContext 是什么关系？
    * 值栈对象是请求时创建的
    * ActionContext是绑定到当前的线程上，那么在每个拦截器或者Action中获取到的ActionContext是同一个。

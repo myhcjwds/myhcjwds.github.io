@@ -109,13 +109,13 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之在Struts2框架中使用Servlet的API1. 在Action类中也可">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-3.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-4.png">
-<meta property="og:updated_time" content="2018-12-21T06:50:56.058Z">
+<meta property="og:image" content="http://yoursite.com/BlogPic/struts2-3.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/struts2-4.png">
+<meta property="og:updated_time" content="2019-01-14T08:03:17.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="struts2进阶篇(Servlet的API&#x2F;参数封装&#x2F;拦截器的定义使用)">
 <meta name="twitter:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之在Struts2框架中使用Servlet的API1. 在Action类中也可">
-<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/struts2-3.png">
+<meta name="twitter:image" content="http://yoursite.com/BlogPic/struts2-3.png">
 
 
 
@@ -520,7 +520,7 @@
             * redirectAction    -- 多个action之间跳转.从一个Action重定向到另一个Action.    Action---Action
             * stream            -- 文件下载时候使用的
 </code></pre><hr>
-<h2 id="三-技术分析之Struts2框架的数据封装"><a href="#三-技术分析之Struts2框架的数据封装" class="headerlink" title="三.技术分析之Struts2框架的数据封装"></a>三.技术分析之Struts2框架的数据封装</h2><p><img src="http://pjpn7mq4k.bkt.clouddn.com/struts2-3.png" alt="">    </p>
+<h2 id="三-技术分析之Struts2框架的数据封装"><a href="#三-技术分析之Struts2框架的数据封装" class="headerlink" title="三.技术分析之Struts2框架的数据封装"></a>三.技术分析之Struts2框架的数据封装</h2><p><img src="/BlogPic/struts2-3.png" alt="">    </p>
 <pre><code>1. 为什么要使用数据的封装呢？
     * 作为MVC框架，必须要负责解析HTTP请求参数，并将其封装到Model对象中
     * 封装数据为开发提供了很多方便
@@ -583,7 +583,7 @@
     * 在struts2 中可以定义很多个拦截器，将多个拦截器按照特定顺序 组成拦截器栈 （顺序调用 栈中的每一个拦截器 ）
 
 3. Struts2的核心是拦截器，看一下Struts2的运行流程
-</code></pre><p><img src="http://pjpn7mq4k.bkt.clouddn.com/struts2-4.png" alt="">    </p>
+</code></pre><p><img src="/BlogPic/struts2-4.png" alt="">    </p>
 <hr>
 <h2 id="六-案例总结之自定义拦截器和配置"><a href="#六-案例总结之自定义拦截器和配置" class="headerlink" title="六.案例总结之自定义拦截器和配置"></a>六.案例总结之自定义拦截器和配置</h2><pre><code>1. 编写拦截器，需要实现Interceptor接口，实现接口中的三个方法
     protected String doIntercept(ActionInvocation invocation) throws Exception {

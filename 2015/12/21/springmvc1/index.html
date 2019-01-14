@@ -109,15 +109,15 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="本片内容 1、Springmvc介绍 2、入门程序 3、Springmvc架构讲解     a)框架结构     b)组件说明 4、Springmvc整合mybatis 5、参数绑定     a)Springmvc默认支持的类型     b)简单数据类型     c)Pojo类型     d)Pojo包装类型     e)自定义参数绑定 6、Springmvc和struts2的区别  一.Spri">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc1.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc2.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc4.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc3.png">
-<meta property="og:updated_time" content="2019-01-04T12:05:11.735Z">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc1.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc2.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc4.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/springmvc3.png">
+<meta property="og:updated_time" content="2019-01-14T08:01:06.256Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springmvc基础篇(springmvc以及SSM架构讲解&#x2F;基础参数绑定以及传递)">
 <meta name="twitter:description" content="本片内容 1、Springmvc介绍 2、入门程序 3、Springmvc架构讲解     a)框架结构     b)组件说明 4、Springmvc整合mybatis 5、参数绑定     a)Springmvc默认支持的类型     b)简单数据类型     c)Pojo类型     d)Pojo包装类型     e)自定义参数绑定 6、Springmvc和struts2的区别  一.Spri">
-<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/springmvc1.png">
+<meta name="twitter:image" content="http://yoursite.com/BlogPic/springmvc1.png">
 
 
 
@@ -484,8 +484,7 @@
     e)自定义参数绑定
 6、Springmvc和struts2的区别
 </code></pre><hr>
-<h2 id="一-Spring-web-mvc介绍"><a href="#一-Spring-web-mvc介绍" class="headerlink" title="一.Spring web mvc介绍"></a>一.Spring web mvc介绍</h2><p>Spring web mvc和Struts2都属于表现层的框架,它是Spring框架的一部分,我们可以从Spring的整体结构中看得出来：</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc1.png" alt=""></p>
+<h2 id="一-Spring-web-mvc介绍"><a href="#一-Spring-web-mvc介绍" class="headerlink" title="一.Spring web mvc介绍"></a>一.Spring web mvc介绍</h2><p>Spring web mvc和Struts2都属于表现层的框架,它是Spring框架的一部分,我们可以从Spring的整体结构中看得出来：<br><img src="/BlogPic/springmvc1.png" alt=""></p>
 <h2 id="二-入门程序"><a href="#二-入门程序" class="headerlink" title="二.入门程序"></a>二.入门程序</h2><h3 id="1-开发环境"><a href="#1-开发环境" class="headerlink" title="1.开发环境"></a>1.开发环境</h3><p>本教程使用环境：Jdk：jdk1.7.0_72</p>
 <p>Eclipse：mars</p>
 <p>Tomcat：apache-tomcat-7.0.53</p>
@@ -494,7 +493,7 @@
 <h3 id="3-需求分析"><a href="#3-需求分析" class="headerlink" title="3.需求分析"></a>3.需求分析</h3><p>请求的url：/itemList.action</p>
 <p>参数：无</p>
 <p>数据：静态数据</p>
-<h3 id="4-开发步骤"><a href="#4-开发步骤" class="headerlink" title="4.开发步骤"></a>4.开发步骤</h3><h4 id="第一步：创建一个javaweb工程"><a href="#第一步：创建一个javaweb工程" class="headerlink" title="第一步：创建一个javaweb工程"></a>第一步：创建一个javaweb工程</h4><h4 id="第二步：导入jar包"><a href="#第二步：导入jar包" class="headerlink" title="第二步：导入jar包"></a>第二步：导入jar包</h4><p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc2.png" alt=""></p>
+<h3 id="4-开发步骤"><a href="#4-开发步骤" class="headerlink" title="4.开发步骤"></a>4.开发步骤</h3><h4 id="第一步：创建一个javaweb工程"><a href="#第一步：创建一个javaweb工程" class="headerlink" title="第一步：创建一个javaweb工程"></a>第一步：创建一个javaweb工程</h4><h4 id="第二步：导入jar包"><a href="#第二步：导入jar包" class="headerlink" title="第二步：导入jar包"></a>第二步：导入jar包</h4><p><img src="/BlogPic/springmvc2.png" alt=""></p>
 <h4 id="第三步：创建itemList-jsp"><a href="#第三步：创建itemList-jsp" class="headerlink" title="第三步：创建itemList.jsp"></a>第三步：创建itemList.jsp</h4><p>把参考资料中的itemList.jsp复制到工程的/WEB-INF/jsp目录下。</p>
 <h4 id="第四步：创建ItemsController"><a href="#第四步：创建ItemsController" class="headerlink" title="第四步：创建ItemsController"></a>第四步：创建ItemsController</h4><p>ItemController是一个普通的java类，不需要实现任何接口，只需要在类上添加@Controller注解即可。@RequestMapping注解指定请求的url，其中“.action”可以加也可以不加。在ModelAndView对象中，将视图设置为“/WEB-INF/jsp/itemList.jsp”</p>
 <pre><code>@Controller
@@ -579,7 +578,7 @@ publicclass ItemController {
 <p>一般情况下需要通过页面标签或页面模版技术将模型数据通过页面展示给用户，需要由程序员根据业务需求开发具体的页面。</p>
 <p>说明：在springmvc的各个组件中，处理器映射器、处理器适配器、视图解析器称为springmvc的三大组件。</p>
 <p>需要用户开放的组件有handler、view</p>
-<h3 id="3-框架默认加载组件"><a href="#3-框架默认加载组件" class="headerlink" title="3.框架默认加载组件"></a>3.框架默认加载组件</h3><p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc4.png" alt=""></p>
+<h3 id="3-框架默认加载组件"><a href="#3-框架默认加载组件" class="headerlink" title="3.框架默认加载组件"></a>3.框架默认加载组件</h3><p><img src="/BlogPic/springmvc4.png" alt=""></p>
 <h3 id="4-注解映射器和适配器"><a href="#4-注解映射器和适配器" class="headerlink" title="4.注解映射器和适配器"></a>4.注解映射器和适配器</h3><h4 id="1-组件扫描器"><a href="#1-组件扫描器" class="headerlink" title="1).组件扫描器"></a>1).组件扫描器</h4><p>使用组件扫描器省去在spring容器配置每个controller类的繁琐。使用<a href="context:component-scan" target="_blank" rel="noopener">context:component-scan</a>自动扫描标记@controller的控制器类，配置如下：</p>
 <pre><code> &lt;!-- 扫描controller注解,多个包中间使用半角逗号分隔 --&gt;
 &lt;context:component-scanbase-package=&quot;cn.itcast.springmvc.controller.first&quot;/&gt;
@@ -933,7 +932,7 @@ model.addAttribute(&quot;item&quot;, item);
 <pre><code>&lt;input type=&quot;text&quot; name=&quot;name&quot;/&gt;
 &lt;input type=&quot;text&quot; name=&quot;price&quot;/&gt;
 </code></pre><p>Pojo定义：</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/springmvc3.png" alt=""></p>
+<p><img src="/BlogPic/springmvc3.png" alt=""></p>
 <p>请求的参数名称和pojo的属性名称一致，会自动将请求参数赋值给pojo的属性。</p>
 <pre><code>@RequestMapping(&quot;/updateitem&quot;)
     public String updateItem(Items items) {

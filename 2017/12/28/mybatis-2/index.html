@@ -109,14 +109,14 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="课程计划 1、输入映射和输出映射     a)输入参数映射     b)返回值映射 2、动态sql     a)If     b)Where     c)Foreach     d)Sql片段 3、关联查询     a)一对一关联     b)一对多关联 一.输入映射和输出映射Mapper.xml映射文件中定义了操作数据库的sql，每个sql是一个statement，映射文件是mybatis的核心">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis4.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis5.png">
-<meta property="og:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis6.png">
-<meta property="og:updated_time" content="2019-01-05T05:23:52.085Z">
+<meta property="og:image" content="http://yoursite.com/BlogPic/mybatis4.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/mybatis5.png">
+<meta property="og:image" content="http://yoursite.com/BlogPic/mybatis6.png">
+<meta property="og:updated_time" content="2019-01-14T07:52:33.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mybatis高级篇(输入输出映射&#x2F;动态sql&#x2F;关联查询)">
 <meta name="twitter:description" content="课程计划 1、输入映射和输出映射     a)输入参数映射     b)返回值映射 2、动态sql     a)If     b)Where     c)Foreach     d)Sql片段 3、关联查询     a)一对一关联     b)一对多关联 一.输入映射和输出映射Mapper.xml映射文件中定义了操作数据库的sql，每个sql是一个statement，映射文件是mybatis的核心">
-<meta name="twitter:image" content="http://pjpn7mq4k.bkt.clouddn.com/mybatis4.png">
+<meta name="twitter:image" content="http://yoursite.com/BlogPic/mybatis4.png">
 
 
 
@@ -558,10 +558,10 @@ public void testFindUserByQueryVo() throws Exception {
 </code></pre><h3 id="3-resultMap"><a href="#3-resultMap" class="headerlink" title="3.resultMap"></a>3.resultMap</h3><pre><code>resultType可以指定pojo将查询结果映射为pojo，但需要pojo的属性名和sql查询的列名一致方可映射成功。
 如果sql查询字段名和pojo的属性名不一致，可以通过resultMap将字段名和属性名作一个对应关系 ，resultMap实质上还需要将查询结果映射到pojo对象中。
 resultMap可以实现将查询结果映射为复杂类型的pojo，比如在查询结果映射对象中包括pojo和list实现一对一查询和一对多查询。
-</code></pre><h4 id="1-Mapper-xml定义"><a href="#1-Mapper-xml定义" class="headerlink" title="1).Mapper.xml定义"></a>1).Mapper.xml定义</h4><p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis4.png" alt=""></p>
+</code></pre><h4 id="1-Mapper-xml定义"><a href="#1-Mapper-xml定义" class="headerlink" title="1).Mapper.xml定义"></a>1).Mapper.xml定义</h4><p><img src="/BlogPic/mybatis4.png" alt=""></p>
 <p>使用resultMap指定上边定义的personmap。</p>
 <h4 id="2-定义resultMap"><a href="#2-定义resultMap" class="headerlink" title="2).定义resultMap"></a>2).定义resultMap</h4><p>由于上边的mapper.xml中sql查询列和Users.java类属性不一致，需要定义resultMap：userListResultMap将sql查询列和Users.java类属性对应起来</p>
-<p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis5.png" alt=""></p>
+<p><img src="/BlogPic/mybatis5.png" alt=""></p>
 <pre><code>&lt;id /&gt;：此属性表示查询结果集的唯一标识，非常重要。如果是多个字段为复合唯一约束则定义多个&lt;id /&gt;。
 Property：表示User类的属性。
 Column：表示sql查询出来的字段名。
@@ -656,7 +656,7 @@ List&lt;Integer&gt; ids = new ArrayList&lt;Integer&gt;();
 &lt;/select&gt;
 </code></pre><p>注意：如果引用其它mapper.xml的sql片段，则在引用时需要加上namespace，如下：</p>
 <p>&lt;include refid=”namespace.sql片段”/&gt;</p>
-<h2 id="三-关联查询-一对一-一对多"><a href="#三-关联查询-一对一-一对多" class="headerlink" title="三.关联查询(一对一/一对多)"></a>三.关联查询(一对一/一对多)</h2><h3 id="1-商品订单数据模型"><a href="#1-商品订单数据模型" class="headerlink" title="1.商品订单数据模型"></a>1.商品订单数据模型</h3><p><img src="http://pjpn7mq4k.bkt.clouddn.com/mybatis6.png" alt=""></p>
+<h2 id="三-关联查询-一对一-一对多"><a href="#三-关联查询-一对一-一对多" class="headerlink" title="三.关联查询(一对一/一对多)"></a>三.关联查询(一对一/一对多)</h2><h3 id="1-商品订单数据模型"><a href="#1-商品订单数据模型" class="headerlink" title="1.商品订单数据模型"></a>1.商品订单数据模型</h3><p><img src="/BlogPic/mybatis6.png" alt=""></p>
 <h3 id="2-一对一查询"><a href="#2-一对一查询" class="headerlink" title="2.一对一查询"></a>2.一对一查询</h3><pre><code>案例：查询所有订单信息，关联查询下单用户信息。
 </code></pre><p>注意：因为一个订单信息只会是一个人下的订单，所以从查询订单信息出发关联查询用户信息为一对一查询。如果从用户信息出发查询用户下的订单信息则为一对多查询，因为一个用户可以下多个订单。</p>
 <h4 id="1-方法一："><a href="#1-方法一：" class="headerlink" title="1)方法一："></a>1)方法一：</h4><pre><code>使用resultType，定义订单信息po类，此po类中包括了订单信息和用户信息：
