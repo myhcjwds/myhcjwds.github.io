@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2017/12/28/mybatis-3/</loc>
+    <lastmod>2019-01-14T08:30:06.495Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2017/12/28/mybatis-2/</loc>
+    <lastmod>2019-01-14T08:29:59.530Z</lastmod>
+  </url>  <url>
+    <loc>http://yoursite.com/2017/12/28/mybatis-1/</loc>
+    <lastmod>2019-01-14T08:29:50.046Z</lastmod>
+  </url>  <url>
     <loc>http://yoursite.com/2018/12/22/struts2-3/</loc>
     <lastmod>2019-01-14T08:03:34.378Z</lastmod>
   </url>  <url>
@@ -30,15 +39,6 @@
   </url>  <url>
     <loc>http://yoursite.com/2018/12/17/nginx-introduce/</loc>
     <lastmod>2019-01-14T07:52:55.692Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2017/12/28/mybatis-1/</loc>
-    <lastmod>2019-01-14T07:52:35.247Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2017/12/28/mybatis-2/</loc>
-    <lastmod>2019-01-14T07:52:33.541Z</lastmod>
-  </url>  <url>
-    <loc>http://yoursite.com/2017/12/28/mybatis-3/</loc>
-    <lastmod>2019-01-14T07:52:30.600Z</lastmod>
   </url>  <url>
     <loc>http://yoursite.com/2018/12/24/linux1/</loc>
     <lastmod>2019-01-14T07:49:48.675Z</lastmod>
