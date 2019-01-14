@@ -109,14 +109,14 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="本篇内容： 1.Mybatis的介绍 2.Mybatis的入门     a)使用jdbc操作数据库存在的问题     b)Mybatis的架构     c)Mybatis的入门程序 3.Dao的开发方法     a)原始dao的开发方法     b)动态代理方式 4.SqlMapConfig.xml文件说明 一.Mybatis的介绍MyBatis 本是apache的一个开源项目iBatis, 20">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/BlogPic/mybatis1.png">
-<meta property="og:image" content="http://yoursite.com/BlogPic/mybatis2.png">
-<meta property="og:image" content="http://yoursite.com/BlogPic/mybatis3.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/28/mybatis-1/BlogPic/mybatis1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/28/mybatis-1/BlogPic/mybatis2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/28/mybatis-1/BlogPic/mybatis3.png">
 <meta property="og:updated_time" content="2019-01-14T08:29:50.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mybatis基础篇（基础配置&#x2F;动态代理取代原始dao层开发）">
 <meta name="twitter:description" content="本篇内容： 1.Mybatis的介绍 2.Mybatis的入门     a)使用jdbc操作数据库存在的问题     b)Mybatis的架构     c)Mybatis的入门程序 3.Dao的开发方法     a)原始dao的开发方法     b)动态代理方式 4.SqlMapConfig.xml文件说明 一.Mybatis的介绍MyBatis 本是apache的一个开源项目iBatis, 20">
-<meta name="twitter:image" content="http://yoursite.com/BlogPic/mybatis1.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/28/mybatis-1/BlogPic/mybatis1.png">
 
 
 
@@ -558,7 +558,7 @@ public static void main(String[] args) {
 2)、Sql语句在代码中硬编码，造成代码不易维护，实际应用sql变化的可能较大，sql变动需要改变java代码。
 3)、使用preparedStatement向占有位符号传参数存在硬编码，因为sql语句的where条件不一定，可能多也可能少，修改sql还要修改代码，系统不易维护。
 4)、对结果集解析存在硬编码（查询列名），sql变化导致解析代码变化，系统不易维护，如果能将数据库记录封装成pojo对象解析比较方便。
-</code></pre><h3 id="2-Mybatis架构"><a href="#2-Mybatis架构" class="headerlink" title="2.Mybatis架构"></a>2.Mybatis架构</h3><p><img src="/BlogPic/mybatis1.png" alt=""></p>
+</code></pre><h3 id="2-Mybatis架构"><a href="#2-Mybatis架构" class="headerlink" title="2.Mybatis架构"></a>2.Mybatis架构</h3><p><img src="/2017/12/28/mybatis-1/BlogPic/mybatis1.png" alt=""></p>
 <pre><code>1、mybatis配置
 SqlMapConfig.xml，此文件作为mybatis的全局配置文件，配置了mybatis的运行环境等信息。
 mapper.xml文件即sql映射文件，文件中配置了操作数据库的sql语句。此文件需要在SqlMapConfig.xml中加载。
@@ -574,7 +574,7 @@ mapper.xml文件即sql映射文件，文件中配置了操作数据库的sql语�
 6、Mapped Statement对sql执行输入参数进行定义，包括HashMap、基本类型、pojo，Executor通过Mapped Statement在执行sql前将输入的java对象映射至sql中，输入参数映射就是jdbc编程中对preparedStatement设置参数。
 
 7、Mapped Statement对sql执行输出结果进行定义，包括HashMap、基本类型、pojo，Executor通过Mapped Statement在执行sql后将输出结果映射至java对象中，输出结果映射过程相当于jdbc编程中对结果的解析处理过程。
-</code></pre><h3 id="3-Mybatis入门程序"><a href="#3-Mybatis入门程序" class="headerlink" title="3.Mybatis入门程序"></a>3.Mybatis入门程序</h3><h4 id="1-mybatis下载"><a href="#1-mybatis下载" class="headerlink" title="1.mybatis下载"></a>1.mybatis下载</h4><p>mybaits的代码由github.com管理，地址：<a href="https://github.com/mybatis/mybatis-3/releases" target="_blank" rel="noopener">https://github.com/mybatis/mybatis-3/releases</a><br><img src="/BlogPic/mybatis2.png" alt=""></p>
+</code></pre><h3 id="3-Mybatis入门程序"><a href="#3-Mybatis入门程序" class="headerlink" title="3.Mybatis入门程序"></a>3.Mybatis入门程序</h3><h4 id="1-mybatis下载"><a href="#1-mybatis下载" class="headerlink" title="1.mybatis下载"></a>1.mybatis下载</h4><p>mybaits的代码由github.com管理，地址：<a href="https://github.com/mybatis/mybatis-3/releases" target="_blank" rel="noopener">https://github.com/mybatis/mybatis-3/releases</a><br><img src="/2017/12/28/mybatis-1/BlogPic/mybatis2.png" alt=""></p>
 <pre><code>mybatis-3.2.7.jar----mybatis的核心包
 
 lib----mybatis的依赖包
@@ -590,7 +590,7 @@ mybatis-3.2.7.pdf----mybatis使用手册
 <pre><code>使用eclipse创建java工程，jdk使用1.7.0_72。
 </code></pre><p>b) 加入jar包</p>
 <pre><code>加入mybatis核心包、依赖包、数据驱动包。
-</code></pre><p><img src="/BlogPic/mybatis3.png" alt=""></p>
+</code></pre><p><img src="/2017/12/28/mybatis-1/BlogPic/mybatis3.png" alt=""></p>
 <p>c) log4j.properties(mybatis默认使用log4j作为输出日志信息。)</p>
 <p>在classpath下创建log4j.properties如下：</p>
 <pre><code># Global logging configuration
@@ -1234,8 +1234,8 @@ map    Map
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/21/springmvc1/" rel="next" title="springmvc基础篇(springmvc以及SSM架构讲解/基础参数绑定以及传递)">
-                <i class="fa fa-chevron-left"></i> springmvc基础篇(springmvc以及SSM架构讲解/基础参数绑定以及传递)
+              <a href="/2015/12/21/springmvc2/" rel="next" title="springmvc高级篇(springmvc高级参数绑定/springmvc自带各种组件及其应用)">
+                <i class="fa fa-chevron-left"></i> springmvc高级篇(springmvc高级参数绑定/springmvc自带各种组件及其应用)
               </a>
             
           </div>
@@ -1244,8 +1244,8 @@ map    Map
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/28/mybatis-3/" rel="prev" title="Mybatis完善篇（逆向工程/spring整合mybatis）">
-                Mybatis完善篇（逆向工程/spring整合mybatis） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/28/mybatis-2/" rel="prev" title="Mybatis高级篇(输入输出映射/动态sql/关联查询)">
+                Mybatis高级篇(输入输出映射/动态sql/关联查询) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1328,7 +1328,7 @@ map    Map
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1339,7 +1339,7 @@ map    Map
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1350,7 +1350,7 @@ map    Map
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

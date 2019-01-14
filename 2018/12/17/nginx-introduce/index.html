@@ -109,15 +109,15 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="一.nginx概述1.什么是nginxNginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。 2.为什么使用Nginx?背景:互联网飞速发展的今天,大用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/BlogPic/nginx1.png">
-<meta property="og:image" content="http://yoursite.com/BlogPic/nginx2.png">
-<meta property="og:image" content="http://yoursite.com/BlogPic/nginx3.png">
-<meta property="og:image" content="http://yoursite.com/BlogPic/nginx4.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/nginx-introduce/BlogPic/nginx1.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/nginx-introduce/BlogPic/nginx2.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/nginx-introduce/BlogPic/nginx3.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/nginx-introduce/BlogPic/nginx4.png">
 <meta property="og:updated_time" content="2019-01-14T07:52:55.692Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx介绍篇(反向代理&#x2F;负载均衡&#x2F;动静分离&#x2F;session共享)">
 <meta name="twitter:description" content="一.nginx概述1.什么是nginxNginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。 2.为什么使用Nginx?背景:互联网飞速发展的今天,大用">
-<meta name="twitter:image" content="http://yoursite.com/BlogPic/nginx1.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/17/nginx-introduce/BlogPic/nginx1.png">
 
 
 
@@ -473,15 +473,15 @@
 <h3 id="2-为什么使用Nginx"><a href="#2-为什么使用Nginx" class="headerlink" title="2.为什么使用Nginx?"></a>2.为什么使用Nginx?</h3><p>背景:<br>互联网飞速发展的今天,大用户量高并发已经成为互联网的主体.怎样能让一个网站能够承载几万个或几十万个用户的持续访问呢？这是一些中小网站急需解决的问题。用单机tomcat搭建的网站，在比较理想的状态下能够承受的并发访问量在150到200左右。按照并发访问量占总用户数量的5%到10%这样计算，单点tomcat网站的用户人数在1500到4000左右。对于一个为全国范围提供服务的网站显然是不够用的，为了解决这个问题引入了负载均衡方法。负载均衡就是一个web服务器解决不了的问题可以通过多个web服务器来平均分担压力来解决，并发过来的请求被平均分配到多个后台web服务器来处理，这样压力就被分解开来。</p>
 <p>负载均衡服务器分为两种一种是通过硬件实现的负载均衡服务器，简称硬负载例如：f5。另一种是通过软件来实现的负载均衡，简称软负载:例如apache和nginx。硬负载和软负载相比前者作用的网络层次比较多可以作用到socket接口的数据链路层对发出的请求进行分组转发但是价格成本比较贵，而软负载作用的层次在http协议层之上可以对http请求进行分组转发并且因为是开源的所以几乎是0成本，并且阿里巴巴，京东等电商网站使用的都是Nginx服务器。</p>
 <h2 id="二-nginx的功能实现"><a href="#二-nginx的功能实现" class="headerlink" title="二.nginx的功能实现"></a>二.nginx的功能实现</h2><p>完成Nginx负载均衡,那么需要先来介绍Tomcat的安装和配置,我们首先要来配置Tomcat完成集群的配置.因为我们没有多台服务器运行Tomcat.那么我们可以模拟在一台服务器上运行多个Tomcat程序.</p>
-<h3 id="1-使用Tomcat配置Tomcat集群"><a href="#1-使用Tomcat配置Tomcat集群" class="headerlink" title="1.使用Tomcat配置Tomcat集群:"></a>1.使用Tomcat配置Tomcat集群:</h3><p>修改 nginx/conf/nginx.conf 文件：<br><img src="/BlogPic/nginx1.png" alt=""></p>
+<h3 id="1-使用Tomcat配置Tomcat集群"><a href="#1-使用Tomcat配置Tomcat集群" class="headerlink" title="1.使用Tomcat配置Tomcat集群:"></a>1.使用Tomcat配置Tomcat集群:</h3><p>修改 nginx/conf/nginx.conf 文件：<br><img src="/2018/12/17/nginx-introduce/BlogPic/nginx1.png" alt=""></p>
 <h3 id="2session共享问题"><a href="#2session共享问题" class="headerlink" title="2session共享问题"></a>2session共享问题</h3><p>问题:通过以上的配置我们已经可以通过访问<a href="http://192.168.93.88/project访问到不同的tomcat来分担服务器端的压力.请求负载过程中会话信息不能丢失.那么需要在多个tomcat中session需要共享" target="_blank" rel="noopener">http://192.168.93.88/project访问到不同的tomcat来分担服务器端的压力.请求负载过程中会话信息不能丢失.那么需要在多个tomcat中session需要共享</a>.</p>
 <p>配置Tomcat的session共享可以有<strong>三种解决方案:</strong></p>
 <p>第一种是以负载均衡服务器本身提供的session共享策略，每种服务期的配置是不一样的并且nginx本身是没有的。（linux常用     一个ip只能始终访问一台服务器）</p>
 <p>第二种是利用web容器本身的session共享策略来配置共享。针对于weblogic这种方式还是靠普的。但是针对于tomcat这种方式存在很大的缺陷，主要因为是依靠广播方式来实现的session复制，会浪费很多带宽导致整个网络反映缓慢。官网也建议这种方式最好不要超过4台tomcat,具体的内容可参考/webapps/docs/cluster-howto.html里面有详细的说明。下面是具体的配置过程（windows常用）</p>
 <p>第三种是Tomcat集群+redis的Session共享配置方法.</p>
-<h2 id="二-nginx反向代理-负载均衡-动静分离-理解"><a href="#二-nginx反向代理-负载均衡-动静分离-理解" class="headerlink" title="二.nginx反向代理/负载均衡/动静分离 理解"></a>二.nginx反向代理/负载均衡/动静分离 理解</h2><h3 id="1-nginx反向代理"><a href="#1-nginx反向代理" class="headerlink" title="1.nginx反向代理"></a>1.nginx反向代理</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。<br><img src="/BlogPic/nginx2.png" alt=""></p>
-<h3 id="2-nginx负载均衡"><a href="#2-nginx负载均衡" class="headerlink" title="2.nginx负载均衡"></a>2.nginx负载均衡</h3><p>负载均衡，英文名称为Load Balance，是指建立在现有网络结构之上，并提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。其原理就是数据流量分摊到多个服务器上执行，减轻每台服务器的压力，多台服务器共同完成工作任务，从而提高了数据的吞吐量。<br><img src="/BlogPic/nginx3.png" alt=""></p>
-<h3 id="3-nginx动静分离"><a href="#3-nginx动静分离" class="headerlink" title="3.nginx动静分离"></a>3.nginx动静分离</h3><p>为了提高网站的响应速度，减轻程序服务器（Tomcat，Jboss等）的负载，对于静态资源比如图片，js，css等文件，我们可以在反向代理服务器中进行缓存，这样浏览器在请求一个静态资源时，代理服务器就可以直接处理，而不用将请求转发给后端服务器。用户请求的动态文件比如servlet,jsp则转发给Tomcat，Jboss服务器处理，这就是动静分离。<br><img src="/BlogPic/nginx4.png" alt=""></p>
+<h2 id="二-nginx反向代理-负载均衡-动静分离-理解"><a href="#二-nginx反向代理-负载均衡-动静分离-理解" class="headerlink" title="二.nginx反向代理/负载均衡/动静分离 理解"></a>二.nginx反向代理/负载均衡/动静分离 理解</h2><h3 id="1-nginx反向代理"><a href="#1-nginx反向代理" class="headerlink" title="1.nginx反向代理"></a>1.nginx反向代理</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。<br><img src="/2018/12/17/nginx-introduce/BlogPic/nginx2.png" alt=""></p>
+<h3 id="2-nginx负载均衡"><a href="#2-nginx负载均衡" class="headerlink" title="2.nginx负载均衡"></a>2.nginx负载均衡</h3><p>负载均衡，英文名称为Load Balance，是指建立在现有网络结构之上，并提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。其原理就是数据流量分摊到多个服务器上执行，减轻每台服务器的压力，多台服务器共同完成工作任务，从而提高了数据的吞吐量。<br><img src="/2018/12/17/nginx-introduce/BlogPic/nginx3.png" alt=""></p>
+<h3 id="3-nginx动静分离"><a href="#3-nginx动静分离" class="headerlink" title="3.nginx动静分离"></a>3.nginx动静分离</h3><p>为了提高网站的响应速度，减轻程序服务器（Tomcat，Jboss等）的负载，对于静态资源比如图片，js，css等文件，我们可以在反向代理服务器中进行缓存，这样浏览器在请求一个静态资源时，代理服务器就可以直接处理，而不用将请求转发给后端服务器。用户请求的动态文件比如servlet,jsp则转发给Tomcat，Jboss服务器处理，这就是动静分离。<br><img src="/2018/12/17/nginx-introduce/BlogPic/nginx4.png" alt=""></p>
 
       
     </div>
@@ -655,7 +655,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -666,7 +666,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -677,7 +677,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
