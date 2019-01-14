@@ -109,14 +109,14 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="Hibernate框架的学习路线 学习的路线    * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作    * 进阶篇：主要学习一级缓存、事务管理和基本的查询    * 高级篇：主要学习一对多和多对多的操作等    * 完善篇：基本查询和查询的优化   一.Hibernate框架的概述1. Hibernate框架的概述     * Hibernate称为     * Hibern">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/12/16/hibernate-1/BlogPic/hibernate1.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/16/hibernate-1/BlogPic/hibernate2.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/16/hibernate-1/BlogPic/hibernate3.png">
-<meta property="og:updated_time" content="2019-01-14T07:41:46.335Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/16/hibernate-1/hibernate1.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/16/hibernate-1/hibernate2.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/16/hibernate-1/hibernate3.png">
+<meta property="og:updated_time" content="2019-01-14T10:32:22.158Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hibernate入门篇(框架搭建)">
 <meta name="twitter:description" content="Hibernate框架的学习路线 学习的路线    * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作    * 进阶篇：主要学习一级缓存、事务管理和基本的查询    * 高级篇：主要学习一对多和多对多的操作等    * 完善篇：基本查询和查询的优化   一.Hibernate框架的概述1. Hibernate框架的概述     * Hibernate称为     * Hibern">
-<meta name="twitter:image" content="http://yoursite.com/2018/12/16/hibernate-1/BlogPic/hibernate1.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/16/hibernate-1/hibernate1.png">
 
 
 
@@ -474,7 +474,7 @@
    * 进阶篇：主要学习一级缓存、事务管理和基本的查询
    * 高级篇：主要学习一对多和多对多的操作等
    * 完善篇：基本查询和查询的优化
-</code></pre><p><img src="/2018/12/16/hibernate-1/BlogPic/hibernate1.png" alt=""></p>
+</code></pre><p><img src="/2018/12/16/hibernate-1/hibernate1.png" alt=""></p>
 <hr>
 <h2 id="一-Hibernate框架的概述"><a href="#一-Hibernate框架的概述" class="headerlink" title="一.Hibernate框架的概述"></a>一.Hibernate框架的概述</h2><pre><code>1. Hibernate框架的概述
     * Hibernate称为
@@ -489,7 +489,7 @@
     * M：映射Mapping（XML的配置文件）
 
 2. 简单一句话：Hibernate使程序员通过操作对象的方式来操作数据库表记录
-</code></pre><p><img src="/2018/12/16/hibernate-1/BlogPic/hibernate2.png" alt=""></p>
+</code></pre><p><img src="/2018/12/16/hibernate-1/hibernate2.png" alt=""></p>
 <h2 id="三-Hibernate优点"><a href="#三-Hibernate优点" class="headerlink" title="三.Hibernate优点"></a>三.Hibernate优点</h2><pre><code>1. 优点
     * Hibernate对JDBC访问数据库的代码做了封装，大大简化了数据访问层繁琐的重复性代码
     * Hibernate是一个基于jdbc的主流持久化框架，是一个优秀的orm实现，它很大程度的简化了dao层编码工作
@@ -722,7 +722,7 @@
 
 3. 总结
     * 一般应用使用一个SessionFactory,最好是应用启动时就完成初始化。
-</code></pre><p><img src="/2018/12/16/hibernate-1/BlogPic/hibernate3.png" alt="">    </p>
+</code></pre><p><img src="/2018/12/16/hibernate-1/hibernate3.png" alt="">    </p>
 <h3 id="3-编写HibernateUtil的工具类"><a href="#3-编写HibernateUtil的工具类" class="headerlink" title="3.编写HibernateUtil的工具类"></a>3.编写HibernateUtil的工具类</h3><pre><code>1. 具体代码如下
     public class HibernateUtil {
         private static final Configuration cfg;

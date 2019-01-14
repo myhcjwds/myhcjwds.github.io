@@ -109,13 +109,13 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之Struts2框架的概述 1. Struts2是一个基于MVC设计模式的We">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/12/20/struts2-1/BlogPic/struts2-1.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/20/struts2-1/BlogPic/struts2-2.png">
-<meta property="og:updated_time" content="2019-01-14T08:02:54.383Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/struts2-1/struts2-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/struts2-1/struts2-2.png">
+<meta property="og:updated_time" content="2019-01-14T10:46:22.039Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="struts2入门篇(基础框架搭建)">
 <meta name="twitter:description" content="Struts2的学习路线 1.Struts2的入门篇：主要是学习Struts2的开发流程（Struts2的开发流程、常见的配置、Action类的编写） 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器 3.Struts2的完善篇: Struts2的值栈和OGNL表达式  一.技术分析之Struts2框架的概述 1. Struts2是一个基于MVC设计模式的We">
-<meta name="twitter:image" content="http://yoursite.com/2018/12/20/struts2-1/BlogPic/struts2-1.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/20/struts2-1/struts2-1.png">
 
 
 
@@ -472,7 +472,7 @@
 2.Struts2的进阶篇: Struts2的Servlet的API、参数封装和拦截器
 3.Struts2的完善篇: Struts2的值栈和OGNL表达式
 </code></pre><hr>
-<h2 id="一-技术分析之Struts2框架的概述"><a href="#一-技术分析之Struts2框架的概述" class="headerlink" title="一.技术分析之Struts2框架的概述"></a>一.技术分析之Struts2框架的概述</h2><p><img src="/2018/12/20/struts2-1/BlogPic/struts2-1.png" alt=""></p>
+<h2 id="一-技术分析之Struts2框架的概述"><a href="#一-技术分析之Struts2框架的概述" class="headerlink" title="一.技术分析之Struts2框架的概述"></a>一.技术分析之Struts2框架的概述</h2><p><img src="/2018/12/20/struts2-1/struts2-1.png" alt=""></p>
 <pre><code>1. Struts2是一个基于MVC设计模式的Web层框架
     * MVC和JavaEE的三层结构
         * MVC设计模式:是由一些网站的开发人员提出来的
@@ -552,7 +552,7 @@
 
 2. 总结
     * JSP页面--&gt;StrutsPrepereAndExecuteFilter过滤器--&gt;执行一系列拦截器（完成了部分代码）--&gt;执行到目标Action--&gt;返回字符串--&gt;结果页面（result）--&gt;页面跳转
-</code></pre><p><img src="/2018/12/20/struts2-1/BlogPic/struts2-2.png" alt="">    </p>
+</code></pre><p><img src="/2018/12/20/struts2-1/struts2-2.png" alt="">    </p>
 <hr>
 <h2 id="四-入门总结之struts-xml的配置文件"><a href="#四-入门总结之struts-xml的配置文件" class="headerlink" title="四.入门总结之struts.xml的配置文件"></a>四.入门总结之struts.xml的配置文件</h2><h3 id="1-xml引入-dtd-约束（标签语法提示）"><a href="#1-xml引入-dtd-约束（标签语法提示）" class="headerlink" title="1.xml引入 dtd 约束（标签语法提示）"></a>1.xml引入 dtd 约束（标签语法提示）</h3><pre><code>1. 先找到struts.xml的配置文件，复制http://struts.apache.org/dtds/struts-2.3.dtd，注意，不要有双引号。
     * http://struts.apache.org/dtds/struts-2.3.dtd

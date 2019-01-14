@@ -109,14 +109,14 @@
 <meta property="og:site_name" content="Blog of MYH">
 <meta property="og:description" content="Hibernate框架的学习路线 学习的路线    * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作    * 进阶篇：主要学习一级缓存、事务管理和基本的查询    * 高级篇：主要学习一对多和多对多的操作等    * 完善篇：基本查询和查询的优化 本篇内容（接hibernate入门篇 一. Hibernate持久化对象的状态 二. Hibernate的一级缓存 三. Hiber">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/12/17/hibernate-2/BlogPic/hibernate4.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/17/hibernate-2/BlogPic/hibernate5.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/17/hibernate-2/BlogPic/hibernate6.png">
-<meta property="og:updated_time" content="2019-01-14T07:42:33.924Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/hibernate-2/hibernate4.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/hibernate-2/hibernate5.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/17/hibernate-2/hibernate6.png">
+<meta property="og:updated_time" content="2019-01-14T10:33:15.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hibernate进阶篇(持久化对象&#x2F;session&#x2F;事务)">
 <meta name="twitter:description" content="Hibernate框架的学习路线 学习的路线    * 入门篇：主要是学习框架的入门，自己搭建框架，完成增删改查的操作    * 进阶篇：主要学习一级缓存、事务管理和基本的查询    * 高级篇：主要学习一对多和多对多的操作等    * 完善篇：基本查询和查询的优化 本篇内容（接hibernate入门篇 一. Hibernate持久化对象的状态 二. Hibernate的一级缓存 三. Hiber">
-<meta name="twitter:image" content="http://yoursite.com/2018/12/17/hibernate-2/BlogPic/hibernate4.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/17/hibernate-2/hibernate4.png">
 
 
 
@@ -562,7 +562,7 @@
         * user.setId(null);
 
 4. 注意：持久态对象有自动更新数据库的能力!!!
-</code></pre><p><img src="/2018/12/17/hibernate-2/BlogPic/hibernate4.png" alt="">    </p>
+</code></pre><p><img src="/2018/12/17/hibernate-2/hibernate4.png" alt="">    </p>
 <hr>
 <h2 id="二-Hibernate的一级缓存"><a href="#二-Hibernate的一级缓存" class="headerlink" title="二.Hibernate的一级缓存"></a>二.Hibernate的一级缓存</h2><h3 id="1-Session对象的一级缓存（重点）"><a href="#1-Session对象的一级缓存（重点）" class="headerlink" title="1.Session对象的一级缓存（重点）"></a>1.Session对象的一级缓存（重点）</h3><pre><code>1. 什么是缓存？
     * 其实就是一块内存空间,将数据源（数据库或者文件）中的数据存放到缓存中.再次获取的时候 ,直接从缓存中获取.可以提升程序的性能！
@@ -582,7 +582,7 @@
     * 使用get方法查询User对象
     * 然后设置User对象的一个属性，注意：没有做update操作。发现，数据库中的记录也改变了。
     * 利用快照机制来完成的（SnapShot）
-</code></pre><p><img src="/2018/12/17/hibernate-2/BlogPic/hibernate5.png" alt="">    </p>
+</code></pre><p><img src="/2018/12/17/hibernate-2/hibernate5.png" alt="">    </p>
 <hr>
 <h3 id="2-控制Session的一级缓存（了解）"><a href="#2-控制Session的一级缓存（了解）" class="headerlink" title="2.控制Session的一级缓存（了解）"></a>2.控制Session的一级缓存（了解）</h3><pre><code>1. 学习Session接口中与一级缓存相关的方法
     * Session.clear()                        -- 清空缓存。
@@ -642,7 +642,7 @@
     * 乐观锁
         * 1.在对应的JavaBean中添加一个属性，名称可以是任意的。例如：private Integer version; 提供get和set方法
         * 2.在映射的配置文件中，提供&lt;version name=&quot;version&quot;/&gt;标签即可。
-</code></pre><p><img src="/2018/12/17/hibernate-2/BlogPic/hibernate6.png" alt="">    </p>
+</code></pre><p><img src="/2018/12/17/hibernate-2/hibernate6.png" alt="">    </p>
 <hr>
 <h3 id="3-绑定本地的Session"><a href="#3-绑定本地的Session" class="headerlink" title="3.绑定本地的Session"></a>3.绑定本地的Session</h3><pre><code>1. 之前在讲JavaWEB的事务的时候，需要在业务层使用Connection来开启事务，
     * 一种是通过参数的方式传递下去
