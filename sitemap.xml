@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/07/21/a/</loc>
+    
+    <lastmod>2019-07-21T14:24:01.444Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/05/13/data-structure2/</loc>
     
     <lastmod>2019-05-13T12:40:49.123Z</lastmod>
